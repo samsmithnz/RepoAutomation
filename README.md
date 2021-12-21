@@ -4,11 +4,11 @@
 - Enables repo "Delete head branch on merge" option 
 - Sets up branch policies on default branch (require a pull request and successful build action)
 - Creates the initial project.
-    - Clone the project to a folder (`Target folder`)
+    - Clone the project to a folder (`Target folder`) https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository
     - Create src folder
-    - Creates .NET test project (`test project name` and `test project type`)
-    - Creates .NET console\library\webapi/web app project (`project name` and `project type`)
-    - Creates .NET solution (`solution name`)
+    - Creates .NET test project (`test project name` and `test project type`) https://docs.microsoft.com/en-us/dotnet/core/tools/dotnet-new
+    - Creates .NET console\library\webapi/web app project (`project name` and `project type`) https://docs.microsoft.com/en-us/dotnet/core/tools/dotnet-new
+    - Creates .NET solution (`solution name`) https://docs.microsoft.com/en-us/dotnet/core/tools/dotnet-sln
 
 ## Usage
 
