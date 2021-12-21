@@ -1,8 +1,8 @@
 # RepoAutomationDotNet
 .NET code to create and configure a repo with C#.  
-- Auto-merge
-- Delete head branch on merge 
-- Setup branch policies 
+- Enables repo "auto-merge" open
+- Enables repo "Delete head branch on merge" option 
+- Sets up branch policies on default branch (require a pull request and successful build action)
 
 ## Usage
 
