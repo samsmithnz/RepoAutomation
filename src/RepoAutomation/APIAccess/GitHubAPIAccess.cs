@@ -1,9 +1,6 @@
 ﻿using Newtonsoft.Json;
 using RepoAutomation.Models;
-using System;
-using System.Net.Http;
 using System.Net.Http.Headers;
-using System.Threading.Tasks;
 
 namespace RepoAutomation.APIAccess;
 
