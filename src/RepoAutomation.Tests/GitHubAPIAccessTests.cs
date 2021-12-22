@@ -49,7 +49,7 @@ public class GitHubAPIAccessTests : BaseAPIAccessTests
         string repoName = "NewRepoTest";
 
         //Act I: Creation
-        await GitHubAPIAccess.CreateRepo(base.GitHubId, base.GitHubSecret, owner, repoName);
+        await GitHubAPIAccess.CreateRepo(base.GitHubId, base.GitHubSecret, repoName);
         Repo repo = await GitHubAPIAccess.GetRepo(base.GitHubId, base.GitHubSecret, owner, repoName);
 
         //Assert

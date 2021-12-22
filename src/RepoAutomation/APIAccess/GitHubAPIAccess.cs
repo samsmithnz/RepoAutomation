@@ -34,7 +34,15 @@ public static class GitHubAPIAccess
         return result;
     }
 
-    public async static Task<bool> CreateRepo(string? clientId, string? clientSecret, string owner, string repo)
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="clientId"></param>
+    /// <param name="clientSecret"></param>
+    /// <param name="owner"></param>
+    /// <param name="repo"></param>
+    /// <returns></returns>
+    public async static Task<bool> CreateRepo(string? clientId, string? clientSecret, string repo)
     {
         if (clientId != null && clientSecret != null)
         {
@@ -56,14 +64,18 @@ public static class GitHubAPIAccess
         return true;
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="clientId"></param>
+    /// <param name="clientSecret"></param>
+    /// <param name="owner"></param>
+    /// <param name="repo"></param>
+    /// <returns></returns>
     public async static Task<bool> DeleteRepo(string? clientId, string? clientSecret, string owner, string repo)
     {
         if (clientId != null && clientSecret != null)
         {
-            var body = new
-            {
-                name = repo
-            };
             string url = $"https://api.github.com/repos/{owner}/{repo}";
             await BaseAPIAccess.DeleteGitHubMessage(url, clientId, clientSecret);
             //string response = 
