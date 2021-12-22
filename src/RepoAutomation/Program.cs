@@ -14,7 +14,7 @@ public class Program
             .AddUserSecrets<Program>();
         IConfigurationRoot configuration = builder.Build();
        
-        Console.WriteLine("Hello world" + configuration["AppSettings:GitHubClientId"]);
+        Console.WriteLine("Hello world " + configuration["AppSettings:GitHubClientId"]);
         //Parse arguments
         string workingDirectory = Environment.CurrentDirectory;
         Parser.Default.ParseArguments<Options>(args).WithParsed<Options>(o =>
