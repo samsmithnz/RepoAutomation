@@ -19,3 +19,4 @@
 RepoAutomation [-r|--repo <repository Name>] [-v|--visibility <repo visibility>] [-l|--license <repo license>] [-p|--patToken <GitHub Pat Token>]  [-bp|--branchpolicy <default branch policy>]
 ```
 
+Requires a [PAT token](https://github.com/settings/tokens) to be setup, with `repo` and `workflow` permissions

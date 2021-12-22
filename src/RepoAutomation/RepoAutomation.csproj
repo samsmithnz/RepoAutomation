@@ -5,10 +5,12 @@
 		<TargetFramework>net6.0</TargetFramework>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
+		<UserSecretsId>de8f3b8a-7df9-48ee-ae7c-c37f61f11ddf</UserSecretsId>
 	</PropertyGroup>
 
 	<ItemGroup>
 	  <PackageReference Include="CommandLineParser" Version="2.8.0" />
+	  <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="5.0.0" />
 	  <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
 	</ItemGroup>
 
