@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 
 namespace RepoAutomation.Tests;
 
+[System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
 [TestClass]
 [TestCategory("IntegrationTests")]
 public class GitHubAPIAccessTests : BaseAPIAccessTests

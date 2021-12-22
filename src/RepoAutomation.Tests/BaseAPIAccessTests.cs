@@ -4,7 +4,7 @@ using System.IO;
 
 namespace RepoAutomation.Tests;
 
-
+[System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
 public class BaseAPIAccessTests
 {
     public string? GitHubId { get; set; }

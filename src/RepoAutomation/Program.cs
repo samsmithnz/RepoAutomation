@@ -1,7 +1,6 @@
 ﻿using CommandLine;
 using Microsoft.Extensions.Configuration;
 using RepoAutomation.APIAccess;
-using Newtonsoft.Json.Linq;
 using RepoAutomation.Models;
 
 namespace RepoAutomation;
