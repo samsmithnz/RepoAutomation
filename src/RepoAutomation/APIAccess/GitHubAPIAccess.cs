@@ -48,7 +48,10 @@ public static class GitHubAPIAccess
         {
             var body = new
             {
-                name = repo
+                name = repo,
+                allow_auto_merge = true,
+                delete_branch_on_merge = true,
+                allow_rebase_merge = false
             };
             string url = $"https://api.github.com/user/repos";
             StringContent content = new(JsonConvert.SerializeObject(body), Encoding.UTF8, "application/json");
