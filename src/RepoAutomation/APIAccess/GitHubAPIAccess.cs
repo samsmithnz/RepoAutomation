@@ -44,7 +44,8 @@ public static class GitHubAPIAccess
             };
             string url = $"https://api.github.com/user/repos";
             StringContent content = new(JsonConvert.SerializeObject(body), Encoding.UTF8, "application/json");
-            string response = await BaseAPIAccess.PostGitHubMessage(url, clientId, clientSecret, content);
+            await BaseAPIAccess.PostGitHubMessage(url, clientId, clientSecret, content);
+            //string response = 
             //if (string.IsNullOrEmpty(response) == false)
             //{
             //    dynamic? jsonObj = JsonConvert.DeserializeObject(response);
@@ -55,10 +56,25 @@ public static class GitHubAPIAccess
         return true;
     }
 
-    public async static Task<bool> DeleteRepo()
+    public async static Task<bool> DeleteRepo(string? clientId, string? clientSecret, string owner, string repo)
     {
-        return false;
+        if (clientId != null && clientSecret != null)
+        {
+            var body = new
+            {
+                name = repo
+            };
+            string url = $"https://api.github.com/repos/{owner}/{repo}";
+            await BaseAPIAccess.DeleteGitHubMessage(url, clientId, clientSecret);
+            //string response = 
+            //if (string.IsNullOrEmpty(response) == false)
+            //{
+            //    dynamic? jsonObj = JsonConvert.DeserializeObject(response);
+            //    result = JsonConvert.DeserializeObject<Repo>(jsonObj?.ToString());
+            //    result.RawJSON = jsonObj?.ToString();
+            //}
+        }
+        return true;
     }
-
 
 }

@@ -42,7 +42,7 @@ public class GitHubAPIAccessTests : BaseAPIAccessTests
 
 
     [TestMethod]
-    public async Task RepoCreateTest()
+    public async Task RepoCreateAndDeleteTest()
     {
         //Arrange
         string owner = "samsmithnz";
@@ -56,7 +56,7 @@ public class GitHubAPIAccessTests : BaseAPIAccessTests
         Assert.IsNotNull(repo);
         if (repo != null)
         {
-            Assert.AreEqual(repoName, repo.name);        
+            Assert.AreEqual(repoName, repo.name);
         }
 
         //Act II: End of days
