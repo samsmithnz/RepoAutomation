@@ -23,7 +23,7 @@ public static class GitHubAPIAccess
         if (clientId != null && clientSecret != null)
         {
             string url = $"https://api.github.com/repos/{owner}/{repo}";
-            string response = await BaseAPIAccess.GetGitHubMessage(url, clientId, clientSecret);
+            string? response = await BaseAPIAccess.GetGitHubMessage(url, clientId, clientSecret);
             if (string.IsNullOrEmpty(response) == false)
             {
                 dynamic? jsonObj = JsonConvert.DeserializeObject(response);

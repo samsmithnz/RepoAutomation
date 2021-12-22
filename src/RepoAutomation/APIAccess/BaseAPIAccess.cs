@@ -19,7 +19,7 @@ public static class BaseAPIAccess
         }
     }
 
-    public async static Task<string> PostGitHubMessage(string url, string clientId, string clientSecret, StringContent content)
+    public async static Task<string?> PostGitHubMessage(string url, string clientId, string clientSecret, StringContent content)
     {
         HttpClient client = BuildHttpClient(url, clientId, clientSecret);
         HttpResponseMessage response = await client.PostAsync(url, content);
@@ -33,7 +33,7 @@ public static class BaseAPIAccess
         }
     }
 
-    public async static Task<string> DeleteGitHubMessage(string url, string clientId, string clientSecret)
+    public async static Task<string?> DeleteGitHubMessage(string url, string clientId, string clientSecret)
     {
         HttpClient client = BuildHttpClient(url, clientId, clientSecret);
         HttpResponseMessage response = await client.DeleteAsync(url);
