@@ -6,3 +6,4 @@
 using System.Diagnostics.CodeAnalysis;
 
 [assembly: SuppressMessage("Style", "IDE0063:Use simple 'using' statement", Justification = "This rule ruins read-ability, in my opinion.", Scope = "member", Target = "~M:RepoAutomation.APIAccess.GitHubAPIAccess.GetGitHubMessage(System.String,System.String,System.String)~System.Threading.Tasks.Task{System.String}")]
+[assembly: SuppressMessage("Style", "IDE1006:Naming Styles", Justification = "lower case is correct casing for GitHub Actions", Scope = "namespaceanddescendants", Target = "~N:RepoAutomation.Models")]

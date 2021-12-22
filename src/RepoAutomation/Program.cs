@@ -30,7 +30,7 @@ public class Program
         string id = configuration["AppSettings:GitHubClientId"];
         string secret = configuration["AppSettings:GitHubClientSecret"];
         JObject? repo = await GitHubAPIAccess.GetRepo(id, secret, "samsmithnz", "RepoAutomation");
-        Console.WriteLine("Hello world " + repo.ToString());
+        Console.WriteLine("Hello world " + repo?.ToString());
     }
 
     public class Options
