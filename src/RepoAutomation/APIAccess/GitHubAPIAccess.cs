@@ -77,10 +77,11 @@ public static class GitHubAPIAccess
         if (clientId != null && clientSecret != null)
         {
             string url = $"https://api.github.com/repos/{owner}/{repo}";
-            await BaseAPIAccess.DeleteGitHubMessage(url, clientId, clientSecret);
-            //string response = 
-            //if (string.IsNullOrEmpty(response) == false)
-            //{
+            string? response = await BaseAPIAccess.DeleteGitHubMessage(url, clientId, clientSecret);
+            if (string.IsNullOrEmpty(response) == true)
+            {
+                return false;
+            }
             //    dynamic? jsonObj = JsonConvert.DeserializeObject(response);
             //    result = JsonConvert.DeserializeObject<Repo>(jsonObj?.ToString());
             //    result.RawJSON = jsonObj?.ToString();

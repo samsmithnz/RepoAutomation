@@ -12,7 +12,7 @@ namespace RepoAutomation.Tests;
 public class GitHubAPIAccessTests : BaseAPIAccessTests
 {
     [TestMethod]
-    public async Task RepoGetTest()
+    public async Task GetRepoGetTest()
     {
         //Arrange
         string owner = "samsmithnz";
@@ -40,10 +40,8 @@ public class GitHubAPIAccessTests : BaseAPIAccessTests
         }
     }
 
-
-
     [TestMethod]
-    public async Task RepoThatDoesNotExistGetTest()
+    public async Task GetRepoThatDoesNotExistGetTest()
     {
         //Arrange
         string owner = "samsmithnz";
@@ -56,8 +54,24 @@ public class GitHubAPIAccessTests : BaseAPIAccessTests
         Assert.IsNull(repo);
     }
 
+
+
     [TestMethod]
-    public async Task RepoCreateAndDeleteTest()
+    public async Task DeleteRepoThatDoesNotExistGetTest()
+    {
+        //Arrange
+        string owner = "samsmithnz";
+        string repoName = "RepoAutomationToDelete"; //Doesn't exist
+
+        //Act
+        bool result = await GitHubAPIAccess.DeleteRepo(base.GitHubId, base.GitHubSecret, owner, repoName);
+
+        //Assert
+        Assert.IsFalse(result);
+    }
+
+    [TestMethod]
+    public async Task CreateAndDeleteRepoTest()
     {
         //Arrange
         string owner = "samsmithnz";
