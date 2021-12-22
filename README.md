@@ -1,4 +1,7 @@
 # Repo Automation
+
+[![CI/ CD](https://github.com/samsmithnz/RepoAutomation/actions/workflows/dotnet.yml/badge.svg)](https://github.com/samsmithnz/RepoAutomation/actions/workflows/dotnet.yml)
+
 .NET code to create and configure a repo with C#. (`Repo name` is a parameter)
 - Enables repo "auto-merge" open
 - Enables repo "Delete head branch on merge" option 
