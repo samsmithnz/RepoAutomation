@@ -13,9 +13,9 @@ public static class GitHubAPIAccess
     /// </summary>
     /// <param name="clientId"></param>
     /// <param name="clientSecret"></param>
-    /// <param name="owner"></param>
-    /// <param name="repo"></param>
-    /// <returns></returns>
+    /// <param name="owner">e.g. samsmithnz</param>
+    /// <param name="repo">e.g. RepoAutomation</param>
+    /// <returns>Repo objec</returns>
     public async static Task<Repo?> GetRepo(string? clientId, string? clientSecret, string owner, string repo)
     {
         Repo? result = null;
@@ -31,6 +31,16 @@ public static class GitHubAPIAccess
             }
         }
         return result;
+    }
+
+    public async static Task<bool> CreateRepo()
+    {
+        return false;
+    }
+
+    public async static Task<bool> DeleteRepo()
+    {
+        return false;
     }
 
     private async static Task<string> GetGitHubMessage(string url, string clientId, string clientSecret)
