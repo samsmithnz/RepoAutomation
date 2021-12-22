@@ -1,0 +1,104 @@
+name: 'CI/ CD'
+
+on: 
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  #Install and calculate the new version with GitVersion  
+  version:
+    runs-on: ubuntu-latest
+    outputs: 
+      Version: ${{ steps.gitversion.outputs.SemVer }} 
+      CommitsSinceVersionSource: ${{ steps.gitversion.outputs.CommitsSinceVersionSource }}  
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        fetch-depth: 0 #fetch-depth is needed for GitVersion
+    - name: Install GitVersion
+      uses: gittools/actions/gitversion/setup@v0.9.11
+      with:
+        versionSpec: 5.x
+    - name: Determine Version
+      uses: gittools/actions/gitversion/execute@v0.9.11
+      id: gitversion # step id used as reference for output values
+    - name: Display GitVersion outputs
+      run: |
+        echo "Version: ${{ steps.gitversion.outputs.SemVer }}"
+        echo "CommitsSinceVersionSource: ${{ steps.gitversion.outputs.CommitsSinceVersionSource }}"
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 6.0.x
+    - name: .NET test
+      run: dotnet test src/RepoAutomation.Tests/RepoAutomation.Tests.csproj -c Release --nologo -p:CollectCoverage=true -p:CoverletOutput=TestResults/ -p:CoverletOutputFormat=lcov 
+    #- name: Publish coverage report to coveralls.io
+    #  uses: coverallsapp/github-action@master
+    #  if: runner.OS == 'Linux' #Only push the Linux coverage
+    #  with:
+    #    github-token: ${{ secrets.GITHUB_TOKEN }}
+    #    path-to-lcov: src/GitHubActionsDotNet.Tests/TestResults/coverage.info
+
+  build:
+    runs-on: windows-latest
+    needs: version
+    strategy:
+      matrix:
+        include:
+        - ChannelName: Windows_x64
+          RID: win-x64
+        - ChannelName: MacOS_x64
+          RID: osx-x64
+        - ChannelName: Linux_x64
+          RID: linux-x64
+    env:
+      BuildConfiguration: Release
+    outputs: # https://stackoverflow.com/questions/59175332/using-output-from-a-previous-job-in-a-new-one-in-a-github-action
+      Version: ${{ steps.gitversion.outputs.SemVer }}
+      CommitsSinceVersionSource: ${{ steps.gitversion.outputs.CommitsSinceVersionSource }}  
+    steps:
+    - uses: actions/checkout@v2    
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 6.0.x
+    - name: Create directory for channel
+      run: mkdir ${{ github.workspace }}\${{ matrix.ChannelName }}
+      shell: powershell
+    - name: dotnet publish ${{ matrix.RID }}
+      run: dotnet publish '.\src\RepoAutomation\RepoAutomation.csproj' -r ${{ matrix.RID }} --self-contained -c ${{ env.BuildConfiguration }} -o ${{ github.workspace }}\${{ needs.version.outputs.Version }}_${{ matrix.ChannelName }} /p:Version=${{ needs.version.outputs.Version }}
+    - name: zip files
+      run: |
+        Compress-Archive -Path '${{ github.workspace }}\${{ needs.version.outputs.Version }}_${{ matrix.ChannelName }}\' `
+        -DestinationPath ${{ github.workspace }}\${{ matrix.ChannelName }}\RepoAutomation.${{ matrix.ChannelName }}.${{ needs.version.outputs.Version }}.zip
+      shell: powershell
+    - name: Publish Artifacts
+      uses: actions/upload-artifact@v2
+      with:
+        name: ${{ matrix.ChannelName }}
+        path: ${{ github.workspace }}\${{ matrix.ChannelName }}    
+
+
+  Release:
+    runs-on: ubuntu-latest
+    needs: 
+    - build
+    - version
+    if: github.ref == 'refs/heads/main'      
+    steps:
+    - name: Display GitVersion outputs
+      run: |
+        echo "Version: ${{ needs.version.outputs.Version }}" 
+        echo "CommitsSinceVersionSource: ${{ needs.version.outputs.CommitsSinceVersionSource }}" 
+    - name: Download package artifacts
+      uses: actions/download-artifact@v2.1.0
+    - name: Create Release
+      uses: ncipollo/release-action@v1
+      if: needs.version.outputs.CommitsSinceVersionSource > 0 #Only create a release if there has been a commit/version change
+      with:
+        artifacts: Linux_x64/RepoAutomation.Linux_x64.${{ needs.version.outputs.Version }}.zip,MacOS_x64/RepoAutomation.MacOS_x64.${{ needs.version.outputs.Version }}.zip,Windows_x64/RepoAutomation.Windows_x64.${{ needs.version.outputs.Version }}.zip
+        tag: ${{ needs.version.outputs.Version }}
+        name: Release ${{ needs.version.outputs.Version }}
+        token: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
