@@ -42,16 +42,19 @@ public static class GitHubAPIAccess
     /// <param name="owner"></param>
     /// <param name="repo"></param>
     /// <returns></returns>
-    public async static Task<bool> CreateRepo(string? clientId, string? clientSecret, string repo)
+    public async static Task<bool> CreateRepo(string? clientId, string? clientSecret, string repo,
+        bool allowAutoMerge, bool deleteBranchOnMerge, bool allowRebaseMerge,
+        bool isPrivate)
     {
         if (clientId != null && clientSecret != null)
         {
             var body = new
             {
                 name = repo,
-                allow_auto_merge = true,
-                delete_branch_on_merge = true,
-                allow_rebase_merge = false
+                allow_auto_merge = allowAutoMerge,
+                delete_branch_on_merge = deleteBranchOnMerge,
+                allow_rebase_merge = allowRebaseMerge,
+                @private = isPrivate
             };
             string url = $"https://api.github.com/user/repos";
             StringContent content = new(JsonConvert.SerializeObject(body), Encoding.UTF8, "application/json");
