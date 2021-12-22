@@ -9,18 +9,26 @@ namespace RepoAutomation.APIAccess;
 public static class GitHubAPIAccess
 {
 
-    //Call the GitHub Rest API to get a JSON array of repos
-    public async static Task<Newtonsoft.Json.Linq.JArray?> GetRepo(string clientId, string clientSecret, string owner, string repo)
+    //https://docs.github.com/en/enterprise-cloud@latest/rest/reference/repos
+    /// <summary>
+    /// Get the target repo JSON
+    /// </summary>
+    /// <param name="clientId"></param>
+    /// <param name="clientSecret"></param>
+    /// <param name="owner"></param>
+    /// <param name="repo"></param>
+    /// <returns></returns>
+    public async static Task<Newtonsoft.Json.Linq.JObject?> GetRepo(string clientId, string clientSecret, string owner, string repo)
     {
-        Newtonsoft.Json.Linq.JArray? list = null;
+        Newtonsoft.Json.Linq.JObject? result = null;
         string url = $"https://api.github.com/repos/{owner}/{repo}";
         string response = await GetGitHubMessage(url, clientId, clientSecret);
         if (string.IsNullOrEmpty(response) == false)
         {
             dynamic? jsonObj = JsonConvert.DeserializeObject(response);
-            list = jsonObj?.workflow_runs;
+            result = jsonObj;
         }
-        return list;
+        return result;
     }
 
     private async static Task<string> GetGitHubMessage(string url, string clientId, string clientSecret)

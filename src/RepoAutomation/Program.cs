@@ -1,20 +1,21 @@
 ﻿using CommandLine;
 using Microsoft.Extensions.Configuration;
+using RepoAutomation.APIAccess;
+using Newtonsoft.Json.Linq;
 
 namespace RepoAutomation;
 
 public class Program
 {
-    public static void Main(string[] args)
+    public async static Task Main(string[] args)
     {
-       //Load the appsettings.json configuration file
-       IConfigurationBuilder? builder = new ConfigurationBuilder()
-            .SetBasePath(Directory.GetCurrentDirectory())
-            .AddJsonFile("appsettings.json", optional: false)
-            .AddUserSecrets<Program>();
+        //Load the appsettings.json configuration file
+        IConfigurationBuilder? builder = new ConfigurationBuilder()
+             .SetBasePath(Directory.GetCurrentDirectory())
+             .AddJsonFile("appsettings.json", optional: false)
+             .AddUserSecrets<Program>();
         IConfigurationRoot configuration = builder.Build();
-       
-        Console.WriteLine("Hello world " + configuration["AppSettings:GitHubClientId"]);
+
         //Parse arguments
         string workingDirectory = Environment.CurrentDirectory;
         Parser.Default.ParseArguments<Options>(args).WithParsed<Options>(o =>
@@ -25,6 +26,11 @@ public class Program
             }
         });
 
+        //Do the work
+        string id = configuration["AppSettings:GitHubClientId"];
+        string secret = configuration["AppSettings:GitHubClientSecret"];
+        JObject? repo = await GitHubAPIAccess.GetRepo(id, secret, "samsmithnz", "RepoAutomation");
+        Console.WriteLine("Hello world " + repo.ToString());
     }
 
     public class Options
