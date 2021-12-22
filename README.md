@@ -1,4 +1,4 @@
-# RepoAutomation
+# Repo Automation
 .NET code to create and configure a repo with C#. (`Repo name` is a parameter)
 - Enables repo "auto-merge" open
 - Enables repo "Delete head branch on merge" option 
