@@ -19,16 +19,19 @@ public static class GitHubAPIAccess
     /// <param name="owner"></param>
     /// <param name="repo"></param>
     /// <returns></returns>
-    public async static Task<Repo?> GetRepo(string clientId, string clientSecret, string owner, string repo)
+    public async static Task<Repo?> GetRepo(string? clientId, string? clientSecret, string owner, string repo)
     {
         Repo? result = null;
-        string url = $"https://api.github.com/repos/{owner}/{repo}";
-        string response = await GetGitHubMessage(url, clientId, clientSecret);
-        if (string.IsNullOrEmpty(response) == false)
+        if (clientId != null && clientSecret != null)
         {
-            dynamic? jsonObj = JsonConvert.DeserializeObject(response);
-            result = JsonConvert.DeserializeObject<Repo>(jsonObj?.ToString());
-            result.RawJSON = jsonObj?.ToString();
+            string url = $"https://api.github.com/repos/{owner}/{repo}";
+            string response = await GetGitHubMessage(url, clientId, clientSecret);
+            if (string.IsNullOrEmpty(response) == false)
+            {
+                dynamic? jsonObj = JsonConvert.DeserializeObject(response);
+                result = JsonConvert.DeserializeObject<Repo>(jsonObj?.ToString());
+                result.RawJSON = jsonObj?.ToString();
+            }
         }
         return result;
     }
