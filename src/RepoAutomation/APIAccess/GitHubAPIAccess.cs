@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using RepoAutomation.Models;
 using System;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -18,15 +19,16 @@ public static class GitHubAPIAccess
     /// <param name="owner"></param>
     /// <param name="repo"></param>
     /// <returns></returns>
-    public async static Task<Newtonsoft.Json.Linq.JObject?> GetRepo(string clientId, string clientSecret, string owner, string repo)
+    public async static Task<Repo?> GetRepo(string clientId, string clientSecret, string owner, string repo)
     {
-        Newtonsoft.Json.Linq.JObject? result = null;
+        Repo? result = null;
         string url = $"https://api.github.com/repos/{owner}/{repo}";
         string response = await GetGitHubMessage(url, clientId, clientSecret);
         if (string.IsNullOrEmpty(response) == false)
         {
             dynamic? jsonObj = JsonConvert.DeserializeObject(response);
-            result = jsonObj;
+            result = JsonConvert.DeserializeObject<Repo>(jsonObj?.ToString());
+            result.RawJSON = jsonObj?.ToString();
         }
         return result;
     }

@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using RepoAutomation.APIAccess;
 using Newtonsoft.Json.Linq;
+using RepoAutomation.Models;
 
 namespace RepoAutomation;
 
@@ -29,8 +30,8 @@ public class Program
         //Do the work
         string id = configuration["AppSettings:GitHubClientId"];
         string secret = configuration["AppSettings:GitHubClientSecret"];
-        JObject? repo = await GitHubAPIAccess.GetRepo(id, secret, "samsmithnz", "RepoAutomation");
-        Console.WriteLine("Hello world " + repo?.ToString());
+        Repo? repo = await GitHubAPIAccess.GetRepo(id, secret, "samsmithnz", "RepoAutomation");
+        Console.WriteLine("Hello world " + repo?.full_name);
     }
 
     public class Options

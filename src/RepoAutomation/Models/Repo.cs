@@ -11,5 +11,6 @@
         public string? allow_rebase_merge { get; set; }
         public string? allow_squash_merge { get; set; }
         public string? allow_auto_merge { get; set; }
+        public string? RawJSON { get; set; }
     }
 }
