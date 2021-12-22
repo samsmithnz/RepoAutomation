@@ -41,6 +41,21 @@ public class GitHubAPIAccessTests : BaseAPIAccessTests
     }
 
 
+
+    [TestMethod]
+    public async Task RepoThatDoesNotExistGetTest()
+    {
+        //Arrange
+        string owner = "samsmithnz";
+        string repoName = "RepoAutomation2"; //Doesn't exist
+
+        //Act
+        Repo? repo = await GitHubAPIAccess.GetRepo(base.GitHubId, base.GitHubSecret, owner, repoName);
+
+        //Assert
+        Assert.IsNull(repo);
+    }
+
     [TestMethod]
     public async Task RepoCreateAndDeleteTest()
     {
@@ -50,7 +65,7 @@ public class GitHubAPIAccessTests : BaseAPIAccessTests
 
         //Act I: Creation
         await GitHubAPIAccess.CreateRepo(base.GitHubId, base.GitHubSecret, repoName);
-        Repo repo = await GitHubAPIAccess.GetRepo(base.GitHubId, base.GitHubSecret, owner, repoName);
+        Repo? repo = await GitHubAPIAccess.GetRepo(base.GitHubId, base.GitHubSecret, owner, repoName);
 
         //Assert
         Assert.IsNotNull(repo);

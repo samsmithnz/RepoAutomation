@@ -5,25 +5,46 @@ namespace RepoAutomation.APIAccess;
 public static class BaseAPIAccess
 {
 
-    public async static Task<string> GetGitHubMessage(string url, string clientId, string clientSecret)
+    public async static Task<string?> GetGitHubMessage(string url, string clientId, string clientSecret)
     {
         HttpClient client = BuildHttpClient(url, clientId, clientSecret);
         HttpResponseMessage response = await client.GetAsync(url);
-        return await ProcessResponse(response); 
+        if (response.IsSuccessStatusCode)
+        {
+            return await response.Content.ReadAsStringAsync();
+        }
+        else
+        {
+            return null;
+        }
     }
 
     public async static Task<string> PostGitHubMessage(string url, string clientId, string clientSecret, StringContent content)
     {
         HttpClient client = BuildHttpClient(url, clientId, clientSecret);
         HttpResponseMessage response = await client.PostAsync(url, content);
-        return await ProcessResponse(response);
+        if (response.IsSuccessStatusCode)
+        {
+            return await response.Content.ReadAsStringAsync();
+        }
+        else
+        {
+            return null;
+        }
     }
 
     public async static Task<string> DeleteGitHubMessage(string url, string clientId, string clientSecret)
     {
         HttpClient client = BuildHttpClient(url, clientId, clientSecret);
         HttpResponseMessage response = await client.DeleteAsync(url);
-        return await ProcessResponse(response);
+        if (response.IsSuccessStatusCode)
+        {
+            return await response.Content.ReadAsStringAsync();
+        }
+        else
+        {
+            return null;
+        }
     }
 
     private static HttpClient BuildHttpClient(string url, string clientId, string clientSecret)
@@ -45,15 +66,4 @@ public static class BaseAPIAccess
         return client;
     }
 
-    private async static Task<string> ProcessResponse(HttpResponseMessage response)
-    {
-        string responseBody = "";
-        //Throw a response exception
-        response.EnsureSuccessStatusCode();
-        if (response.IsSuccessStatusCode)
-        {
-            responseBody = await response.Content.ReadAsStringAsync();
-        }
-        return responseBody;
-    }
 }
