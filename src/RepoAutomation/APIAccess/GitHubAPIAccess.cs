@@ -9,14 +9,6 @@ public static class GitHubAPIAccess
 {
 
     //https://docs.github.com/en/enterprise-cloud@latest/rest/reference/repos
-    /// <summary>
-    /// Get the target repo JSON
-    /// </summary>
-    /// <param name="clientId"></param>
-    /// <param name="clientSecret"></param>
-    /// <param name="owner">e.g. samsmithnz</param>
-    /// <param name="repo">e.g. RepoAutomation</param>
-    /// <returns>Repo objec</returns>
     public async static Task<Repo?> GetRepo(string? clientId, string? clientSecret, string owner, string repo)
     {
         Repo? result = null;
@@ -34,14 +26,6 @@ public static class GitHubAPIAccess
         return result;
     }
 
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="clientId"></param>
-    /// <param name="clientSecret"></param>
-    /// <param name="owner"></param>
-    /// <param name="repo"></param>
-    /// <returns></returns>
     public async static Task<bool> CreateRepo(string? clientId, string? clientSecret, string repo,
         bool allowAutoMerge, bool deleteBranchOnMerge, bool allowRebaseMerge,
         bool isPrivate)
@@ -56,8 +40,8 @@ public static class GitHubAPIAccess
                 allow_rebase_merge = allowRebaseMerge,
                 @private = isPrivate
             };
-            string url = $"https://api.github.com/user/repos";
             StringContent content = new(JsonConvert.SerializeObject(body), Encoding.UTF8, "application/json");
+            string url = $"https://api.github.com/user/repos";
             await BaseAPIAccess.PostGitHubMessage(url, clientId, clientSecret, content);
             //string response = 
             //if (string.IsNullOrEmpty(response) == false)
@@ -70,19 +54,11 @@ public static class GitHubAPIAccess
         return true;
     }
 
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="clientId"></param>
-    /// <param name="clientSecret"></param>
-    /// <param name="owner"></param>
-    /// <param name="repo"></param>
-    /// <returns></returns>
     public async static Task<bool> DeleteRepo(string? clientId, string? clientSecret, string owner, string repo)
     {
         if (clientId != null && clientSecret != null)
         {
-            string url = $"https://api.github.com/repos/{owner}/{repo}";
+             string url = $"https://api.github.com/repos/{owner}/{repo}";
             string? response = await BaseAPIAccess.DeleteGitHubMessage(url, clientId, clientSecret);
             if (string.IsNullOrEmpty(response) == true)
             {
@@ -92,6 +68,50 @@ public static class GitHubAPIAccess
             //    result = JsonConvert.DeserializeObject<Repo>(jsonObj?.ToString());
             //    result.RawJSON = jsonObj?.ToString();
             //}
+        }
+        return true;
+    }
+
+    public async static Task<BranchProtectionPolicy?> GetBranchProtectionPolicy(string? clientId, string? clientSecret, 
+        string owner, string repo, string branch)
+    {
+        BranchProtectionPolicy? result = null;
+        if (clientId != null && clientSecret != null)
+        {
+            string url = $"https://api.github.com/repos/{owner}/{repo}/branches/{branch}/protection";
+            string? response = await BaseAPIAccess.GetGitHubMessage(url, clientId, clientSecret);
+            if (string.IsNullOrEmpty(response) == false)
+            {
+                dynamic? jsonObj = JsonConvert.DeserializeObject(response);
+                result = JsonConvert.DeserializeObject<BranchProtectionPolicy>(jsonObj?.ToString());
+                result.RawJSON = jsonObj?.ToString();
+            }
+        }
+        return result;
+    }
+
+    public async static Task<bool> UpdateBranchProtectionPolicy(string? clientId, string? clientSecret, string owner, string repo, string branch)
+    {
+        if (clientId != null && clientSecret != null)
+        {
+            var body = new
+            {
+                required_status_checks = new
+                {
+                    strict = true,
+                    checks = new
+                    {
+
+                    }
+                }
+            };
+            StringContent content = new(JsonConvert.SerializeObject(body), Encoding.UTF8, "application/json");
+            string url = $"https://api.github.com/repos/{owner}/{repo}/branches/{branch}/protection";
+            string? response = await BaseAPIAccess.PutGitHubMessage(url, clientId, clientSecret, content);
+            if (string.IsNullOrEmpty(response) == true)
+            {
+                return false;
+            }
         }
         return true;
     }

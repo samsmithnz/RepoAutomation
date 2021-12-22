@@ -47,6 +47,20 @@ public static class BaseAPIAccess
         }
     }
 
+    public async static Task<string?> PutGitHubMessage(string url, string clientId, string clientSecret, StringContent content)
+    {
+        HttpClient client = BuildHttpClient(url, clientId, clientSecret);
+        HttpResponseMessage response = await client.PutAsync(url, content);
+        if (response.IsSuccessStatusCode)
+        {
+            return await response.Content.ReadAsStringAsync();
+        }
+        else
+        {
+            return null;
+        }
+    }
+
     private static HttpClient BuildHttpClient(string url, string clientId, string clientSecret)
     {
         Console.WriteLine($"Running GitHub url: {url}");

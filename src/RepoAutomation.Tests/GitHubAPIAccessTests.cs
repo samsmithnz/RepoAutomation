@@ -9,10 +9,10 @@ namespace RepoAutomation.Tests;
 [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
 [TestClass]
 [TestCategory("IntegrationTests")]
-public class GitHubAPIAccessTests : BaseAPIAccessTests
+public class RepoTests : BaseAPIAccessTests
 {
     [TestMethod]
-    public async Task GetRepoGetTest()
+    public async Task GetRepoTest()
     {
         //Arrange
         string owner = "samsmithnz";
@@ -41,7 +41,7 @@ public class GitHubAPIAccessTests : BaseAPIAccessTests
     }
 
     [TestMethod]
-    public async Task GetRepoThatDoesNotExistGetTest()
+    public async Task GetRepoThatDoesNotExistTest()
     {
         //Arrange
         string owner = "samsmithnz";
@@ -55,7 +55,7 @@ public class GitHubAPIAccessTests : BaseAPIAccessTests
     }
 
     [TestMethod]
-    public async Task DeleteRepoThatDoesNotExistGetTest()
+    public async Task DeleteRepoThatDoesNotExistTest()
     {
         //Arrange
         string owner = "samsmithnz";
