@@ -9,7 +9,7 @@ public class CommandTests
 {
 
     [TestMethod]
-    public void DotNetTest()
+    public void DotNetHelpTest()
     {
         //Arrange
         string command = "dotnet.exe";
@@ -84,7 +84,7 @@ Run 'dotnet [command] --help' for more information on a command.
     } 
     
     [TestMethod]
-    public void GitTest()
+    public void GitHelpTest()
     {
         //Arrange
         string command = "git";
