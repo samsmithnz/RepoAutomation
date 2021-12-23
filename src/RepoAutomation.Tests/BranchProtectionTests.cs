@@ -2,6 +2,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using RepoAutomation.APIAccess;
 using RepoAutomation.Models;
 using RepoAutomation.Tests.Helpers;
+using System;
 using System.Threading.Tasks;
 
 namespace RepoAutomation.Tests;
@@ -20,7 +21,7 @@ public class BranchProtectionTests : BaseAPIAccessTests
         string branchName = "main";
 
         //Act
-        BranchProtectionPolicy? branchProtectionPolicy = await GitHubAPIAccess.GetBranchProtectionPolicy(base.GitHubId, base.GitHubSecret, 
+        BranchProtectionPolicy? branchProtectionPolicy = await GitHubAPIAccess.GetBranchProtectionPolicy(base.GitHubId, base.GitHubSecret,
             owner, repoName, branchName);
 
         //Assert
@@ -30,7 +31,7 @@ public class BranchProtectionTests : BaseAPIAccessTests
             Assert.IsNotNull(branchProtectionPolicy.required_status_checks);
             Assert.AreEqual(1, branchProtectionPolicy.required_status_checks?.checks?.Length);
             Assert.AreEqual("version", branchProtectionPolicy.required_status_checks?.checks?[0].context);
-            Assert.IsTrue(branchProtectionPolicy.enforce_admins?.enabled);  
+            Assert.IsTrue(branchProtectionPolicy.enforce_admins?.enabled);
             Assert.IsTrue(!branchProtectionPolicy.required_conversation_resolution?.enabled);
         }
     }
@@ -44,11 +45,16 @@ public class BranchProtectionTests : BaseAPIAccessTests
         string branchName = "main2";
 
         //Act
-        BranchProtectionPolicy? branchProtectionPolicy = await GitHubAPIAccess.GetBranchProtectionPolicy(base.GitHubId, base.GitHubSecret,
-            owner, repoName, branchName);
-
-        //Assert
-        Assert.IsNull(branchProtectionPolicy);
+        try
+        {
+            BranchProtectionPolicy? branchProtectionPolicy = await GitHubAPIAccess.GetBranchProtectionPolicy(base.GitHubId, base.GitHubSecret,
+                owner, repoName, branchName);
+        }
+        catch (Exception ex)
+        {
+            //Assert
+            Assert.AreEqual("Response status code does not indicate success: 404 (Not Found).", ex.Message);
+        }
     }
 
     [TestMethod]
@@ -66,7 +72,7 @@ public class BranchProtectionTests : BaseAPIAccessTests
         };
 
         //Act
-        bool result = await GitHubAPIAccess.UpdateBranchProtectionPolicy(base.GitHubId, base.GitHubSecret, owner, repoName, 
+        bool result = await GitHubAPIAccess.UpdateBranchProtectionPolicy(base.GitHubId, base.GitHubSecret, owner, repoName,
             branchName, contexts);
 
         //Assert
