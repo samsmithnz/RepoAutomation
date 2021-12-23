@@ -53,11 +53,12 @@ Execute a .NET application.";
     public void CreateDotNetSolutionAndProjectsTest()
     {
         //Arrange
+        string repoLocation = "https://github.com/samsmithnz/RepoAutomation";
         string projectName = "RepoTestProject";
         string workingDirectory = Environment.CurrentDirectory;
 
         //Act
-        string log = ProjectAutomation.SetupProject(projectName, workingDirectory);
+        string log = ProjectAutomation.SetupProject(repoLocation, projectName, workingDirectory);
         //Cleanup
         Directory.Delete(workingDirectory + "/src", true);
 
