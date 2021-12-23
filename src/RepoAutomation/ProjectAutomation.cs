@@ -13,31 +13,37 @@ namespace RepoAutomation
         {
             StringBuilder log = new();
             Directory.CreateDirectory(workingDirectory);
-            Directory.CreateDirectory(workingDirectory + "/src");
+            string workingSrcDirectory = workingDirectory + "/src";
+            Directory.CreateDirectory(workingSrcDirectory);
 
             string testsProject = projectName + ".Tests";
             log.Append(CommandLine.RunCommand("dotnet",
                 "new mstest -n " + testsProject,
-                workingDirectory + "/src"));
+                workingSrcDirectory));
 
             string webAppProject = projectName + ".Web";
             log.Append(CommandLine.RunCommand("dotnet",
                 "new webapp -n " + webAppProject,
-                workingDirectory + "/src"));
+                workingSrcDirectory));
 
             //Create the solution
             string solutionName = projectName;
             log.Append(CommandLine.RunCommand("dotnet",
                 "new sln --name " + solutionName,
-                workingDirectory + "/src"));
+                workingSrcDirectory));
 
             //Bind the projects to the solution
             log.Append(CommandLine.RunCommand("dotnet",
                 "sln add " + testsProject,
-                workingDirectory + "/src"));
+                workingSrcDirectory));
             log.Append(CommandLine.RunCommand("dotnet",
                 "sln add " + webAppProject,
-                workingDirectory + "/src"));
+                workingSrcDirectory));
+
+            string solutionText = System.IO.File.ReadAllText(workingSrcDirectory + "/" + solutionName + ".sln");
+            log.Append(solutionText);
+
+
 
             return log.ToString();
 

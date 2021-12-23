@@ -1,6 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using RepoAutomation.Tests.Helpers;
 using System;
+using System.IO;
 
 namespace RepoAutomation.Tests;
 
@@ -53,19 +54,14 @@ Execute a .NET application.";
     {
         //Arrange
         string projectName = "RepoTestProject";
-        string workingDirectory = Environment.CurrentDirectory;
+        string workingDirectory = Environment.CurrentDirectory ;
 
         //Act
         string log = ProjectAutomation.SetupProject(projectName, workingDirectory);
+        //Cleanup
+        Directory.Delete(workingDirectory + "/src", true);
 
         //Assert
         Assert.IsNotNull(log);
-        //string expected = @"usage: git [--version] [--help] [-C <path>] [-c <name>=<value>]
-        //   [--exec-path[=<path>]] [--html-path] [--man-path] [--info-path]
-        //   [-p | --paginate | -P | --no-pager] [--no-replace-objects] [--bare]
-        //   [--git-dir=<path>] [--work-tree=<path>] [--namespace=<name>]
-        //   [--super-prefix=<path>] [--config-env=<name>=<envvar>]
-        //   <command> [<args>]";
-        //Assert.AreEqual(expected, Utility.TakeNLines(result, 6));
     }
 }
