@@ -5,13 +5,13 @@ namespace RepoAutomation
 {
     public class CommandLine
     {
-        public string RunDotNetCommand(string arguments)
+        public static string RunCommand(string command, string arguments)
         {
-            var process = new Process();
-            var startInfo = new ProcessStartInfo
+            Process? process = new();
+            ProcessStartInfo? startInfo = new()
             {
-                FileName = "dotnet.exe",
-                Arguments = "-h",
+                FileName = command,
+                Arguments = arguments,
                 UseShellExecute = false,
                 RedirectStandardOutput = true,
                 CreateNoWindow = true
