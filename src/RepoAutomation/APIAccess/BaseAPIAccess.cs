@@ -9,56 +9,32 @@ public static class BaseAPIAccess
     {
         HttpClient client = BuildHttpClient(url, clientId, clientSecret);
         HttpResponseMessage response = await client.GetAsync(url);
-        if (response.IsSuccessStatusCode)
-        {
-            return await response.Content.ReadAsStringAsync();
-        }
-        else
-        {
-            return null;
-        }
+        response.EnsureSuccessStatusCode();
+        return await response.Content.ReadAsStringAsync();
     }
 
     public async static Task<string?> PostGitHubMessage(string url, string clientId, string clientSecret, StringContent content)
     {
         HttpClient client = BuildHttpClient(url, clientId, clientSecret);
         HttpResponseMessage response = await client.PostAsync(url, content);
-        if (response.IsSuccessStatusCode)
-        {
-            return await response.Content.ReadAsStringAsync();
-        }
-        else
-        {
-            return null;
-        }
+        response.EnsureSuccessStatusCode();
+        return await response.Content.ReadAsStringAsync();
     }
 
     public async static Task<string?> DeleteGitHubMessage(string url, string clientId, string clientSecret)
     {
         HttpClient client = BuildHttpClient(url, clientId, clientSecret);
         HttpResponseMessage response = await client.DeleteAsync(url);
-        if (response.IsSuccessStatusCode)
-        {
-            return await response.Content.ReadAsStringAsync();
-        }
-        else
-        {
-            return null;
-        }
+        response.EnsureSuccessStatusCode();
+        return await response.Content.ReadAsStringAsync();
     }
 
     public async static Task<string?> PutGitHubMessage(string url, string clientId, string clientSecret, StringContent content)
     {
         HttpClient client = BuildHttpClient(url, clientId, clientSecret);
         HttpResponseMessage response = await client.PutAsync(url, content);
-        if (response.IsSuccessStatusCode)
-        {
-            return await response.Content.ReadAsStringAsync();
-        }
-        else
-        {
-            return null;
-        }
+        response.EnsureSuccessStatusCode();
+        return await response.Content.ReadAsStringAsync();
     }
 
     private static HttpClient BuildHttpClient(string url, string clientId, string clientSecret)

@@ -2,6 +2,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using RepoAutomation.APIAccess;
 using RepoAutomation.Models;
 using RepoAutomation.Tests.Helpers;
+using System;
 using System.Threading.Tasks;
 
 namespace RepoAutomation.Tests;
@@ -48,10 +49,15 @@ public class RepoTests : BaseAPIAccessTests
         string repoName = "RepoAutomation2"; //Doesn't exist
 
         //Act
-        Repo? repo = await GitHubAPIAccess.GetRepo(base.GitHubId, base.GitHubSecret, owner, repoName);
-
-        //Assert
-        Assert.IsNull(repo);
+        try
+        {
+            Repo? repo = await GitHubAPIAccess.GetRepo(base.GitHubId, base.GitHubSecret, owner, repoName);
+        }
+        catch (Exception ex)
+        {
+            //Assert
+            Assert.AreEqual("Response status code does not indicate success: 404 (Not Found).", ex.Message);
+        }
     }
 
     [TestMethod]
@@ -62,10 +68,15 @@ public class RepoTests : BaseAPIAccessTests
         string repoName = "RepoAutomationToDelete"; //Doesn't exist
 
         //Act
-        bool result = await GitHubAPIAccess.DeleteRepo(base.GitHubId, base.GitHubSecret, owner, repoName);
-
-        //Assert
-        Assert.IsFalse(result);
+        try
+        {
+            bool result = await GitHubAPIAccess.DeleteRepo(base.GitHubId, base.GitHubSecret, owner, repoName);
+        }
+        catch (Exception ex)
+        {
+            //Assert
+            Assert.AreEqual("Response status code does not indicate success: 404 (Not Found).", ex.Message);
+        }
     }
 
     [TestMethod]
@@ -100,8 +111,14 @@ public class RepoTests : BaseAPIAccessTests
 
         //Act II: End of days
         await GitHubAPIAccess.DeleteRepo(base.GitHubId, base.GitHubSecret, owner, repoName);
-        repo = await GitHubAPIAccess.GetRepo(base.GitHubId, base.GitHubSecret, owner, repoName);
-
-        Assert.IsNull(repo);
+        try
+        {
+            repo = await GitHubAPIAccess.GetRepo(base.GitHubId, base.GitHubSecret, owner, repoName);
+        }
+        catch (Exception ex)
+        {
+            //Assert
+            Assert.AreEqual("Response status code does not indicate success: 404 (Not Found).", ex.Message);
+        }
     }
 }
