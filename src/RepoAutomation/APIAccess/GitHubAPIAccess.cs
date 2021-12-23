@@ -90,40 +90,85 @@ public static class GitHubAPIAccess
         return result;
     }
 
-    public async static Task<bool> UpdateBranchProtectionPolicy(string? clientId, string? clientSecret, string owner, string repo,
-        string branch, string[] contexts)
-    {
-        if (clientId != null && clientSecret != null)
-        {
-            var body = new
-            {
-                required_status_checks = new
-                {
-                    strict = true,
-                    contexts = new string[] { "version" },
-                    checks = new Check[]
-                    {
-                         new Check() { context = "version" }
-                    //     //new Check() {context=contexts[1]},
-                    //     //new Check() {context=contexts[2]}
-                    }
-                },
-                enforce_admins = true,
-                required_pull_request_reviews = new
-                {
-                    dismiss_stale_reviews = true
-                }
-            };
-            string json = JsonConvert.SerializeObject(body);
-            StringContent content = new(json, Encoding.UTF8, "application/json");
-            string url = $"https://api.github.com/repos/{owner}/{repo}/branches/{branch}/protection";
-            string? response = await BaseAPIAccess.PutGitHubMessage(url, clientId, clientSecret, content);
-            if (string.IsNullOrEmpty(response) == true)
-            {
-                return false;
-            }
-        }
-        return true;
-    }
+//    public async static Task<bool> UpdateBranchProtectionPolicy(string? clientId, string? clientSecret, string owner, string repo,
+//        string branch, string[] contexts)
+//    {
+//        if (clientId != null && clientSecret != null)
+//        {
+//            var body = new
+//            {
+//                required_status_checks = new
+//                {
+//                    strict = true,
+//                    contexts = new string[] { "version" },
+//                    checks = new Check[]
+//                    {
+//                         new Check() { context = "version" }
+//                    //     //new Check() {context=contexts[1]},
+//                    //     //new Check() {context=contexts[2]}
+//                    }
+//                },
+//                enforce_admins = true,
+//                required_pull_request_reviews = new
+//                {
+//                    dismiss_stale_reviews = true
+//                }
+//            };
+//            //string json = JsonConvert.SerializeObject(body);
+//            string json = @"
+//{
+//  ""url"": ""https://api.github.com/repos/samsmithnz/RepoAutomation/branches/main/protection"",
+//  ""required_status_checks"": {
+//    ""url"": ""https://api.github.com/repos/samsmithnz/RepoAutomation/branches/main/protection/required_status_checks"",
+//    ""strict"": true,
+//    ""contexts"": [
+//      ""version""
+//    ],
+//    ""contexts_url"": ""https://api.github.com/repos/samsmithnz/RepoAutomation/branches/main/protection/required_status_checks/contexts"",
+//    ""checks"": [
+//      {
+//        ""context"": ""version"",
+//        ""app_id"": 15368
+//      }
+//    ]
+//  },
+//  ""required_pull_request_reviews"": {
+//    ""url"": ""https://api.github.com/repos/samsmithnz/RepoAutomation/branches/main/protection/required_pull_request_reviews"",
+//    ""dismiss_stale_reviews"": false,
+//    ""require_code_owner_reviews"": false,
+//    ""required_approving_review_count"": 0
+//  },
+//  ""required_signatures"": {
+//    ""url"": ""https://api.github.com/repos/samsmithnz/RepoAutomation/branches/main/protection/required_signatures"",
+//    ""enabled"": false
+//  },
+//  ""enforce_admins"": {
+//    ""url"": ""https://api.github.com/repos/samsmithnz/RepoAutomation/branches/main/protection/enforce_admins"",
+//    ""enabled"": true
+//  },
+//  ""required_linear_history"": {
+//    ""enabled"": false
+//  },
+//  ""allow_force_pushes"": {
+//    ""enabled"": false
+//  },
+//  ""allow_deletions"": {
+//    ""enabled"": false
+//  },
+//  ""required_conversation_resolution"": {
+//    ""enabled"": false
+//  }
+//}
+//";
+//            StringContent content = new(json, Encoding.UTF8, "application/json");
+//            string url = $"https://api.github.com/repos/{owner}/{repo}/branches/{branch}/protection";
+//            string? response = await BaseAPIAccess.PutGitHubMessage(url, clientId, clientSecret, content);
+//            if (string.IsNullOrEmpty(response) == true)
+//            {
+//                return false;
+//            }
+//        }
+//        return true;
+//    }
 
 }
