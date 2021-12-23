@@ -17,7 +17,7 @@ public class BaseAPIAccessTests
         IConfigurationBuilder? builder = new ConfigurationBuilder()
              .SetBasePath(Directory.GetCurrentDirectory())
              .AddJsonFile("appsettings.json", optional: false)
-             .AddUserSecrets<Program>();
+             .AddUserSecrets<Program>(true);
         IConfigurationRoot configuration = builder.Build();
 
         GitHubId = configuration["AppSettings:GitHubClientId"];
