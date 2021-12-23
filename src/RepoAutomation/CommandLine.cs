@@ -5,11 +5,16 @@ namespace RepoAutomation
 {
     public class CommandLine
     {
-        public static string RunCommand(string command, string arguments)
+        public static string RunCommand(string command, string arguments, string workingDirectory =  null)
         {
+            if (workingDirectory == null)
+            {
+                workingDirectory = Environment.CurrentDirectory;
+            }
             Process? process = new();
             ProcessStartInfo? startInfo = new()
             {
+                WorkingDirectory = workingDirectory,
                 FileName = command,
                 Arguments = arguments,
                 UseShellExecute = false,
