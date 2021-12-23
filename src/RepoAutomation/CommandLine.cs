@@ -5,7 +5,7 @@ namespace RepoAutomation
 {
     public class CommandLine
     {
-        public static string RunCommand(string command, string arguments, string workingDirectory =  null)
+        public static string RunCommand(string command, string arguments, string workingDirectory = null)
         {
             if (workingDirectory == null)
             {

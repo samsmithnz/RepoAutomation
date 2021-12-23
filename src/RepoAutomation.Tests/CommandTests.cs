@@ -54,7 +54,7 @@ Execute a .NET application.";
     {
         //Arrange
         string projectName = "RepoTestProject";
-        string workingDirectory = Environment.CurrentDirectory ;
+        string workingDirectory = Environment.CurrentDirectory;
 
         //Act
         string log = ProjectAutomation.SetupProject(projectName, workingDirectory);
