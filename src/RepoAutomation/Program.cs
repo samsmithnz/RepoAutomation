@@ -13,7 +13,7 @@ public class Program
         IConfigurationBuilder? builder = new ConfigurationBuilder()
              .SetBasePath(Directory.GetCurrentDirectory())
              .AddJsonFile("appsettings.json", optional: false)
-             .AddUserSecrets<Program>();
+             .AddUserSecrets<Program>(true);
         IConfigurationRoot configuration = builder.Build();
 
         //Parse arguments
