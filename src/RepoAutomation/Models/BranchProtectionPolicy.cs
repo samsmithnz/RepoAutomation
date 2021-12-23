@@ -3,6 +3,7 @@
 public class BranchProtectionPolicy : BaseModel
 {
     public RequiredStatusCheck? required_status_checks { get; set; }
+    public bool enforce_admins { get; set; }
 }
 
 public class RequiredStatusCheck
