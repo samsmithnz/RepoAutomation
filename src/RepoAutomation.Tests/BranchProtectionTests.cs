@@ -30,7 +30,8 @@ public class BranchProtectionTests : BaseAPIAccessTests
             Assert.IsNotNull(branchProtectionPolicy.required_status_checks);
             Assert.AreEqual(1, branchProtectionPolicy.required_status_checks?.checks?.Length);
             Assert.AreEqual("version", branchProtectionPolicy.required_status_checks?.checks?[0].context);
-            Assert.IsTrue(branchProtectionPolicy.enforce_admins);
+            Assert.IsTrue(branchProtectionPolicy.enforce_admins?.enabled);  
+            Assert.IsTrue(!branchProtectionPolicy.required_conversation_resolution?.enabled);
         }
     }
 
