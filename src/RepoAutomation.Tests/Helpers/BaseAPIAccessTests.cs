@@ -2,7 +2,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.IO;
 
-namespace RepoAutomation.Tests;
+namespace RepoAutomation.Tests.Helpers;
 
 [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
 public class BaseAPIAccessTests

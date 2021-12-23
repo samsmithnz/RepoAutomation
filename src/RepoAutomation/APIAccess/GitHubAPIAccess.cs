@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using RepoAutomation.Models;
 using System.Net.Http.Headers;
+using System.Text;
 
 namespace RepoAutomation.APIAccess;
 
@@ -8,21 +9,13 @@ public static class GitHubAPIAccess
 {
 
     //https://docs.github.com/en/enterprise-cloud@latest/rest/reference/repos
-    /// <summary>
-    /// Get the target repo JSON
-    /// </summary>
-    /// <param name="clientId"></param>
-    /// <param name="clientSecret"></param>
-    /// <param name="owner"></param>
-    /// <param name="repo"></param>
-    /// <returns></returns>
     public async static Task<Repo?> GetRepo(string? clientId, string? clientSecret, string owner, string repo)
     {
         Repo? result = null;
         if (clientId != null && clientSecret != null)
         {
             string url = $"https://api.github.com/repos/{owner}/{repo}";
-            string response = await GetGitHubMessage(url, clientId, clientSecret);
+            string? response = await BaseAPIAccess.GetGitHubMessage(url, clientId, clientSecret);
             if (string.IsNullOrEmpty(response) == false)
             {
                 dynamic? jsonObj = JsonConvert.DeserializeObject(response);
@@ -33,36 +26,149 @@ public static class GitHubAPIAccess
         return result;
     }
 
-    private async static Task<string> GetGitHubMessage(string url, string clientId, string clientSecret)
+    public async static Task<bool> CreateRepo(string? clientId, string? clientSecret, string repo,
+        bool allowAutoMerge, bool deleteBranchOnMerge, bool allowRebaseMerge,
+        bool isPrivate)
     {
-        Console.WriteLine($"Running GitHub url: {url}");
-        string responseBody = "";
-        if (!url.Contains("api.github.com"))
+        if (clientId != null && clientSecret != null)
         {
-            throw new Exception("api.github.com missing from URL");
-        }
-        using (HttpClient client = new())
-        {
-            client.DefaultRequestHeaders.Accept.Clear();
-            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-            client.DefaultRequestHeaders.UserAgent.Add(new ProductInfoHeaderValue("DevOpsMetrics", "0.1"));
-            //If we use a id/secret, we significantly increase the rate from 60 requests an hour to 5000. https://developer.github.com/v3/#rate-limiting
-            if (string.IsNullOrEmpty(clientId) == false && string.IsNullOrEmpty(clientSecret) == false)
+            var body = new
             {
-                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", Convert.ToBase64String(System.Text.ASCIIEncoding.ASCII.GetBytes(string.Format("{0}:{1}", clientId, clientSecret))));
-            }
-            using (HttpResponseMessage response = await client.GetAsync(url))
-            {
-                //Throw a response exception
-                response.EnsureSuccessStatusCode();
-                if (response.IsSuccessStatusCode)
-                {
-                    responseBody = await response.Content.ReadAsStringAsync();
-                    //Console.WriteLine(responseBody);
-                }
-            }
+                name = repo,
+                allow_auto_merge = allowAutoMerge,
+                delete_branch_on_merge = deleteBranchOnMerge,
+                allow_rebase_merge = allowRebaseMerge,
+                @private = isPrivate
+            };
+            StringContent content = new(JsonConvert.SerializeObject(body), Encoding.UTF8, "application/json");
+            string url = $"https://api.github.com/user/repos";
+            await BaseAPIAccess.PostGitHubMessage(url, clientId, clientSecret, content);
+            //string response = 
+            //if (string.IsNullOrEmpty(response) == false)
+            //{
+            //    dynamic? jsonObj = JsonConvert.DeserializeObject(response);
+            //    result = JsonConvert.DeserializeObject<Repo>(jsonObj?.ToString());
+            //    result.RawJSON = jsonObj?.ToString();
+            //}
         }
-        return responseBody;
+        return true;
     }
+
+    public async static Task<bool> DeleteRepo(string? clientId, string? clientSecret, string owner, string repo)
+    {
+        if (clientId != null && clientSecret != null)
+        {
+            string url = $"https://api.github.com/repos/{owner}/{repo}";
+            string? response = await BaseAPIAccess.DeleteGitHubMessage(url, clientId, clientSecret);
+            if (string.IsNullOrEmpty(response) == true)
+            {
+                return false;
+            }
+            //    dynamic? jsonObj = JsonConvert.DeserializeObject(response);
+            //    result = JsonConvert.DeserializeObject<Repo>(jsonObj?.ToString());
+            //    result.RawJSON = jsonObj?.ToString();
+            //}
+        }
+        return true;
+    }
+
+    public async static Task<BranchProtectionPolicy?> GetBranchProtectionPolicy(string? clientId, string? clientSecret,
+        string owner, string repo, string branch)
+    {
+        BranchProtectionPolicy? result = null;
+        if (clientId != null && clientSecret != null)
+        {
+            string url = $"https://api.github.com/repos/{owner}/{repo}/branches/{branch}/protection";
+            string? response = await BaseAPIAccess.GetGitHubMessage(url, clientId, clientSecret);
+            if (string.IsNullOrEmpty(response) == false)
+            {
+                dynamic? jsonObj = JsonConvert.DeserializeObject(response);
+                result = JsonConvert.DeserializeObject<BranchProtectionPolicy>(jsonObj?.ToString());
+                result.RawJSON = jsonObj?.ToString();
+            }
+        }
+        return result;
+    }
+
+//    public async static Task<bool> UpdateBranchProtectionPolicy(string? clientId, string? clientSecret, string owner, string repo,
+//        string branch, string[] contexts)
+//    {
+//        if (clientId != null && clientSecret != null)
+//        {
+//            var body = new
+//            {
+//                required_status_checks = new
+//                {
+//                    strict = true,
+//                    contexts = new string[] { "version" },
+//                    checks = new Check[]
+//                    {
+//                         new Check() { context = "version" }
+//                    //     //new Check() {context=contexts[1]},
+//                    //     //new Check() {context=contexts[2]}
+//                    }
+//                },
+//                enforce_admins = true,
+//                required_pull_request_reviews = new
+//                {
+//                    dismiss_stale_reviews = true
+//                }
+//            };
+//            //string json = JsonConvert.SerializeObject(body);
+//            string json = @"
+//{
+//  ""url"": ""https://api.github.com/repos/samsmithnz/RepoAutomation/branches/main/protection"",
+//  ""required_status_checks"": {
+//    ""url"": ""https://api.github.com/repos/samsmithnz/RepoAutomation/branches/main/protection/required_status_checks"",
+//    ""strict"": true,
+//    ""contexts"": [
+//      ""version""
+//    ],
+//    ""contexts_url"": ""https://api.github.com/repos/samsmithnz/RepoAutomation/branches/main/protection/required_status_checks/contexts"",
+//    ""checks"": [
+//      {
+//        ""context"": ""version"",
+//        ""app_id"": 15368
+//      }
+//    ]
+//  },
+//  ""required_pull_request_reviews"": {
+//    ""url"": ""https://api.github.com/repos/samsmithnz/RepoAutomation/branches/main/protection/required_pull_request_reviews"",
+//    ""dismiss_stale_reviews"": false,
+//    ""require_code_owner_reviews"": false,
+//    ""required_approving_review_count"": 0
+//  },
+//  ""required_signatures"": {
+//    ""url"": ""https://api.github.com/repos/samsmithnz/RepoAutomation/branches/main/protection/required_signatures"",
+//    ""enabled"": false
+//  },
+//  ""enforce_admins"": {
+//    ""url"": ""https://api.github.com/repos/samsmithnz/RepoAutomation/branches/main/protection/enforce_admins"",
+//    ""enabled"": true
+//  },
+//  ""required_linear_history"": {
+//    ""enabled"": false
+//  },
+//  ""allow_force_pushes"": {
+//    ""enabled"": false
+//  },
+//  ""allow_deletions"": {
+//    ""enabled"": false
+//  },
+//  ""required_conversation_resolution"": {
+//    ""enabled"": false
+//  }
+//}
+//";
+//            StringContent content = new(json, Encoding.UTF8, "application/json");
+//            string url = $"https://api.github.com/repos/{owner}/{repo}/branches/{branch}/protection";
+//            string? response = await BaseAPIAccess.PutGitHubMessage(url, clientId, clientSecret, content);
+//            if (string.IsNullOrEmpty(response) == true)
+//            {
+//                return false;
+//            }
+//        }
+//        return true;
+//    }
 
 }
