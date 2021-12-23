@@ -9,35 +9,37 @@ namespace RepoAutomation
 {
     public static class ProjectAutomation
     {
-        public static void SetupProject(string projectName, string workingDirectory)
+        public static string SetupProject(string projectName, string workingDirectory)
         {
+            StringBuilder log = new();
             Directory.CreateDirectory(workingDirectory);
             Directory.CreateDirectory(workingDirectory + "/src");
 
             string testsProject = projectName + ".Tests";
-            CommandLine.RunCommand("dotnet",
+            log.Append(CommandLine.RunCommand("dotnet",
                 "new mstest -n " + testsProject,
-                workingDirectory + "/src");
+                workingDirectory + "/src"));
 
             string webAppProject = projectName + ".Web";
-            CommandLine.RunCommand("dotnet",
+            log.Append(CommandLine.RunCommand("dotnet",
                 "new webapp -n " + webAppProject,
-                workingDirectory + "/src");
+                workingDirectory + "/src"));
 
             //Create the solution
             string solutionName = projectName;
-            CommandLine.RunCommand("dotnet",
-                "sln --name " + solutionName,
-                workingDirectory + "/src");
+            log.Append(CommandLine.RunCommand("dotnet",
+                "new sln --name " + solutionName,
+                workingDirectory + "/src"));
 
             //Bind the projects to the solution
-            CommandLine.RunCommand("dotnet",
+            log.Append(CommandLine.RunCommand("dotnet",
                 "sln add " + testsProject,
-                workingDirectory + "/src");
-            CommandLine.RunCommand("dotnet",
+                workingDirectory + "/src"));
+            log.Append(CommandLine.RunCommand("dotnet",
                 "sln add " + webAppProject,
-                workingDirectory + "/src");
+                workingDirectory + "/src"));
 
+            return log.ToString();
 
             //$ProjectName = "RepoAutomationTest"
 
