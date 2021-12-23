@@ -100,14 +100,19 @@ public static class GitHubAPIAccess
                 required_status_checks = new
                 {
                     strict = true,
+                    contexts = new string[] { "version" },
                     checks = new Check[]
                     {
-                         new Check() {context=contexts[0]}
-                         //new Check() {context=contexts[1]},
-                         //new Check() {context=contexts[2]}
+                         new Check() { context = "version" }
+                    //     //new Check() {context=contexts[1]},
+                    //     //new Check() {context=contexts[2]}
                     }
                 },
-                enforce_admins = true
+                enforce_admins = true,
+                required_pull_request_reviews = new
+                {
+                    dismiss_stale_reviews = true
+                }
             };
             string json = JsonConvert.SerializeObject(body);
             StringContent content = new(json, Encoding.UTF8, "application/json");
