@@ -81,8 +81,8 @@ Additional commands from bundled tools:
 Run 'dotnet [command] --help' for more information on a command.
 ";
         Assert.AreEqual(expected, result);
-    } 
-    
+    }
+
     [TestMethod]
     public void GitHelpTest()
     {
