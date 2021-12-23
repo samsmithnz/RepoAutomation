@@ -13,7 +13,7 @@ public class CommandTests
     public void DotNetHelpTest()
     {
         //Arrange
-        string command = "dotnet.exe";
+        string command = "dotnet";
         string arguments = "-h";
 
         //Act
