@@ -28,13 +28,13 @@ public class BranchProtectionTests : BaseAPIAccessTests
         if (branchProtectionPolicy != null)
         {
             Assert.IsNotNull(branchProtectionPolicy.required_status_checks);
-            Assert.AreEqual(2, branchProtectionPolicy.required_status_checks?.contexts?.Length);
-            Assert.AreEqual("version", branchProtectionPolicy.required_status_checks?.contexts?[0]);
+            Assert.AreEqual(1, branchProtectionPolicy.required_status_checks?.checks?.Length);
+            Assert.AreEqual("version", branchProtectionPolicy.required_status_checks?.checks?[0]);
         }
     }
 
     [TestMethod]
-    public async Task GetBranchProtectionPolicyThatDoesNotExistGetTest()
+    public async Task GetBranchProtectionPolicyThatDoesNotExistTest()
     {
         //Arrange
         string owner = "samsmithnz";
@@ -49,19 +49,27 @@ public class BranchProtectionTests : BaseAPIAccessTests
         Assert.IsNull(branchProtectionPolicy);
     }
 
-    //[TestMethod]
-    //public async Task DeleteRepoThatDoesNotExistGetTest()
-    //{
-    //    //Arrange
-    //    string owner = "samsmithnz";
-    //    string repoName = "RepoAutomationToDelete"; //Doesn't exist
+    [TestMethod]
+    public async Task UpdateBranchProtectionPolicyTest()
+    {
+        //Arrange
+        string owner = "samsmithnz";
+        string repoName = "RepoAutomation";
+        string branchName = "main";
+        string[] contexts = new string[]
+        {
+            "version",
+            "build (Linux_x64, linux-x64)",
+            "build (Windows_x64, windows-x64)"
+        };
 
-    //    //Act
-    //    bool result = await GitHubAPIAccess.DeleteRepo(base.GitHubId, base.GitHubSecret, owner, repoName);
+        //Act
+        bool result = await GitHubAPIAccess.UpdateBranchProtectionPolicy(base.GitHubId, base.GitHubSecret, owner, repoName, 
+            branchName, contexts);
 
-    //    //Assert
-    //    Assert.IsFalse(result);
-    //}
+        //Assert
+        Assert.IsFalse(result);
+    }
 
     //[TestMethod]
     //public async Task CreateAndDeleteRepoTest()

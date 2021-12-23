@@ -1,13 +1,16 @@
 ﻿namespace RepoAutomation.Models;
 
-public class BranchProtectionPolicy
+public class BranchProtectionPolicy : BaseModel
 {
     public RequiredStatusCheck? required_status_checks { get; set; }
-    public string? RawJSON { get;set; }
-
 }
 
 public class RequiredStatusCheck
 {
-    public string[]? contexts { get; set; }
+    public Check[]? checks { get; set; }
+}
+
+public class Check
+{
+    public string? context { get; set; }
 }

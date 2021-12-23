@@ -1,6 +1,6 @@
 ﻿namespace RepoAutomation.Models
 {
-    public class Repo
+    public class Repo : BaseModel
     {
         public string? id { get; set; }
         public string? name { get; set; }
@@ -13,7 +13,6 @@
         public string? allow_merge_commit { get; set; }
         public string? allow_auto_merge { get; set; }
         public string? delete_branch_on_merge { get; set; }
-        public string? RawJSON { get; set; }
     }
 
     public class Owner
