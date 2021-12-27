@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "RepoAutomation": {
+      "commandName": "Project",
+      "commandLineArgs": "help"
+    }
+  }
+}

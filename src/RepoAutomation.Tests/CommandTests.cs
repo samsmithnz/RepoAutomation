@@ -2,6 +2,7 @@
 using RepoAutomation.Tests.Helpers;
 using System;
 using System.IO;
+using System.Threading.Tasks;
 
 namespace RepoAutomation.Tests;
 
@@ -53,15 +54,61 @@ Execute a .NET application.";
     public void CreateDotNetSolutionAndProjectsTest()
     {
         //Arrange
+        string repoLocation = "https://github.com/samsmithnz/RepoAutomation";
         string projectName = "RepoTestProject";
         string workingDirectory = Environment.CurrentDirectory;
 
         //Act
-        string log = ProjectAutomation.SetupProject(projectName, workingDirectory);
+        string log = ProjectAutomation.SetupProject(repoLocation, projectName, workingDirectory);
         //Cleanup
         Directory.Delete(workingDirectory + "/src", true);
 
         //Assert
         Assert.IsNotNull(log);
     }
+
+    [TestMethod]
+    public async Task RepoAutomationInceptionCommandLineTest()
+    {
+        //Arrange
+
+        //Act
+        string result = "";
+        using (StringWriter sw = new())
+        {
+            Console.SetOut(sw);
+            await Program.Main(new string[] { "" });
+            result = sw.ToString();
+        }
+
+        //Assert
+        Assert.IsNotNull(result);
+        string expected = @"Running GitHub url: https://api.github.com/repos/samsmithnz/RepoAutomation
+Hello world samsmithnz/RepoAutomation
+";
+        Assert.AreEqual(expected, result);
+    }
+
+
+    //[TestMethod]
+    //public async Task RepoAutomationInceptionHelpCommandLineTest()
+    //{
+    //    //Arrange
+
+    //    //Act
+    //    string result = "";
+    //    using (StringWriter sw = new())
+    //    {
+    //        Console.SetOut(sw);
+    //        await Program.Main(new string[] { "--Help" });
+    //        result = sw.ToString();
+    //    }
+
+    //    //Assert
+    //    Assert.IsNotNull(result);
+    //    string expected = @"";
+    //    Assert.AreEqual(expected, result);
+    //}
+
+
 }
