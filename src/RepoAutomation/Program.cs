@@ -24,13 +24,17 @@ public class Program
             {
                 workingDirectory = o.Directory;
             }
+
         });
 
         //Do the work
-        string id = configuration["AppSettings:GitHubClientId"];
-        string secret = configuration["AppSettings:GitHubClientSecret"];
-        Repo? repo = await GitHubAPIAccess.GetRepo(id, secret, "samsmithnz", "RepoAutomation");
-        Console.WriteLine("Hello world " + repo?.full_name);
+        if (args.Length > 0 && args[0] != "help")
+        {
+            string id = configuration["AppSettings:GitHubClientId"];
+            string secret = configuration["AppSettings:GitHubClientSecret"];
+            Repo? repo = await GitHubAPIAccess.GetRepo(id, secret, "samsmithnz", "RepoAutomation");
+            Console.WriteLine("Hello world " + repo?.full_name);
+        }
     }
 
     public class Options

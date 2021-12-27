@@ -2,6 +2,7 @@
 using RepoAutomation.Tests.Helpers;
 using System;
 using System.IO;
+using System.Threading.Tasks;
 
 namespace RepoAutomation.Tests;
 
@@ -65,4 +66,49 @@ Execute a .NET application.";
         //Assert
         Assert.IsNotNull(log);
     }
+
+    [TestMethod]
+    public async Task RepoAutomationInceptionCommandLineTest()
+    {
+        //Arrange
+
+        //Act
+        string result = "";
+        using (StringWriter sw = new())
+        {
+            Console.SetOut(sw);
+            await Program.Main(new string[] { "" });
+            result = sw.ToString();
+        }
+
+        //Assert
+        Assert.IsNotNull(result);
+        string expected = @"Running GitHub url: https://api.github.com/repos/samsmithnz/RepoAutomation
+Hello world samsmithnz/RepoAutomation
+";
+        Assert.AreEqual(expected, result);
+    }
+
+
+    //[TestMethod]
+    //public async Task RepoAutomationInceptionHelpCommandLineTest()
+    //{
+    //    //Arrange
+
+    //    //Act
+    //    string result = "";
+    //    using (StringWriter sw = new())
+    //    {
+    //        Console.SetOut(sw);
+    //        await Program.Main(new string[] { "--Help" });
+    //        result = sw.ToString();
+    //    }
+
+    //    //Assert
+    //    Assert.IsNotNull(result);
+    //    string expected = @"";
+    //    Assert.AreEqual(expected, result);
+    //}
+
+
 }
