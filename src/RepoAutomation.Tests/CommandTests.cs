@@ -90,25 +90,21 @@ Hello world samsmithnz/RepoAutomation
     }
 
 
-    //[TestMethod]
-    //public async Task RepoAutomationInceptionHelpCommandLineTest()
-    //{
-    //    //Arrange
+    [TestMethod]
+    public void RepoAutomationInceptionWithArgsCommandLineTest()
+    {
+        //Arrange
+        string command = "RepoAutomation";
+        string arguments = "-d " + Environment.CurrentDirectory;
 
-    //    //Act
-    //    string result = "";
-    //    using (StringWriter sw = new())
-    //    {
-    //        Console.SetOut(sw);
-    //        await Program.Main(new string[] { "--Help" });
-    //        result = sw.ToString();
-    //    }
+        //Act
+        string result = CommandLine.RunCommand(command, arguments);
 
-    //    //Assert
-    //    Assert.IsNotNull(result);
-    //    string expected = @"";
-    //    Assert.AreEqual(expected, result);
-    //}
-
-
+        //Assert
+        Assert.IsNotNull(result);
+        string expected = @"Running GitHub url: https://api.github.com/repos/samsmithnz/RepoAutomation
+Hello world samsmithnz/RepoAutomation
+";
+        Assert.AreEqual(expected, result);
+    }
 }
