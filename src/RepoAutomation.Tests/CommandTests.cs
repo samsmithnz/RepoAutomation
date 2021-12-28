@@ -71,13 +71,14 @@ Execute a .NET application.";
     public async Task RepoAutomationInceptionCommandLineTest()
     {
         //Arrange
+        string[] arguments = new string[] { "-o", "samsmithnz", "-r", "RepoAutomation" };
 
         //Act
         string result = "";
         using (StringWriter sw = new())
         {
             Console.SetOut(sw);
-            await Program.Main(new string[] { "" });
+            await Program.Main(arguments);
             result = sw.ToString();
         }
 
@@ -89,13 +90,14 @@ Hello world samsmithnz/RepoAutomation
         Assert.AreEqual(expected, result);
     }
 
-
     [TestMethod]
     public void RepoAutomationInceptionWithArgsCommandLineTest()
     {
         //Arrange
         string command = "RepoAutomation";
-        string arguments = "-d " + Environment.CurrentDirectory;
+        string arguments = "-d " + Environment.CurrentDirectory +
+            " -o samsmithnz -r RepoAutomation";
+
 
         //Act
         string result = CommandLine.RunCommand(command, arguments);

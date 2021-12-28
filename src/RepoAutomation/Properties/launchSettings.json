@@ -2,7 +2,7 @@
   "profiles": {
     "RepoAutomation": {
       "commandName": "Project",
-      "commandLineArgs": "help"
+      "commandLineArgs": "-o samsmithnz -r RepoAutomation"
     }
   }
 }

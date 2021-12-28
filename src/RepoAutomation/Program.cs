@@ -18,21 +18,32 @@ public class Program
 
         //Parse arguments
         string workingDirectory = Environment.CurrentDirectory;
+        string owner = "";
+        string repository = "";
         Parser.Default.ParseArguments<Options>(args).WithParsed<Options>(o =>
         {
             if (string.IsNullOrEmpty(o.Directory) == false)
             {
                 workingDirectory = o.Directory;
             }
+            if (string.IsNullOrEmpty(o.Owner) == false)
+            {
+                owner = o.Owner;
+            }
+            if (string.IsNullOrEmpty(o.Repo) == false)
+            {
+                repository = o.Repo;
+            }
 
         });
 
         //Do the work
-        if (string.IsNullOrEmpty(workingDirectory) == false)
+        if (string.IsNullOrEmpty(workingDirectory) == false &&
+            string.IsNullOrEmpty(owner) == false &&
+            string.IsNullOrEmpty(repository) == false)
         {
             string id = configuration["AppSettings:GitHubClientId"];
             string secret = configuration["AppSettings:GitHubClientSecret"];
-
 
             //Create the repo
             //Clone the repo
@@ -42,7 +53,7 @@ public class Program
             //Push back to main
             //Set the branch policy
 
-            Repo? repo = await GitHubAPIAccess.GetRepo(id, secret, "samsmithnz", "RepoAutomation");
+            Repo? repo = await GitHubAPIAccess.GetRepo(id, secret, owner, repository);
             Console.WriteLine("Hello world " + repo?.full_name);
         }
     }
@@ -51,5 +62,12 @@ public class Program
     {
         [Option('d', "directory", Required = false, HelpText = "set working directory")]
         public string? Directory { get; set; }
+
+        [Option('o', "owner", Required = false, HelpText = "GitHub owner")]
+        public string? Owner { get; set; }
+
+        [Option('r', "repo", Required = false, HelpText = "new repo name")]
+        public string? Repo { get; set; }
+
     }
 }
