@@ -45,15 +45,29 @@ public class Program
             string id = configuration["AppSettings:GitHubClientId"];
             string secret = configuration["AppSettings:GitHubClientSecret"];
 
-            //Create the repo
-            //Clone the repo
-            //Create .NET projects
-            //Create the GitHub Action
-            //Create the Dependabot file
-            //Push back to main
-            //Set the branch policy
-
+            //1. Create the repo (if it doesn't exist)
             Repo? repo = await GitHubAPIAccess.GetRepo(id, secret, owner, repository);
+            if (repo == null)
+            {
+                await GitHubAPIAccess.CreateRepo(id, secret, repository, true, true, false, true);
+            }
+
+            //2. Clone the repo (create the working directory if it doesn't exist)
+            if (Directory.Exists(workingDirectory) == false)
+            {
+                Directory.CreateDirectory(workingDirectory);
+            }
+            //git clone <repo> <directory>
+            CommandLine.RunCommand("git",
+                $"clone https://github.com/{owner}/{repository}",
+                workingDirectory);
+
+            //3. Create .NET projects
+            //4. Create the GitHub Action
+            //5. Create the Dependabot file
+            //6. Push back to main
+            //7. Set the branch policy
+
             Console.WriteLine("Hello world " + repo?.full_name);
         }
     }

@@ -5,35 +5,47 @@ namespace RepoAutomation.APIAccess;
 public static class BaseAPIAccess
 {
 
-    public async static Task<string?> GetGitHubMessage(string url, string clientId, string clientSecret)
+    public async static Task<string?> GetGitHubMessage(string url, string clientId, string clientSecret, bool processErrors = true)
     {
         HttpClient client = BuildHttpClient(url, clientId, clientSecret);
         HttpResponseMessage response = await client.GetAsync(url);
-        response.EnsureSuccessStatusCode();
+        if (processErrors)
+        {
+            response.EnsureSuccessStatusCode();
+        }
         return await response.Content.ReadAsStringAsync();
     }
 
-    public async static Task<string?> PostGitHubMessage(string url, string clientId, string clientSecret, StringContent content)
+    public async static Task<string?> PostGitHubMessage(string url, string clientId, string clientSecret, StringContent content, bool processErrors = true)
     {
         HttpClient client = BuildHttpClient(url, clientId, clientSecret);
         HttpResponseMessage response = await client.PostAsync(url, content);
-        response.EnsureSuccessStatusCode();
+        if (processErrors)
+        {
+            response.EnsureSuccessStatusCode();
+        }
         return await response.Content.ReadAsStringAsync();
     }
 
-    public async static Task<string?> DeleteGitHubMessage(string url, string clientId, string clientSecret)
+    public async static Task<string?> DeleteGitHubMessage(string url, string clientId, string clientSecret, bool processErrors = true)
     {
         HttpClient client = BuildHttpClient(url, clientId, clientSecret);
         HttpResponseMessage response = await client.DeleteAsync(url);
-        response.EnsureSuccessStatusCode();
+        if (processErrors)
+        {
+            response.EnsureSuccessStatusCode();
+        }
         return await response.Content.ReadAsStringAsync();
     }
 
-    public async static Task<string?> PutGitHubMessage(string url, string clientId, string clientSecret, StringContent content)
+    public async static Task<string?> PutGitHubMessage(string url, string clientId, string clientSecret, StringContent content, bool processErrors = true)
     {
         HttpClient client = BuildHttpClient(url, clientId, clientSecret);
         HttpResponseMessage response = await client.PutAsync(url, content);
-        response.EnsureSuccessStatusCode();
+        if (processErrors)
+        {
+            response.EnsureSuccessStatusCode();
+        }
         return await response.Content.ReadAsStringAsync();
     }
 

@@ -98,7 +98,6 @@ Hello world samsmithnz/RepoAutomation
         string arguments = "-d " + Environment.CurrentDirectory +
             " -o samsmithnz -r RepoAutomation";
 
-
         //Act
         string result = CommandLine.RunCommand(command, arguments);
 
