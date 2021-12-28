@@ -45,7 +45,7 @@ public class Program
         {
             string id = configuration["AppSettings:GitHubClientId"];
             string secret = configuration["AppSettings:GitHubClientSecret"];
-            string repoLocation = $"https://github.com/{owner}/{repository}";
+            string repoURL = $"https://github.com/{owner}/{repository}";
 
             //1. Create the repo (if it doesn't exist)
             Repo? repo = await GitHubAPIAccess.GetRepo(id, secret, owner, repository);
@@ -55,15 +55,15 @@ public class Program
             }
 
             //2. Clone the repo and create the .NET projects
-            DotNetAutomation.SetupProject(repoLocation, repository, workingDirectory);
+            DotNetAutomation.SetupProject(repoURL, repository, workingDirectory);
 
-            //4. Create the GitHub Action
-            string[]? dependabotURLs = await GetReleaseURL(id, secret, owner, "Dependabot-Configuration-Builder");
-            GitHubActionsAutomation.SetupAction(workingDirectory, workingTempDirectory, dependabotURLs);
+            //3. Create the GitHub Action
+            Asset[]? actionsURLs = await GetReleaseAssets(id, secret, owner, "GitHubActionsDotNet");
+            await GitHubActionsAutomation.SetupAction(workingDirectory, workingTempDirectory, actionsURLs);
 
-            //5. Create the Dependabot file
-            string[]? actionsURLs = await GetReleaseURL(id, secret, owner, "GitHubActionsDotNet");
-            DependabotAutomation.SetupDependabotFile(workingDirectory, workingTempDirectory, actionsURLs);
+            //4. Create the Dependabot file
+            Asset[]? dependabotURLs = await GetReleaseAssets(id, secret, owner, "Dependabot-Configuration-Builder");
+            await DependabotAutomation.SetupDependabotFile(workingDirectory, workingTempDirectory, dependabotURLs);
 
             //6. Push back to main
             CommandLine.RunCommand("git", @"commit -m""Created .NET projects, setup action, and created dependabot configuration""");
@@ -76,22 +76,15 @@ public class Program
     }
 
 
-    private static async Task<string[]?> GetReleaseURL(string id, string secret, string owner, string repoName)
+    private static async Task<Asset[]?> GetReleaseAssets(string id, string secret, string owner, string repoName)
     {
-        string[]? url = null;
+        Asset[]? assets = null;
         Release? release = await GitHubAPIAccess.GetReleaseLatest(id, secret, owner, repoName);
         if (release != null && release.assets != null && release.assets.Length > 0)
         {
-            url = new string[release.assets.Length];
-            for (int i = 0; i < release?.assets.Length - 1; i++)
-            {
-                if (release != null && release.assets[i] != null && release?.assets[i]?.browser_download_url != null)
-                {
-                    url[i] = release?.assets[i]?.browser_download_url;
-                }
-            }
+            assets = release.assets;
         }
-        return url;
+        return assets;
     }
 
     public class Options

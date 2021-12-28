@@ -4,37 +4,46 @@ namespace RepoAutomation
 {
     public static class DotNetAutomation
     {
-        public static string SetupProject(string repoLocation, string projectName, string workingDirectory)
+        public static string SetupProject(string repoLocation, string repository, string workingDirectory)
         {
             StringBuilder log = new();
-            Directory.CreateDirectory(workingDirectory);
+            if (Directory.Exists(workingDirectory) == false)
+            {
+                Directory.CreateDirectory(workingDirectory);
+            }
+            //Create the project folder in the working directory
+            string workingDirectoryWithRepo = workingDirectory + "\\" + repository;
+            if (Directory.Exists(workingDirectoryWithRepo) == false)
+            {
+                Directory.CreateDirectory(workingDirectoryWithRepo);    
+            }
 
             //Clone the code from the repo
-            log.Append(CommandLine.RunCommand("git", 
+            log.Append(CommandLine.RunCommand("git",
                 "clone " + repoLocation,
-                workingDirectory));
+                workingDirectoryWithRepo));
 
             //Create a src folder
-            string workingSrcDirectory = workingDirectory + "/src";
+            string workingSrcDirectory = workingDirectoryWithRepo + "/src";
             if (Directory.Exists(workingSrcDirectory) == false)
             {
                 Directory.CreateDirectory(workingSrcDirectory);
             }
 
             //Create a .NET tests project in the src folder
-            string testsProject = projectName + ".Tests";
+            string testsProject = repository + ".Tests";
             log.Append(CommandLine.RunCommand("dotnet",
                 "new mstest -n " + testsProject,
                 workingSrcDirectory));
 
             //Create a .NET web app project in the src folder
-            string webAppProject = projectName + ".Web";
+            string webAppProject = repository + ".Web";
             log.Append(CommandLine.RunCommand("dotnet",
                 "new webapp -n " + webAppProject,
                 workingSrcDirectory));
 
             //Create the solution file in the src folder
-            string solutionName = projectName;
+            string solutionName = repository;
             log.Append(CommandLine.RunCommand("dotnet",
                 "new sln --name " + solutionName,
                 workingSrcDirectory));

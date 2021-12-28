@@ -6,7 +6,7 @@ namespace RepoAutomation
 {
     public static class DependabotAutomation
     {
-        public static string SetupDependabotFile(string workingDirectory, string workingTempDirectory, string[]? urls)
+        public static async Task<string> SetupDependabotFile(string workingDirectory, string workingTempDirectory, Asset[]? assets)
         {
             StringBuilder log = new();
             if (Directory.Exists(workingTempDirectory) == false)
@@ -15,7 +15,18 @@ namespace RepoAutomation
             }
 
             //Download the dependabot release
-            
+            if (assets != null)
+            {
+                foreach (Asset asset in assets)
+                {
+                    if (asset != null)
+                    {
+                        await HttpAccess.DownloadFileTaskAsync(new HttpClient(),
+                            new Uri(asset?.browser_download_url),
+                            asset?.name);
+                    }
+                }
+            }
 
 
             ////Clone the code from the repo

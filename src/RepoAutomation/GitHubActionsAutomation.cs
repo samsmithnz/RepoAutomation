@@ -1,15 +1,31 @@
-﻿using System.Text;
+﻿using RepoAutomation.APIAccess;
+using RepoAutomation.Models;
+using System.Text;
 
 namespace RepoAutomation
 {
     public static class GitHubActionsAutomation
     {
-        public static string SetupAction(string workingDirectory, string workingTempDirectory, string[]? urls)
+        public static async Task<string> SetupAction(string workingDirectory, string workingTempDirectory, Asset[]? assets)
         {
             StringBuilder log = new();
             if (Directory.Exists(workingTempDirectory) == false)
             {
                 Directory.CreateDirectory(workingTempDirectory);
+            }
+
+            //Download the dependabot release
+            if (assets != null)
+            {
+                foreach (Asset asset in assets)
+                {
+                    if (asset != null)
+                    {
+                        await HttpAccess.DownloadFileTaskAsync(new HttpClient(),
+                            new Uri(asset?.browser_download_url),
+                            workingTempDirectory + "\\" + asset?.name);
+                    }
+                }
             }
 
             ////Clone the code from the repo
