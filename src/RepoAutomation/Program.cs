@@ -18,6 +18,7 @@ public class Program
 
         //Parse arguments
         string workingDirectory = Environment.CurrentDirectory;
+        string workingTempDirectory = workingDirectory + "\temp";
         string owner = "";
         string repository = "";
         Parser.Default.ParseArguments<Options>(args).WithParsed<Options>(o =>
@@ -44,6 +45,7 @@ public class Program
         {
             string id = configuration["AppSettings:GitHubClientId"];
             string secret = configuration["AppSettings:GitHubClientSecret"];
+            string repoLocation = $"https://github.com/{owner}/{repository}";
 
             //1. Create the repo (if it doesn't exist)
             Repo? repo = await GitHubAPIAccess.GetRepo(id, secret, owner, repository);
@@ -52,24 +54,44 @@ public class Program
                 await GitHubAPIAccess.CreateRepo(id, secret, repository, true, true, false, true);
             }
 
-            //2. Clone the repo (create the working directory if it doesn't exist)
-            if (Directory.Exists(workingDirectory) == false)
-            {
-                Directory.CreateDirectory(workingDirectory);
-            }
-            //git clone <repo> <directory>
-            CommandLine.RunCommand("git",
-                $"clone https://github.com/{owner}/{repository}",
-                workingDirectory);
+            //2. Clone the repo and create the .NET projects
+            DotNetAutomation.SetupProject(repoLocation, repository, workingDirectory);
 
-            //3. Create .NET projects
             //4. Create the GitHub Action
+            string[]? dependabotURLs = await GetReleaseURL(id, secret, owner, "Dependabot-Configuration-Builder");
+            GitHubActionsAutomation.SetupAction(workingDirectory, workingTempDirectory, dependabotURLs);
+
             //5. Create the Dependabot file
+            string[]? actionsURLs = await GetReleaseURL(id, secret, owner, "GitHubActionsDotNet");
+            DependabotAutomation.SetupDependabotFile(workingDirectory, workingTempDirectory, actionsURLs);
+
             //6. Push back to main
+            CommandLine.RunCommand("git", @"commit -m""Created .NET projects, setup action, and created dependabot configuration""");
+            CommandLine.RunCommand("git", "push");
+
             //7. Set the branch policy
 
             Console.WriteLine("Hello world " + repo?.full_name);
         }
+    }
+
+
+    private static async Task<string[]?> GetReleaseURL(string id, string secret, string owner, string repoName)
+    {
+        string[]? url = null;
+        Release? release = await GitHubAPIAccess.GetReleaseLatest(id, secret, owner, repoName);
+        if (release != null && release.assets != null && release.assets.Length > 0)
+        {
+            url = new string[release.assets.Length];
+            for (int i = 0; i < release?.assets.Length - 1; i++)
+            {
+                if (release != null && release.assets[i] != null && release?.assets[i]?.browser_download_url != null)
+                {
+                    url[i] = release?.assets[i]?.browser_download_url;
+                }
+            }
+        }
+        return url;
     }
 
     public class Options

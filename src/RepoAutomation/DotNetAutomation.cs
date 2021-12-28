@@ -2,7 +2,7 @@
 
 namespace RepoAutomation
 {
-    public static class ProjectAutomation
+    public static class DotNetAutomation
     {
         public static string SetupProject(string repoLocation, string projectName, string workingDirectory)
         {
@@ -16,7 +16,10 @@ namespace RepoAutomation
 
             //Create a src folder
             string workingSrcDirectory = workingDirectory + "/src";
-            Directory.CreateDirectory(workingSrcDirectory);
+            if (Directory.Exists(workingSrcDirectory) == false)
+            {
+                Directory.CreateDirectory(workingSrcDirectory);
+            }
 
             //Create a .NET tests project in the src folder
             string testsProject = projectName + ".Tests";
@@ -47,26 +50,7 @@ namespace RepoAutomation
             string solutionText = System.IO.File.ReadAllText(workingSrcDirectory + "/" + solutionName + ".sln");
             log.Append(solutionText);
 
-
-
             return log.ToString();
-
-            //$ProjectName = "RepoAutomationTest"
-
-            //dir
-            //cd\
-            //cd \users\samsm\source\repos
-            //dir
-            //mkdir $ProjectName
-            //cd $ProjectName
-            //clone 
-            //mkdir src
-            //cd src
-            //dotnet new mstest -n "$ProjectName.Tests"
-            //dotnet new webapp -n "$ProjectName.Web"
-            //dotnet new sln --name "$ProjectName"
-            //dotnet sln add "$ProjectName.Tests"
-            //dotnet sln add "$ProjectName.Web"
         }
 
     }

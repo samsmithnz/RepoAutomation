@@ -85,7 +85,7 @@ public class RepoTests : BaseAPIAccessTests
         //Arrange
         string owner = "samsmithnz";
         string repoName = "NewRepoTest";
-        Repo? repo = null;
+        Repo? repo;
 
         try
         {

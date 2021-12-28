@@ -40,7 +40,7 @@ public static class GitHubAPIAccess
                 allow_rebase_merge = allowRebaseMerge,
                 @private = isPrivate,
                 auto_init = true,
-                gitignore_template = "",
+                gitignore_template = "VisualStudio",
 
             };
             StringContent content = new(JsonConvert.SerializeObject(body), Encoding.UTF8, "application/json");
