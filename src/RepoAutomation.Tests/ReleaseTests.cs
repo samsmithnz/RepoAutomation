@@ -28,7 +28,7 @@ public class ReleaseTests : BaseAPIAccessTests
             Assert.IsNotNull(release.tag_name);
             string releaseTag = release.tag_name;
             Assert.IsTrue(release.assets?.Length > 0);
-            Assert.AreEqual($"https://github.com/{owner}/{repoName}/releases/download/{releaseTag}/RepoAutomation.Linux_x64.0.2.1.zip", release.assets?[0]);
+            Assert.AreEqual($"https://github.com/{owner}/{repoName}/releases/download/{releaseTag}/RepoAutomation.Linux_x64.0.2.1.zip", release.assets?[0].browser_download_url);
         }
     }
 
