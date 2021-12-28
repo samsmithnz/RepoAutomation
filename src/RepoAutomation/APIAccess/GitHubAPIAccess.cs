@@ -89,6 +89,24 @@ public static class GitHubAPIAccess
         return result;
     }
 
+    public async static Task<Release?> GetReleaseLatest(string? clientId, string? clientSecret,
+        string owner, string repo)
+    {
+        Release? result = null;
+        if (clientId != null && clientSecret != null)
+        {
+            string url = $"https://api.github.com/repos/{owner}/{repo}/releases/latest";
+            string? response = await BaseAPIAccess.GetGitHubMessage(url, clientId, clientSecret);
+            if (string.IsNullOrEmpty(response) == false)
+            {
+                dynamic? jsonObj = JsonConvert.DeserializeObject(response);
+                result = JsonConvert.DeserializeObject<Release>(jsonObj?.ToString());
+                result.RawJSON = jsonObj?.ToString();
+            }
+        }
+        return result;
+    }
+
     //    public async static Task<bool> UpdateBranchProtectionPolicy(string? clientId, string? clientSecret, string owner, string repo,
     //        string branch, string[] contexts)
     //    {
