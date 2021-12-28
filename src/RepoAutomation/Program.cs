@@ -28,10 +28,20 @@ public class Program
         });
 
         //Do the work
-        if (args.Length > 0 && args[0] != "help")
+        if (string.IsNullOrEmpty(workingDirectory) == false)
         {
             string id = configuration["AppSettings:GitHubClientId"];
             string secret = configuration["AppSettings:GitHubClientSecret"];
+
+
+            //Create the repo
+            //Clone the repo
+            //Create .NET projects
+            //Create the GitHub Action
+            //Create the Dependabot file
+            //Push back to main
+            //Set the branch policy
+
             Repo? repo = await GitHubAPIAccess.GetRepo(id, secret, "samsmithnz", "RepoAutomation");
             Console.WriteLine("Hello world " + repo?.full_name);
         }
