@@ -82,7 +82,6 @@ public class Program
 
             //7. Set the branch policy
 
-            Console.WriteLine("Hello world " + repo?.full_name);
         }
     }
 
