@@ -56,11 +56,18 @@ public class Program
             }
 
             //2. Clone the repo and create the .NET projects
+            bool includeTests = true;
+            bool includeClassLibrary = true;
+            bool includeWeb = false;
             DotNetAutomation.SetupProject(repoURL, repository, workingDirectory,
-                true, false, true);
+                includeTests, includeClassLibrary, includeWeb);
 
             //3. Create the GitHub Action
-            GitHubActionsAutomation.SetupAction(workingDirectory + "\\" + repository, repository);
+            GitHubActionsAutomation.SetupAction(workingDirectory + "\\" + repository, 
+                repository,
+                includeTests,
+                includeClassLibrary,
+                includeWeb);
 
             ////4. Create the Dependabot file
             //Asset[]? dependabotURLs = await GetReleaseAssets(id, secret, owner, "Dependabot-Configuration-Builder");

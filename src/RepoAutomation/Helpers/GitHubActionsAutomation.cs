@@ -7,12 +7,18 @@ namespace RepoAutomation.Helpers
 {
     public static class GitHubActionsAutomation
     {
-        public static string SetupAction(string workingDirectory, string projectName)
+        public static string SetupAction(string workingDirectory, string projectName,
+            bool includeTestProject,
+            bool includeClassLibraryProject,
+            bool includeWebProject)
         {
             StringBuilder log = new();
 
             //Create the YAML
-            GitHubActionsRoot root = CreateAction(projectName);
+            GitHubActionsRoot root = CreateAction(projectName,
+                includeTestProject,
+                includeClassLibraryProject,
+                includeWebProject);
 
             //Serialize to YAML
             string yaml = GitHubActionsSerialization.Serialize(root);
@@ -39,7 +45,10 @@ namespace RepoAutomation.Helpers
             return log.ToString();
         }
 
-        private static GitHubActionsRoot CreateAction(string projectName)
+        private static GitHubActionsRoot CreateAction(string projectName, 
+            bool includeTestProject, 
+            bool includeClassLibraryProject, 
+            bool includeWebProject)
         {
             JobHelper jobHelper = new();
             GitHubActionsRoot root = new();
@@ -50,6 +59,7 @@ namespace RepoAutomation.Helpers
 echo ""Version: ${{ steps.gitversion.outputs.SemVer }}""
 echo ""CommitsSinceVersionSource: ${{ steps.gitversion.outputs.CommitsSinceVersionSource }}""";
 
+            int stepCount = 0;
             Step[] buildSteps = new Step[] {
             CommonStepHelper.AddCheckoutStep(null,null,"0"),
             GitVersionStepHelper.AddGitVersionSetupStep(),
