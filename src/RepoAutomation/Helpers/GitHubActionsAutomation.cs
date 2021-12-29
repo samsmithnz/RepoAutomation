@@ -71,12 +71,13 @@ echo ""CommitsSinceVersionSource: ${{ steps.gitversion.outputs.CommitsSinceVersi
             if (includeClassLibraryProject == true)
             {
                 steps.Add(DotNetStepHelper.AddDotNetPublishStep(".NET publish", "src/" + projectName + "/" + projectName + ".csproj", "Release", null, "-p:Version='${{ steps.gitversion.outputs.SemVer }}'", true));
+                steps.Add(CommonStepHelper.AddUploadArtifactStep("Upload package back to GitHub", "drop", "src/" + projectName + "/bin/Release"));
             }
             if (includeWebProject == true)
             {
-                steps.Add(DotNetStepHelper.AddDotNetPublishStep(".NET publish", "src/" + projectName + "/" + projectName + ".csproj", "Release", null, "-p:Version='${{ steps.gitversion.outputs.SemVer }}'", true));
+                steps.Add(DotNetStepHelper.AddDotNetPublishStep(".NET publish", "src/" + projectName + ".Web/" + projectName + ".Web.csproj", "Release", null, "-p:Version='${{ steps.gitversion.outputs.SemVer }}'", true));
+                steps.Add(CommonStepHelper.AddUploadArtifactStep("Upload package back to GitHub", "web", "src/" + projectName + ".Web/bin/Release"));
             }
-            steps.Add(CommonStepHelper.AddUploadArtifactStep("Upload package back to GitHub", "drop", "src/" + projectName + "/bin/Release"));
             Step[] buildSteps = steps.ToArray();
  
             root.jobs = new();
