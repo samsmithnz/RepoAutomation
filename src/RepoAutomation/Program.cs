@@ -77,7 +77,7 @@ public class Program
 
             //5. Customize the README.md file
             Console.WriteLine("Adding Actions status badge to README.md file");
-            ReadmeAutomation.AddStatusBadge(workingDirectory);
+            ReadmeAutomation.AddStatusBadge(workingDirectory + "\\" + repository);
 
             //6. Push back to main         
             Console.WriteLine(Helpers.CommandLine.RunCommand("git", "add .", workingDirectory + "\\" + repository));
