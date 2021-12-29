@@ -9,7 +9,7 @@ namespace RepoAutomation
 {
     public static class GitHubActionsAutomation
     {
-        public static async Task<string> SetupAction(string workingDirectory, string workingTempDirectory, Asset[]? assets)
+        public static string SetupAction(string workingDirectory, string workingTempDirectory, Asset[]? assets)
         {
             StringBuilder log = new();
 

@@ -59,7 +59,7 @@ public class Program
 
             //3. Create the GitHub Action
             Asset[]? actionsURLs = await GetReleaseAssets(id, secret, owner, "GitHubActionsDotNet");
-            await GitHubActionsAutomation.SetupAction(workingDirectory, workingTempDirectory, actionsURLs);
+            GitHubActionsAutomation.SetupAction(workingDirectory, workingTempDirectory, actionsURLs);
 
             //4. Create the Dependabot file
             Asset[]? dependabotURLs = await GetReleaseAssets(id, secret, owner, "Dependabot-Configuration-Builder");
