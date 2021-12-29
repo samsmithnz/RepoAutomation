@@ -22,6 +22,7 @@ public class Program
         string workingTempDirectory = workingDirectory + "\temp";
         string owner = "";
         string repository = "";
+        bool isPrivate = true;
         Parser.Default.ParseArguments<Options>(args).WithParsed<Options>(o =>
         {
             if (string.IsNullOrEmpty(o.Directory) == false)
@@ -36,7 +37,21 @@ public class Program
             {
                 repository = o.Repo;
             }
-
+            if (string.IsNullOrEmpty(o.Visibility) == false)
+            {
+                if (o.Visibility.ToLower() == "public")
+                {
+                    isPrivate = false;
+                }
+                else if (o.Visibility.ToLower() == "private")
+                {
+                    isPrivate = true;
+                }
+            }
+            else
+            {
+                isPrivate = true;
+            }
         });
 
         //Do the work
@@ -53,7 +68,13 @@ public class Program
             if (repo == null)
             {
                 Console.WriteLine("Creating repo: " + repository);
-                await GitHubAPIAccess.CreateRepo(id, secret, repository, true, true, false, true);
+                await GitHubAPIAccess.CreateRepo(id, 
+                    secret, 
+                    repository, 
+                    true, 
+                    true, 
+                    false, 
+                    isPrivate);
             }
 
             //2. Clone the repo and create the .NET projects
@@ -65,7 +86,7 @@ public class Program
 
             //3. Create the GitHub Action
             Console.WriteLine("Creating action");
-            GitHubActionsAutomation.SetupAction(workingDirectory + "\\" + repository, 
+            GitHubActionsAutomation.SetupAction(workingDirectory + "\\" + repository,
                 repository,
                 includeTests,
                 includeClassLibrary,
@@ -111,6 +132,9 @@ public class Program
 
         [Option('r', "repo", Required = false, HelpText = "new repo name")]
         public string? Repo { get; set; }
+
+        [Option('v', "visibility", Required = false, HelpText = "new repo visibility. Can be set to private or public")]
+        public string? Visibility { get; set; }
 
     }
 }
