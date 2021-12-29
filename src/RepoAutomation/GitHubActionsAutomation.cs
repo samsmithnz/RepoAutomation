@@ -13,6 +13,36 @@ namespace RepoAutomation
         {
             StringBuilder log = new();
 
+            //Create the YAML
+            GitHubActionsRoot root = CreateAction();
+
+            //Serialize to YAML
+            string yaml = GitHubActionsSerialization.Serialize(root);
+
+            //Save the YAML to a file
+            if (Directory.Exists(workingDirectory) == false)
+            {
+                log.Append("Create directory " + workingDirectory);
+                Directory.CreateDirectory(workingDirectory);
+            }
+            if (Directory.Exists(workingDirectory + "\\.github") == false)
+            {
+                log.Append("Create directory " + workingDirectory + "\\.github");
+                Directory.CreateDirectory(workingDirectory + "\\.github");
+            }
+            if (Directory.Exists(workingDirectory + "\\.github\\workflows") == false)
+            {
+                log.Append("Create directory " + workingDirectory + "\\.github\\workflows");
+                Directory.CreateDirectory(workingDirectory + "\\.github\\workflows");
+            }
+            log.Append("Writing workflow to file: " + workingDirectory + "\\.github\\workflows\\workflow.yml");
+            File.WriteAllText(workingDirectory + "\\.github\\workflows\\workflow.yml", yaml);
+
+            return log.ToString();
+        }
+
+        private static GitHubActionsRoot CreateAction()
+        {
             JobHelper jobHelper = new();
             GitHubActionsRoot root = new();
             root.name = "CI/CD";
@@ -51,28 +81,7 @@ echo ""CommitsSinceVersionSource: ${{ steps.gitversion.outputs.CommitsSinceVersi
                 { "CommitsSinceVersionSource", "${{ steps.gitversion.outputs.CommitsSinceVersionSource }}" }
             };
             root.jobs.Add("build", buildJob);
-
-            string yaml = GitHubActionsSerialization.Serialize(root);
-
-            if (Directory.Exists(workingDirectory) == false)
-            {
-                log.Append("Create directory " + workingDirectory);
-                Directory.CreateDirectory(workingDirectory);
-            }
-            if (Directory.Exists(workingDirectory + "\\.github") == false)
-            {
-                log.Append("Create directory " + workingDirectory + "\\.github");
-                Directory.CreateDirectory(workingDirectory + "\\.github");
-            }
-            if (Directory.Exists(workingDirectory + "\\.github\\workflows") == false)
-            {
-                log.Append("Create directory " + workingDirectory + "\\.github\\workflows");
-                Directory.CreateDirectory(workingDirectory + "\\.github\\workflows");
-            }
-            log.Append("Writing workflow to file: " + workingDirectory + "\\.github\\workflows\\workflow.yml");
-            File.WriteAllText(workingDirectory + "\\.github\\workflows\\workflow.yml", yaml);
-
-            return log.ToString();
+            return root;
         }
 
     }
