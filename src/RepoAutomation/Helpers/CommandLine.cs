@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics;
 using System.Text;
 
-namespace RepoAutomation
+namespace RepoAutomation.Helpers
 {
     public class CommandLine
     {

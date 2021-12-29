@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using RepoAutomation.Helpers;
 using RepoAutomation.Tests.Helpers;
 using System;
 using System.IO;
@@ -20,7 +21,7 @@ public class CommandTests
         string arguments = "-h";
 
         //Act
-        string result = CommandLine.RunCommand(command, arguments);
+        string result = RepoAutomation.Helpers.CommandLine.RunCommand(command, arguments);
 
         //Assert
         string expected = @".NET SDK (6.0.101)
@@ -38,7 +39,7 @@ Execute a .NET application.";
         string arguments = "help";
 
         //Act
-        string result = CommandLine.RunCommand(command, arguments);
+        string result = RepoAutomation.Helpers.CommandLine.RunCommand(command, arguments);
 
         //Assert
         string expected = @"usage: git [--version] [--help] [-C <path>] [-c <name>=<value>]
@@ -59,14 +60,17 @@ Execute a .NET application.";
         string workingDirectory = Environment.CurrentDirectory;
 
         //Act
-        string log = DotNetAutomation.SetupProject(repoLocation, projectName, workingDirectory);
+        string log = DotNetAutomation.SetupProject(repoLocation, projectName, workingDirectory,
+            true, false, true);
+
+        //Assert
+        Assert.IsNotNull(log);
+
         //Cleanup
         if (Directory.Exists(workingDirectory + "/src") == true)
         {
             Directory.Delete(workingDirectory + "/src", true);
         }
-        //Assert
-        Assert.IsNotNull(log);
     }
 
     [TestMethod]
@@ -86,8 +90,9 @@ Execute a .NET application.";
 
         //Assert
         Assert.IsNotNull(result);
-        string expected = @"Running GitHub url: https://api.github.com/repos/samsmithnz/RepoAutomation";
-        Assert.AreEqual(expected, Utility.TakeNLines(result,1));
+        string workingDirectory = Environment.CurrentDirectory;
+        string expected = @"Cloning repo 'RepoAutomation' to " + workingDirectory;
+        Assert.AreEqual(expected, Utility.TakeNLines(result, 1));
     }
 
     [TestMethod]
@@ -99,11 +104,12 @@ Execute a .NET application.";
             " -o samsmithnz -r RepoAutomation";
 
         //Act
-        string result = CommandLine.RunCommand(command, arguments);
+        string result = RepoAutomation.Helpers.CommandLine.RunCommand(command, arguments);
 
         //Assert
         Assert.IsNotNull(result);
-        string expected = @"Running GitHub url: https://api.github.com/repos/samsmithnz/RepoAutomation";
+        string workingDirectory = Environment.CurrentDirectory;
+        string expected = @"Cloning repo 'RepoAutomation' to " + workingDirectory;
         Assert.AreEqual(expected, Utility.TakeNLines(result, 1));
     }
 }

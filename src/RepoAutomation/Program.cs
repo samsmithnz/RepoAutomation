@@ -1,6 +1,7 @@
 ﻿using CommandLine;
 using Microsoft.Extensions.Configuration;
 using RepoAutomation.APIAccess;
+using RepoAutomation.Helpers;
 using RepoAutomation.Models;
 
 namespace RepoAutomation;
@@ -51,27 +52,40 @@ public class Program
             Repo? repo = await GitHubAPIAccess.GetRepo(id, secret, owner, repository);
             if (repo == null)
             {
+                Console.WriteLine("Creating repo: " + repository);
                 await GitHubAPIAccess.CreateRepo(id, secret, repository, true, true, false, true);
             }
 
             //2. Clone the repo and create the .NET projects
-            DotNetAutomation.SetupProject(repoURL, repository, workingDirectory);
+            bool includeTests = true;
+            bool includeClassLibrary = true;
+            bool includeWeb = false;
+            DotNetAutomation.SetupProject(repoURL, repository, workingDirectory,
+                includeTests, includeClassLibrary, includeWeb);
 
             //3. Create the GitHub Action
-            GitHubActionsAutomation.SetupAction(workingDirectory + "\\" + repository, repository);
+            Console.WriteLine("Creating action");
+            GitHubActionsAutomation.SetupAction(workingDirectory + "\\" + repository, 
+                repository,
+                includeTests,
+                includeClassLibrary,
+                includeWeb);
 
             ////4. Create the Dependabot file
             //Asset[]? dependabotURLs = await GetReleaseAssets(id, secret, owner, "Dependabot-Configuration-Builder");
             //await DependabotAutomation.SetupDependabotFile(workingDirectory, workingTempDirectory, dependabotURLs);
 
-            //6. Push back to main
-            Console.WriteLine(CommandLine.RunCommand("git", "add .", workingDirectory + "\\" + repository));
-            Console.WriteLine(CommandLine.RunCommand("git", @"commit -m""Created .NET projects, setup action, and created dependabot configuration""", workingDirectory + "\\" + repository));
-            Console.WriteLine(CommandLine.RunCommand("git", "push", workingDirectory + "\\" + repository));
+            //5. Customize the README.md file
+            Console.WriteLine("Adding Actions status badge to README.md file");
+            ReadmeAutomation.AddStatusBadge(workingDirectory);
+
+            //6. Push back to main         
+            Console.WriteLine(Helpers.CommandLine.RunCommand("git", "add .", workingDirectory + "\\" + repository));
+            Console.WriteLine(Helpers.CommandLine.RunCommand("git", @"commit -m""Created .NET projects, setup action, and created dependabot configuration""", workingDirectory + "\\" + repository));
+            Console.WriteLine(Helpers.CommandLine.RunCommand("git", "push", workingDirectory + "\\" + repository));
 
             //7. Set the branch policy
 
-            Console.WriteLine("Hello world " + repo?.full_name);
         }
     }
 
