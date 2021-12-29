@@ -90,7 +90,7 @@ Execute a .NET application.";
 
         //Assert
         Assert.IsNotNull(result);
-        string expected = @"Running GitHub url: https://api.github.com/repos/samsmithnz/RepoAutomation";
+        string expected = @"Cloning repo 'RepoAutomation' to C:\Users\samsm\source\repos\RepoAutomation\src\RepoAutomation.Tests\bin\Debug\net6.0";
         Assert.AreEqual(expected, Utility.TakeNLines(result, 1));
     }
 
@@ -107,7 +107,7 @@ Execute a .NET application.";
 
         //Assert
         Assert.IsNotNull(result);
-        string expected = @"Running GitHub url: https://api.github.com/repos/samsmithnz/RepoAutomation";
+        string expected = @"Cloning repo 'RepoAutomation' to C:\Users\samsm\source\repos\RepoAutomation\src\RepoAutomation.Tests\bin\Debug\net6.0";
         Assert.AreEqual(expected, Utility.TakeNLines(result, 1));
     }
 }
