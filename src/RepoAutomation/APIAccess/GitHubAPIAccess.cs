@@ -57,12 +57,12 @@ public static class GitHubAPIAccess
         return true;
     }
 
-    public async static Task<bool> DeleteRepo(string? clientId, string? clientSecret, string owner, string repo)
+    public async static Task<bool> DeleteRepo(string? clientId, string? clientSecret, string owner, string repo, bool processErrors = true)
     {
         if (clientId != null && clientSecret != null)
         {
             string url = $"https://api.github.com/repos/{owner}/{repo}";
-            string? response = await BaseAPIAccess.DeleteGitHubMessage(url, clientId, clientSecret);
+            string? response = await BaseAPIAccess.DeleteGitHubMessage(url, clientId, clientSecret, processErrors);
             if (string.IsNullOrEmpty(response) == true)
             {
                 return false;

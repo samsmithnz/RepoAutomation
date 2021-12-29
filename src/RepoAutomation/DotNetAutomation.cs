@@ -13,15 +13,15 @@ namespace RepoAutomation
             }
             //Create the project folder in the working directory
             string workingDirectoryWithRepo = workingDirectory + "\\" + repository;
-            if (Directory.Exists(workingDirectoryWithRepo) == false)
-            {
-                Directory.CreateDirectory(workingDirectoryWithRepo);    
-            }
+            //if (Directory.Exists(workingDirectoryWithRepo) == false)
+            //{
+            //    Directory.CreateDirectory(workingDirectoryWithRepo);    
+            //}
 
             //Clone the code from the repo
             log.Append(CommandLine.RunCommand("git",
                 "clone " + repoLocation,
-                workingDirectoryWithRepo));
+                workingDirectory));
 
             //Create a src folder
             string workingSrcDirectory = workingDirectoryWithRepo + "/src";
