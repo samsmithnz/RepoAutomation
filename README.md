@@ -5,6 +5,7 @@
 .NET code to create and configure a repo with C#. 
 - Enables repo "auto-merge" open
 - Enables repo "Delete head branch on merge" option 
+- Enables repo visibility to be set
 - [ ] (TODO) Sets up branch policies on default branch (require a pull request and successful build action)
 - Creates the initial project.
     - Clone the project to a folder (`Target folder`) https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository
@@ -20,9 +21,9 @@
 ## Usage
 
 ```Batchfile
-#RepoAutomation [-o|--owner <GitHub owner/account>] [-r|--repo <repository Name>] [-d|--directory <working directory>]
+#RepoAutomation [-o|--owner <GitHub owner/account>] [-r|--repo <repository Name>] [-d|--directory <working directory>] [-v|--visibility <repo visibility>]
 ```
-<!-- TODO: RepoAutomation [-r|--repo <repository Name>] [-v|--visibility <repo visibility>] [-l|--license <repo license>] [-p|--patToken <GitHub Pat Token>]  [-bp|--branchpolicy <default branch policy>] -->
+<!-- TODO: RepoAutomation [-l|--license <repo license>] [-p|--patToken <GitHub Pat Token>]  [-bp|--branchpolicy <default branch policy>] -->
 
 Requires a [PAT token](https://github.com/settings/tokens) to be setup, with `repo`, `workflow`, and `delete_repo` (DANGER! DANGER, WILL ROBINSON!!) permissions
 
