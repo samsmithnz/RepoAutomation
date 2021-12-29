@@ -76,6 +76,7 @@ public class Program
             //await DependabotAutomation.SetupDependabotFile(workingDirectory, workingTempDirectory, dependabotURLs);
 
             //5. Customize the README.md file
+            Console.WriteLine("Adding Actions status badge to README.md file");
             ReadmeAutomation.AddStatusBadge(workingDirectory);
 
             //6. Push back to main         
