@@ -56,7 +56,8 @@ public class Program
             }
 
             //2. Clone the repo and create the .NET projects
-            DotNetAutomation.SetupProject(repoURL, repository, workingDirectory);
+            DotNetAutomation.SetupProject(repoURL, repository, workingDirectory,
+                true, false, true);
 
             //3. Create the GitHub Action
             GitHubActionsAutomation.SetupAction(workingDirectory + "\\" + repository, repository);

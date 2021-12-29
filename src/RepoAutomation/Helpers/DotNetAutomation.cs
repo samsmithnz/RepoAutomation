@@ -4,7 +4,9 @@ namespace RepoAutomation.Helpers
 {
     public static class DotNetAutomation
     {
-        public static string SetupProject(string repoLocation, string repository, string workingDirectory)
+        public static string SetupProject(string repoLocation, string repository,
+            string workingDirectory,
+            bool includeTests, bool includeClassLibrary, bool includeWeb)
         {
             StringBuilder log = new();
             if (Directory.Exists(workingDirectory) == false)
@@ -32,15 +34,30 @@ namespace RepoAutomation.Helpers
 
             //Create a .NET tests project in the src folder
             string testsProject = repository + ".Tests";
-            log.Append(CommandLine.RunCommand("dotnet",
-                "new mstest -n " + testsProject,
-                workingSrcDirectory));
+            if (includeTests)
+            {
+                log.Append(CommandLine.RunCommand("dotnet",
+                    "new mstest -n " + testsProject,
+                    workingSrcDirectory));
+            }
+
+            //Create a .NET class library project in the src folder
+            string libraryProject = repository;
+            if (includeClassLibrary)
+            {
+                log.Append(CommandLine.RunCommand("dotnet",
+                    "new classlib -n " + libraryProject,
+                    workingSrcDirectory));
+            }
 
             //Create a .NET web app project in the src folder
             string webAppProject = repository + ".Web";
-            log.Append(CommandLine.RunCommand("dotnet",
-                "new webapp -n " + webAppProject,
-                workingSrcDirectory));
+            if (includeWeb)
+            {
+                log.Append(CommandLine.RunCommand("dotnet",
+                    "new webapp -n " + webAppProject,
+                    workingSrcDirectory));
+            }
 
             //Create the solution file in the src folder
             string solutionName = repository;
@@ -49,12 +66,24 @@ namespace RepoAutomation.Helpers
                 workingSrcDirectory));
 
             //Bind the previously created projects to the solution
-            log.Append(CommandLine.RunCommand("dotnet",
+            if (includeTests)
+            {
+                log.Append(CommandLine.RunCommand("dotnet",
                 "sln add " + testsProject,
                 workingSrcDirectory));
-            log.Append(CommandLine.RunCommand("dotnet",
+            }
+            if (includeClassLibrary)
+            {
+                log.Append(CommandLine.RunCommand("dotnet",
+                "sln add " + libraryProject,
+                workingSrcDirectory));
+            }
+            if (includeWeb)
+            {
+                log.Append(CommandLine.RunCommand("dotnet",
                 "sln add " + webAppProject,
                 workingSrcDirectory));
+            }
 
             string solutionText = System.IO.File.ReadAllText(workingSrcDirectory + "/" + solutionName + ".sln");
             log.Append(solutionText);

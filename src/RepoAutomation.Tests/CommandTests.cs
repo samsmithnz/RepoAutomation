@@ -60,7 +60,8 @@ Execute a .NET application.";
         string workingDirectory = Environment.CurrentDirectory;
 
         //Act
-        string log = DotNetAutomation.SetupProject(repoLocation, projectName, workingDirectory);
+        string log = DotNetAutomation.SetupProject(repoLocation, projectName, workingDirectory,
+            true, false, true);
         //Cleanup
         if (Directory.Exists(workingDirectory + "/src") == true)
         {
