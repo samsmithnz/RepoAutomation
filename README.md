@@ -20,7 +20,7 @@
 
 ## Usage
 
-```Batchfile
+```Shell
 RepoAutomation [-o|--owner <GITHUB-OWNER/ACCOUNT>] 
                [-r|--repo <REPOSITORY-NAME>] 
                [-d|--directory <WORKING-DIRECTORY>] 
