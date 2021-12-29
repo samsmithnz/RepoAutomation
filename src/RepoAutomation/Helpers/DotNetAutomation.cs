@@ -13,14 +13,11 @@ namespace RepoAutomation.Helpers
             {
                 Directory.CreateDirectory(workingDirectory);
             }
-            //Create the project folder in the working directory
+            //the project folder in the working directory
             string workingDirectoryWithRepo = workingDirectory + "\\" + repository;
-            //if (Directory.Exists(workingDirectoryWithRepo) == false)
-            //{
-            //    Directory.CreateDirectory(workingDirectoryWithRepo);    
-            //}
 
             //Clone the code from the repo
+            Console.WriteLine("Cloning repo '" + repository + "' to " + workingDirectory);
             log.Append(CommandLine.RunCommand("git",
                 "clone " + repoLocation,
                 workingDirectory));
@@ -29,6 +26,7 @@ namespace RepoAutomation.Helpers
             string workingSrcDirectory = workingDirectoryWithRepo + "/src";
             if (Directory.Exists(workingSrcDirectory) == false)
             {
+                Console.WriteLine("Creating directory '" + workingSrcDirectory + "'");
                 Directory.CreateDirectory(workingSrcDirectory);
             }
 
@@ -36,6 +34,7 @@ namespace RepoAutomation.Helpers
             string testsProject = repository + ".Tests";
             if (includeTests)
             {
+                Console.WriteLine("Creating test project " + testsProject);
                 log.Append(CommandLine.RunCommand("dotnet",
                     "new mstest -n " + testsProject,
                     workingSrcDirectory));
@@ -45,6 +44,7 @@ namespace RepoAutomation.Helpers
             string libraryProject = repository;
             if (includeClassLibrary)
             {
+                Console.WriteLine("Creating class library project " + libraryProject);
                 log.Append(CommandLine.RunCommand("dotnet",
                     "new classlib -n " + libraryProject,
                     workingSrcDirectory));
@@ -54,6 +54,7 @@ namespace RepoAutomation.Helpers
             string webAppProject = repository + ".Web";
             if (includeWeb)
             {
+                Console.WriteLine("Creating web project " + webAppProject);
                 log.Append(CommandLine.RunCommand("dotnet",
                     "new webapp -n " + webAppProject,
                     workingSrcDirectory));
@@ -61,6 +62,7 @@ namespace RepoAutomation.Helpers
 
             //Create the solution file in the src folder
             string solutionName = repository;
+            Console.WriteLine("Creating solution");
             log.Append(CommandLine.RunCommand("dotnet",
                 "new sln --name " + solutionName,
                 workingSrcDirectory));

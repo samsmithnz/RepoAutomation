@@ -52,6 +52,7 @@ public class Program
             Repo? repo = await GitHubAPIAccess.GetRepo(id, secret, owner, repository);
             if (repo == null)
             {
+                Console.WriteLine("Creating repo: " + repository);
                 await GitHubAPIAccess.CreateRepo(id, secret, repository, true, true, false, true);
             }
 
@@ -63,6 +64,7 @@ public class Program
                 includeTests, includeClassLibrary, includeWeb);
 
             //3. Create the GitHub Action
+            Console.WriteLine("Creating action");
             GitHubActionsAutomation.SetupAction(workingDirectory + "\\" + repository, 
                 repository,
                 includeTests,
@@ -73,7 +75,7 @@ public class Program
             //Asset[]? dependabotURLs = await GetReleaseAssets(id, secret, owner, "Dependabot-Configuration-Builder");
             //await DependabotAutomation.SetupDependabotFile(workingDirectory, workingTempDirectory, dependabotURLs);
 
-            //6. Push back to main
+            //6. Push back to main         
             Console.WriteLine(Helpers.CommandLine.RunCommand("git", "add .", workingDirectory + "\\" + repository));
             Console.WriteLine(Helpers.CommandLine.RunCommand("git", @"commit -m""Created .NET projects, setup action, and created dependabot configuration""", workingDirectory + "\\" + repository));
             Console.WriteLine(Helpers.CommandLine.RunCommand("git", "push", workingDirectory + "\\" + repository));
