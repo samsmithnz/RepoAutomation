@@ -25,3 +25,11 @@
 <!-- TODO: RepoAutomation [-r|--repo <repository Name>] [-v|--visibility <repo visibility>] [-l|--license <repo license>] [-p|--patToken <GitHub Pat Token>]  [-bp|--branchpolicy <default branch policy>] -->
 
 Requires a [PAT token](https://github.com/settings/tokens) to be setup, with `repo`, `workflow`, and `delete_repo` (DANGER! DANGER, WILL ROBINSON!!) permissions
+
+## Example
+
+Using default settings to create a new repository "RepoAutomationTest", with a .NET 6 class library and unit tests project:
+![image](https://user-images.githubusercontent.com/8389039/147702841-582f7ec4-2199-4fc9-93a0-d154fe18d4d6.png)
+
+Here is the result:
+![image](https://user-images.githubusercontent.com/8389039/147702917-076d9502-4979-40f3-9b90-44664e495afe.png)
