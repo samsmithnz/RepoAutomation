@@ -61,8 +61,10 @@ Execute a .NET application.";
         //Act
         string log = DotNetAutomation.SetupProject(repoLocation, projectName, workingDirectory);
         //Cleanup
-        Directory.Delete(workingDirectory + "/src", true);
-
+        if (Directory.Exists(workingDirectory + "/src") == true)
+        {
+            Directory.Delete(workingDirectory + "/src", true);
+        }
         //Assert
         Assert.IsNotNull(log);
     }
