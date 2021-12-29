@@ -1,20 +1,19 @@
 ﻿using GitHubActionsDotNet.Helpers;
 using GitHubActionsDotNet.Models;
-using RepoAutomation.APIAccess;
+using GitHubActionsDotNet.Serialization;
 using RepoAutomation.Models;
 using System.Text;
-using GitHubActionsDotNet.Serialization;
 
 namespace RepoAutomation
 {
     public static class GitHubActionsAutomation
     {
-        public static string SetupAction(string workingDirectory, string workingTempDirectory, Asset[]? assets)
+        public static string SetupAction(string workingDirectory, string projectName)
         {
             StringBuilder log = new();
 
             //Create the YAML
-            GitHubActionsRoot root = CreateAction();
+            GitHubActionsRoot root = CreateAction(projectName);
 
             //Serialize to YAML
             string yaml = GitHubActionsSerialization.Serialize(root);
@@ -41,7 +40,7 @@ namespace RepoAutomation
             return log.ToString();
         }
 
-        private static GitHubActionsRoot CreateAction()
+        private static GitHubActionsRoot CreateAction(string projectName)
         {
             JobHelper jobHelper = new();
             GitHubActionsRoot root = new();
@@ -58,23 +57,15 @@ echo ""CommitsSinceVersionSource: ${{ steps.gitversion.outputs.CommitsSinceVersi
             GitVersionStepHelper.AddGitVersionDetermineVersionStep(),
             CommonStepHelper.AddScriptStep("Display GitVersion outputs", displayBuildGitVersionScript),
             DotNetStepHelper.AddDotNetSetupStep("Setup .NET","6.x"),
-            DotNetStepHelper.AddDotNetTestStep(".NET test","src/GitHubActionsDotNet.Tests/GitHubActionsDotNet.Tests.csproj","Release",null,true),
-            DotNetStepHelper.AddDotNetPublishStep(".NET publish","src/GitHubActionsDotNet/GitHubActionsDotNet.csproj","Release",null,"-p:Version='${{ steps.gitversion.outputs.SemVer }}'", true),
-            CommonStepHelper.AddUploadArtifactStep("Upload package back to GitHub","nugetPackage","src/GitHubActionsDotNet/bin/Release")
+            DotNetStepHelper.AddDotNetTestStep(".NET test","src/"+projectName+".Tests/"+projectName+".Tests.csproj","Release",null,true),
+            DotNetStepHelper.AddDotNetPublishStep(".NET publish","src/"+projectName+"/"+projectName+".csproj","Release",null,"-p:Version='${{ steps.gitversion.outputs.SemVer }}'", true),
+            CommonStepHelper.AddUploadArtifactStep("Upload package back to GitHub","drop","src/"+projectName+"/bin/Release")
         };
             root.jobs = new();
             Job buildJob = jobHelper.AddJob(
                 "Build job",
-                "${{matrix.os}}",
+                "windows-latest",
                 buildSteps);
-            //Add the strategy
-            buildJob.strategy = new()
-            {
-                matrix = new()
-                {
-                    { "os", new string[] { "ubuntu-latest", "windows-latest" } }
-                }
-            };
             buildJob.outputs = new()
             {
                 { "Version", "${{ steps.gitversion.outputs.SemVer }}" },
