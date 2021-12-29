@@ -1,10 +1,9 @@
 ﻿using GitHubActionsDotNet.Helpers;
 using GitHubActionsDotNet.Models;
 using GitHubActionsDotNet.Serialization;
-using RepoAutomation.Models;
 using System.Text;
 
-namespace RepoAutomation
+namespace RepoAutomation.Helpers
 {
     public static class GitHubActionsAutomation
     {

@@ -1,6 +1,7 @@
 ﻿using CommandLine;
 using Microsoft.Extensions.Configuration;
 using RepoAutomation.APIAccess;
+using RepoAutomation.Helpers;
 using RepoAutomation.Models;
 
 namespace RepoAutomation;
@@ -65,9 +66,9 @@ public class Program
             //await DependabotAutomation.SetupDependabotFile(workingDirectory, workingTempDirectory, dependabotURLs);
 
             //6. Push back to main
-            Console.WriteLine(CommandLine.RunCommand("git", "add .", workingDirectory + "\\" + repository));
-            Console.WriteLine(CommandLine.RunCommand("git", @"commit -m""Created .NET projects, setup action, and created dependabot configuration""", workingDirectory + "\\" + repository));
-            Console.WriteLine(CommandLine.RunCommand("git", "push", workingDirectory + "\\" + repository));
+            Console.WriteLine(Helpers.CommandLine.RunCommand("git", "add .", workingDirectory + "\\" + repository));
+            Console.WriteLine(Helpers.CommandLine.RunCommand("git", @"commit -m""Created .NET projects, setup action, and created dependabot configuration""", workingDirectory + "\\" + repository));
+            Console.WriteLine(Helpers.CommandLine.RunCommand("git", "push", workingDirectory + "\\" + repository));
 
             //7. Set the branch policy
 

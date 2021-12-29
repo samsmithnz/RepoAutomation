@@ -2,8 +2,8 @@
 {
     public static class HttpAccess
     {
-        public static async Task DownloadFileTaskAsync(this HttpClient client, 
-            Uri uri, 
+        public static async Task DownloadFileTaskAsync(this HttpClient client,
+            Uri uri,
             string FileName)
         {
             using (Stream? s = await client.GetStreamAsync(uri))

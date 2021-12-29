@@ -1,6 +1,6 @@
 ﻿using System.Text;
 
-namespace RepoAutomation
+namespace RepoAutomation.Helpers
 {
     public static class DotNetAutomation
     {
