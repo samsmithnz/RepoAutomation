@@ -1,6 +1,9 @@
-﻿using RepoAutomation.APIAccess;
+﻿using GitHubActionsDotNet.Helpers;
+using GitHubActionsDotNet.Models;
+using RepoAutomation.APIAccess;
 using RepoAutomation.Models;
 using System.Text;
+using GitHubActionsDotNet.Serialization;
 
 namespace RepoAutomation
 {
@@ -9,65 +12,65 @@ namespace RepoAutomation
         public static async Task<string> SetupAction(string workingDirectory, string workingTempDirectory, Asset[]? assets)
         {
             StringBuilder log = new();
-            if (Directory.Exists(workingTempDirectory) == false)
-            {
-                Directory.CreateDirectory(workingTempDirectory);
-            }
 
-            //Download the dependabot release
-            if (assets != null)
+            JobHelper jobHelper = new();
+            GitHubActionsRoot root = new();
+            root.name = "CI/CD";
+            root.on = TriggerHelper.AddStandardPushAndPullTrigger("main");
+
+            string displayBuildGitVersionScript = @"
+echo ""Version: ${{ steps.gitversion.outputs.SemVer }}""
+echo ""CommitsSinceVersionSource: ${{ steps.gitversion.outputs.CommitsSinceVersionSource }}""";
+
+            Step[] buildSteps = new Step[] {
+            CommonStepHelper.AddCheckoutStep(null,null,"0"),
+            GitVersionStepHelper.AddGitVersionSetupStep(),
+            GitVersionStepHelper.AddGitVersionDetermineVersionStep(),
+            CommonStepHelper.AddScriptStep("Display GitVersion outputs", displayBuildGitVersionScript),
+            DotNetStepHelper.AddDotNetSetupStep("Setup .NET","6.x"),
+            DotNetStepHelper.AddDotNetTestStep(".NET test","src/GitHubActionsDotNet.Tests/GitHubActionsDotNet.Tests.csproj","Release",null,true),
+            DotNetStepHelper.AddDotNetPublishStep(".NET publish","src/GitHubActionsDotNet/GitHubActionsDotNet.csproj","Release",null,"-p:Version='${{ steps.gitversion.outputs.SemVer }}'", true),
+            CommonStepHelper.AddUploadArtifactStep("Upload package back to GitHub","nugetPackage","src/GitHubActionsDotNet/bin/Release")
+        };
+            root.jobs = new();
+            Job buildJob = jobHelper.AddJob(
+                "Build job",
+                "${{matrix.os}}",
+                buildSteps);
+            //Add the strategy
+            buildJob.strategy = new()
             {
-                foreach (Asset asset in assets)
+                matrix = new()
                 {
-                    if (asset != null)
-                    {
-                        await HttpAccess.DownloadFileTaskAsync(new HttpClient(),
-                            new Uri(asset?.browser_download_url),
-                            workingTempDirectory + "\\" + asset?.name);
-                    }
+                    { "os", new string[] { "ubuntu-latest", "windows-latest" } }
                 }
+            };
+            buildJob.outputs = new()
+            {
+                { "Version", "${{ steps.gitversion.outputs.SemVer }}" },
+                { "CommitsSinceVersionSource", "${{ steps.gitversion.outputs.CommitsSinceVersionSource }}" }
+            };
+            root.jobs.Add("build", buildJob);
+
+            string yaml = GitHubActionsSerialization.Serialize(root);
+
+            if (Directory.Exists(workingDirectory) == false)
+            {
+                log.Append("Create directory " + workingDirectory);
+                Directory.CreateDirectory(workingDirectory);
             }
-
-            ////Clone the code from the repo
-            //log.Append(CommandLine.RunCommand("git", 
-            //    "clone " + repoLocation,
-            //    workingDirectory));
-
-            ////Create a src folder
-            //string workingSrcDirectory = workingDirectory + "/src";
-            //if (Directory.Exists(workingSrcDirectory) == false)
-            //{
-            //    Directory.CreateDirectory(workingSrcDirectory);
-            //}
-
-            ////Create a .NET tests project in the src folder
-            //string testsProject = projectName + ".Tests";
-            //log.Append(CommandLine.RunCommand("dotnet",
-            //    "new mstest -n " + testsProject,
-            //    workingSrcDirectory));
-
-            ////Create a .NET web app project in the src folder
-            //string webAppProject = projectName + ".Web";
-            //log.Append(CommandLine.RunCommand("dotnet",
-            //    "new webapp -n " + webAppProject,
-            //    workingSrcDirectory));
-
-            ////Create the solution file in the src folder
-            //string solutionName = projectName;
-            //log.Append(CommandLine.RunCommand("dotnet",
-            //    "new sln --name " + solutionName,
-            //    workingSrcDirectory));
-
-            ////Bind the previously created projects to the solution
-            //log.Append(CommandLine.RunCommand("dotnet",
-            //    "sln add " + testsProject,
-            //    workingSrcDirectory));
-            //log.Append(CommandLine.RunCommand("dotnet",
-            //    "sln add " + webAppProject,
-            //    workingSrcDirectory));
-
-            //string solutionText = System.IO.File.ReadAllText(workingSrcDirectory + "/" + solutionName + ".sln");
-            //log.Append(solutionText);
+            if (Directory.Exists(workingDirectory + "\\.github") == false)
+            {
+                log.Append("Create directory " + workingDirectory + "\\.github");
+                Directory.CreateDirectory(workingDirectory + "\\.github");
+            }
+            if (Directory.Exists(workingDirectory + "\\.github\\workflows") == false)
+            {
+                log.Append("Create directory " + workingDirectory + "\\.github\\workflows");
+                Directory.CreateDirectory(workingDirectory + "\\.github\\workflows");
+            }
+            log.Append("Writing workflow to file: " + workingDirectory + "\\.github\\workflows\\workflow.yml");
+            File.WriteAllText(workingDirectory + "\\.github\\workflows\\workflow.yml", yaml);
 
             return log.ToString();
         }
