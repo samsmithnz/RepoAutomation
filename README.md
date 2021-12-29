@@ -15,7 +15,7 @@
 - Creates the GitHub action to build/test/publish the .NET projects added above
     - Adds an action status badge to the readme file
 - [ ] Creates the dependabot configuration
-- Pushes all of the changes back to the repository/GitHub
+- Push all of the changes back to the repository/GitHub
 
 ## Usage
 
