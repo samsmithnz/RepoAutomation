@@ -59,10 +59,12 @@ Execute a .NET application.";
         string workingDirectory = Environment.CurrentDirectory;
 
         //Act
-        string log = ProjectAutomation.SetupProject(repoLocation, projectName, workingDirectory);
+        string log = DotNetAutomation.SetupProject(repoLocation, projectName, workingDirectory);
         //Cleanup
-        Directory.Delete(workingDirectory + "/src", true);
-
+        if (Directory.Exists(workingDirectory + "/src") == true)
+        {
+            Directory.Delete(workingDirectory + "/src", true);
+        }
         //Assert
         Assert.IsNotNull(log);
     }
@@ -71,44 +73,37 @@ Execute a .NET application.";
     public async Task RepoAutomationInceptionCommandLineTest()
     {
         //Arrange
+        string[] arguments = new string[] { "-o", "samsmithnz", "-r", "RepoAutomation" };
 
         //Act
         string result = "";
         using (StringWriter sw = new())
         {
             Console.SetOut(sw);
-            await Program.Main(new string[] { "" });
+            await Program.Main(arguments);
             result = sw.ToString();
         }
 
         //Assert
         Assert.IsNotNull(result);
-        string expected = @"Running GitHub url: https://api.github.com/repos/samsmithnz/RepoAutomation
-Hello world samsmithnz/RepoAutomation
-";
-        Assert.AreEqual(expected, result);
+        string expected = @"Running GitHub url: https://api.github.com/repos/samsmithnz/RepoAutomation";
+        Assert.AreEqual(expected, Utility.TakeNLines(result,1));
     }
 
+    [TestMethod]
+    public void RepoAutomationInceptionWithArgsCommandLineTest()
+    {
+        //Arrange
+        string command = "RepoAutomation";
+        string arguments = "-d " + Environment.CurrentDirectory +
+            " -o samsmithnz -r RepoAutomation";
 
-    //[TestMethod]
-    //public async Task RepoAutomationInceptionHelpCommandLineTest()
-    //{
-    //    //Arrange
+        //Act
+        string result = CommandLine.RunCommand(command, arguments);
 
-    //    //Act
-    //    string result = "";
-    //    using (StringWriter sw = new())
-    //    {
-    //        Console.SetOut(sw);
-    //        await Program.Main(new string[] { "--Help" });
-    //        result = sw.ToString();
-    //    }
-
-    //    //Assert
-    //    Assert.IsNotNull(result);
-    //    string expected = @"";
-    //    Assert.AreEqual(expected, result);
-    //}
-
-
+        //Assert
+        Assert.IsNotNull(result);
+        string expected = @"Running GitHub url: https://api.github.com/repos/samsmithnz/RepoAutomation";
+        Assert.AreEqual(expected, Utility.TakeNLines(result, 1));
+    }
 }

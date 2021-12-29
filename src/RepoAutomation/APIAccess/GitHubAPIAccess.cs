@@ -14,8 +14,9 @@ public static class GitHubAPIAccess
         if (clientId != null && clientSecret != null)
         {
             string url = $"https://api.github.com/repos/{owner}/{repo}";
-            string? response = await BaseAPIAccess.GetGitHubMessage(url, clientId, clientSecret);
-            if (string.IsNullOrEmpty(response) == false)
+            string? response = await BaseAPIAccess.GetGitHubMessage(url, clientId, clientSecret, false);
+            if (string.IsNullOrEmpty(response) == false &&
+                response != @"{""message"":""Not Found"",""documentation_url"":""https://docs.github.com/rest/reference/repos#get-a-repository""}")
             {
                 dynamic? jsonObj = JsonConvert.DeserializeObject(response);
                 result = JsonConvert.DeserializeObject<Repo>(jsonObj?.ToString());
@@ -37,7 +38,10 @@ public static class GitHubAPIAccess
                 allow_auto_merge = allowAutoMerge,
                 delete_branch_on_merge = deleteBranchOnMerge,
                 allow_rebase_merge = allowRebaseMerge,
-                @private = isPrivate
+                @private = isPrivate,
+                auto_init = true,
+                gitignore_template = "VisualStudio",
+
             };
             StringContent content = new(JsonConvert.SerializeObject(body), Encoding.UTF8, "application/json");
             string url = $"https://api.github.com/user/repos";
@@ -53,12 +57,12 @@ public static class GitHubAPIAccess
         return true;
     }
 
-    public async static Task<bool> DeleteRepo(string? clientId, string? clientSecret, string owner, string repo)
+    public async static Task<bool> DeleteRepo(string? clientId, string? clientSecret, string owner, string repo, bool processErrors = true)
     {
         if (clientId != null && clientSecret != null)
         {
             string url = $"https://api.github.com/repos/{owner}/{repo}";
-            string? response = await BaseAPIAccess.DeleteGitHubMessage(url, clientId, clientSecret);
+            string? response = await BaseAPIAccess.DeleteGitHubMessage(url, clientId, clientSecret, processErrors);
             if (string.IsNullOrEmpty(response) == true)
             {
                 return false;

@@ -3,6 +3,7 @@ using RepoAutomation.APIAccess;
 using RepoAutomation.Models;
 using RepoAutomation.Tests.Helpers;
 using System;
+using System.IO;
 using System.Threading.Tasks;
 
 namespace RepoAutomation.Tests;
@@ -85,7 +86,7 @@ public class RepoTests : BaseAPIAccessTests
         //Arrange
         string owner = "samsmithnz";
         string repoName = "NewRepoTest";
-        Repo? repo = null;
+        Repo? repo;
 
         try
         {
@@ -125,6 +126,23 @@ public class RepoTests : BaseAPIAccessTests
                 //Assert
                 Assert.AreEqual("Response status code does not indicate success: 404 (Not Found).", ex.Message);
             }
+        }
+    }
+
+
+
+    [TestMethod]
+    public async Task DeleteTestRepoTest()
+    {
+        //Arrange
+        string owner = "samsmithnz";
+        string repoName = "RepoAutomationTest"; //shouldn't exist, but if it does, it's deleted
+
+        //Act
+        await GitHubAPIAccess.DeleteRepo(base.GitHubId, base.GitHubSecret, owner, repoName, false);
+        if (Directory.Exists(@"C:\Users\samsm\source\repos\RepoAutomationTest"))
+        {
+            Directory.Delete(@"C:\Users\samsm\source\repos\RepoAutomationTest", true);
         }
     }
 }
