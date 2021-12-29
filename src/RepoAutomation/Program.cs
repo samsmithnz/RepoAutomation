@@ -65,8 +65,9 @@ public class Program
             //await DependabotAutomation.SetupDependabotFile(workingDirectory, workingTempDirectory, dependabotURLs);
 
             //6. Push back to main
-            CommandLine.RunCommand("git", @"commit -m""Created .NET projects, setup action, and created dependabot configuration""");
-            CommandLine.RunCommand("git", "push");
+            Console.WriteLine(CommandLine.RunCommand("git", "add ."));
+            Console.WriteLine(CommandLine.RunCommand("git", @"commit -m""Created .NET projects, setup action, and created dependabot configuration"""));
+            Console.WriteLine(CommandLine.RunCommand("git", "push"));
 
             //7. Set the branch policy
 
