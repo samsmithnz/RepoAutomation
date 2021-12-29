@@ -86,10 +86,8 @@ Execute a .NET application.";
 
         //Assert
         Assert.IsNotNull(result);
-        string expected = @"Running GitHub url: https://api.github.com/repos/samsmithnz/RepoAutomation
-Hello world samsmithnz/RepoAutomation
-";
-        Assert.AreEqual(expected, result);
+        string expected = @"Running GitHub url: https://api.github.com/repos/samsmithnz/RepoAutomation";
+        Assert.AreEqual(expected, Utility.TakeNLines(result,1));
     }
 
     [TestMethod]
@@ -105,9 +103,7 @@ Hello world samsmithnz/RepoAutomation
 
         //Assert
         Assert.IsNotNull(result);
-        string expected = @"Running GitHub url: https://api.github.com/repos/samsmithnz/RepoAutomation
-Hello world samsmithnz/RepoAutomation
-";
-        Assert.AreEqual(expected, result);
+        string expected = @"Running GitHub url: https://api.github.com/repos/samsmithnz/RepoAutomation";
+        Assert.AreEqual(expected, Utility.TakeNLines(result, 1));
     }
 }
