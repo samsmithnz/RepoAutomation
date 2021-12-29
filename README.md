@@ -13,7 +13,7 @@
     - Creates .NET console\library\webapi\web app project (`project name` and `project type`) https://docs.microsoft.com/en-us/dotnet/core/tools/dotnet-new
     - Creates .NET solution (`solution name`) https://docs.microsoft.com/en-us/dotnet/core/tools/dotnet-sln
 - Creates the GitHub action to build/test/publish the .NET projects added above
-    - [ ] Adds an action status badge to the readme file
+    - Adds an action status badge to the readme file
 - [ ] Creates the dependabot configuration
 - Pushes all of the changes back to the repository/GitHub
 
