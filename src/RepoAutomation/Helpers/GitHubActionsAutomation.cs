@@ -62,7 +62,7 @@ echo ""CommitsSinceVersionSource: ${{ steps.gitversion.outputs.CommitsSinceVersi
                 GitVersionStepHelper.AddGitVersionSetupStep(),
                 GitVersionStepHelper.AddGitVersionDetermineVersionStep(),
                 CommonStepHelper.AddScriptStep("Display GitVersion outputs", displayBuildGitVersionScript),
-                DotNetStepHelper.AddDotNetSetupStep("Setup .NET", "6.x")
+                DotNetStepHelper.AddDotNetSetupStep("Setup .NET", "6.0.x")
             };
             if (includeTestProject == true)
             {

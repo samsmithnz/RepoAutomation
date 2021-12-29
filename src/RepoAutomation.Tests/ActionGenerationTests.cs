@@ -64,7 +64,7 @@ jobs:
     - name: Setup .NET
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: 6.x";
+        dotnet-version: 6.0.x";
         Assert.AreEqual(expected, Utility.TrimNewLines(yaml));
     }
 
@@ -117,7 +117,7 @@ jobs:
     - name: Setup .NET
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: 6.x
+        dotnet-version: 6.0.x
     - name: .NET test
       run: dotnet test src/TestProject.Tests/TestProject.Tests.csproj -c Release
     - name: .NET publish
