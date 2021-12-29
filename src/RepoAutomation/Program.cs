@@ -58,12 +58,11 @@ public class Program
             DotNetAutomation.SetupProject(repoURL, repository, workingDirectory);
 
             //3. Create the GitHub Action
-            Asset[]? actionsURLs = await GetReleaseAssets(id, secret, owner, "GitHubActionsDotNet");
             GitHubActionsAutomation.SetupAction(workingDirectory + "\\" + repository, repository);
 
-            //4. Create the Dependabot file
-            Asset[]? dependabotURLs = await GetReleaseAssets(id, secret, owner, "Dependabot-Configuration-Builder");
-            await DependabotAutomation.SetupDependabotFile(workingDirectory, workingTempDirectory, dependabotURLs);
+            ////4. Create the Dependabot file
+            //Asset[]? dependabotURLs = await GetReleaseAssets(id, secret, owner, "Dependabot-Configuration-Builder");
+            //await DependabotAutomation.SetupDependabotFile(workingDirectory, workingTempDirectory, dependabotURLs);
 
             //6. Push back to main
             CommandLine.RunCommand("git", @"commit -m""Created .NET projects, setup action, and created dependabot configuration""");
