@@ -21,10 +21,10 @@
 ## Usage
 
 ```Batchfile
-RepoAutomation [-o|--owner <GitHub owner/account>] 
-               [-r|--repo <repository Name>] 
-               [-d|--directory <working directory>] 
-               [-v|--visibility <repo visibility>]
+RepoAutomation [-o|--owner <GITHUB-OWNER/ACCOUNT>] 
+               [-r|--repo <REPOSITORY-NAME>] 
+               [-d|--directory <WORKING-DIRECTORY>] 
+               [-v|--visibility <REPO-VISIBILITY>]
 ```
 <!-- TODO: RepoAutomation [-l|--license <repo license>] [-p|--patToken <GitHub Pat Token>]  [-bp|--branchpolicy <default branch policy>] -->
 
