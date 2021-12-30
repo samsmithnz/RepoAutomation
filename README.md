@@ -6,7 +6,6 @@
 - Enables repo "auto-merge" open
 - Enables repo "Delete head branch on merge" option 
 - Enables repo visibility to be set
-- [ ] (TODO) Sets up branch policies on default branch (require a pull request and successful build action)
 - Creates the initial project.
     - Clone the project to a folder (`Target folder`) https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository
     - Create src folder
@@ -15,8 +14,9 @@
     - Creates .NET solution (`solution name`) https://docs.microsoft.com/en-us/dotnet/core/tools/dotnet-sln
 - Creates the GitHub action to build/test/publish the .NET projects added above
     - Adds an action status badge to the readme file
-- [ ] Creates the dependabot configuration
+- Creates the dependabot configuration
 - Push all of the changes back to the repository/GitHub
+- [ ] (TODO) Sets up branch policies on default branch (require a pull request and successful build action)
 
 ## Usage
 
