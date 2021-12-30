@@ -33,6 +33,7 @@ public class BranchProtectionTests : BaseAPIAccessTests
             Assert.AreEqual("version", branchProtectionPolicy.required_status_checks?.checks?[0].context);
             Assert.IsTrue(branchProtectionPolicy.enforce_admins?.enabled);
             Assert.IsTrue(branchProtectionPolicy.required_conversation_resolution?.enabled);
+            Assert.IsTrue(!branchProtectionPolicy.strict);
         }
     }
 
