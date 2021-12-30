@@ -28,23 +28,16 @@ public class DependabotGenerationTests
 updates:
 - package-ecosystem: nuget
   directory: /RepoAutomation/src/RepoAutomation.Tests/
-  schedule: {}
 - package-ecosystem: nuget
   directory: /RepoAutomation/src/RepoAutomation.Web/
-  schedule: {}
 - package-ecosystem: nuget
   directory: /RepoAutomation/src/RepoAutomation/
-  schedule: {}
 - package-ecosystem: nuget
   directory: /RepoTestProject/src/RepoTestProject.Tests/
-  schedule: {}
 - package-ecosystem: nuget
   directory: /RepoTestProject/src/RepoTestProject.Web/
-  schedule: {}
 - package-ecosystem: github-actions
-  directory: /
-  schedule: {}
-";
+  directory: /";
         Assert.AreEqual(expected, Utility.TrimNewLines(yaml));
     }
 
