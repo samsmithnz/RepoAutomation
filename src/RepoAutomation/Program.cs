@@ -85,19 +85,19 @@ public class Program
                 includeTests, includeClassLibrary, includeWeb);
 
             //3. Create the GitHub Action
-            Console.WriteLine("Creating action");
+            Console.WriteLine("Creating GitHub Action");
             GitHubActionsAutomation.SetupAction(workingDirectory + "\\" + repository,
                 repository,
                 includeTests,
                 includeClassLibrary,
                 includeWeb);
 
-            ////4. Create the Dependabot file
-            //Asset[]? dependabotURLs = await GetReleaseAssets(id, secret, owner, "Dependabot-Configuration-Builder");
-            //await DependabotAutomation.SetupDependabotFile(workingDirectory, workingTempDirectory, dependabotURLs);
+            //4. Create the Dependabot file
+            Console.WriteLine("Create Dependabot configuration");
+            DependabotAutomation.SetupDependabotFile(workingDirectory + "\\" + repository);
 
             //5. Customize the README.md file
-            Console.WriteLine("Adding Actions status badge to README.md file");
+            Console.WriteLine("Adding GitHub Actions status badge to README.md file");
             ReadmeAutomation.AddStatusBadge(workingDirectory + "\\" + repository);
 
             //6. Push back to main         
@@ -111,16 +111,16 @@ public class Program
     }
 
 
-    private static async Task<Asset[]?> GetReleaseAssets(string id, string secret, string owner, string repoName)
-    {
-        Asset[]? assets = null;
-        Release? release = await GitHubAPIAccess.GetReleaseLatest(id, secret, owner, repoName);
-        if (release != null && release.assets != null && release.assets.Length > 0)
-        {
-            assets = release.assets;
-        }
-        return assets;
-    }
+    //private static async Task<Asset[]?> GetReleaseAssets(string id, string secret, string owner, string repoName)
+    //{
+    //    Asset[]? assets = null;
+    //    Release? release = await GitHubAPIAccess.GetReleaseLatest(id, secret, owner, repoName);
+    //    if (release != null && release.assets != null && release.assets.Length > 0)
+    //    {
+    //        assets = release.assets;
+    //    }
+    //    return assets;
+    //}
 
     public class Options
     {
