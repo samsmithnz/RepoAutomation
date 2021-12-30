@@ -1,11 +1,6 @@
-﻿using GitHubActionsDotNet.Models;
-using GitHubActionsDotNet.Serialization;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using RepoAutomation.Helpers;
 using RepoAutomation.Tests.Helpers;
-using System;
-using System.IO;
-using System.Threading.Tasks;
 
 namespace RepoAutomation.Tests;
 
