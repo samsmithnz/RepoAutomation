@@ -5,7 +5,7 @@ namespace RepoAutomation.Helpers
 {
     public static class DependabotAutomation
     {
-        public static string SetupDependabotFile(string workingDirectory)
+        public static string SetupDependabotFile(string workingDirectory, string owner)
         {
             StringBuilder log = new();
 
@@ -13,7 +13,12 @@ namespace RepoAutomation.Helpers
             List<string> files = FileSearch.GetFilesForDirectory(workingDirectory);
 
             log.Append("Generating dependabot configuration");
-            string yaml = GitHubActionsDotNet.Serialization.DependabotSerialization.Serialize(workingDirectory, files);
+            string yaml = GitHubActionsDotNet.Serialization.DependabotSerialization.Serialize(workingDirectory, files            "daily",
+            "06:00",
+            "America/New_York",
+            new() { owner },
+            10,
+            true);
 
             log.Append("Writing dependabot configuration to file: " + workingDirectory + "\\.github\\dependabot.yml");
             File.WriteAllText(workingDirectory + "\\.github\\dependabot.yml", yaml);
