@@ -100,12 +100,16 @@ public class Program
             Console.WriteLine("Adding GitHub Actions status badge to README.md file");
             ReadmeAutomation.AddStatusBadge(workingDirectory + "\\" + repository, repository);
 
-            //6. Push back to main         
+            //6. Add GitVersion file
+            Console.WriteLine("Adding GitVersion.yml file");
+            GitVersionAutomation.AddGitVersionFile(workingDirectory + "\\" + repository, "0.1.0");
+
+            //7. Push back to main         
             Console.WriteLine(Helpers.CommandLine.RunCommand("git", "add .", workingDirectory + "\\" + repository));
             Console.WriteLine(Helpers.CommandLine.RunCommand("git", @"commit -m""Created .NET projects, setup action, and created dependabot configuration""", workingDirectory + "\\" + repository));
             Console.WriteLine(Helpers.CommandLine.RunCommand("git", "push", workingDirectory + "\\" + repository));
 
-            //7. Set the branch policy
+            //8. Set the branch policy
 
         }
     }
