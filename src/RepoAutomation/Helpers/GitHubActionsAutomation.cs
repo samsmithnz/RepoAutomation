@@ -66,7 +66,7 @@ echo ""CommitsSinceVersionSource: ${{ steps.gitversion.outputs.CommitsSinceVersi
             };
             if (includeTestProject == true)
             {
-                steps.Add( DotNetStepHelper.AddDotNetTestStep(".NET test", "src/" + projectName + ".Tests/" + projectName + ".Tests.csproj", "Release", null, true));
+                steps.Add(DotNetStepHelper.AddDotNetTestStep(".NET test", "src/" + projectName + ".Tests/" + projectName + ".Tests.csproj", "Release", null, true));
             }
             if (includeClassLibraryProject == true)
             {
@@ -79,7 +79,7 @@ echo ""CommitsSinceVersionSource: ${{ steps.gitversion.outputs.CommitsSinceVersi
                 steps.Add(CommonStepHelper.AddUploadArtifactStep("Upload package back to GitHub", "web", "src/" + projectName + ".Web/bin/Release"));
             }
             Step[] buildSteps = steps.ToArray();
- 
+
             root.jobs = new();
             Job buildJob = jobHelper.AddJob(
                 "Build job",

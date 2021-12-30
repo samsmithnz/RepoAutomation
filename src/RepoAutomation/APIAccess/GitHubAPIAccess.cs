@@ -26,10 +26,10 @@ public static class GitHubAPIAccess
         return result;
     }
 
-    public async static Task<bool> CreateRepo(string? clientId, string? clientSecret, 
+    public async static Task<bool> CreateRepo(string? clientId, string? clientSecret,
         string repo,
-        bool allowAutoMerge, 
-        bool deleteBranchOnMerge, 
+        bool allowAutoMerge,
+        bool deleteBranchOnMerge,
         bool allowRebaseMerge,
         bool isPrivate)
     {

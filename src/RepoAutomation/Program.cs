@@ -68,12 +68,12 @@ public class Program
             if (repo == null)
             {
                 Console.WriteLine("Creating repo: " + repository);
-                await GitHubAPIAccess.CreateRepo(id, 
-                    secret, 
-                    repository, 
-                    true, 
-                    true, 
-                    false, 
+                await GitHubAPIAccess.CreateRepo(id,
+                    secret,
+                    repository,
+                    true,
+                    true,
+                    false,
                     isPrivate);
             }
 

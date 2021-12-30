@@ -1,8 +1,8 @@
 ﻿using GitHubActionsDotNet.Helpers;
+using GitHubActionsDotNet.Serialization;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using RepoAutomation.Tests.Helpers;
 using System.Collections.Generic;
-using GitHubActionsDotNet.Serialization;
 using System.IO;
 using System.Runtime.InteropServices;
 
