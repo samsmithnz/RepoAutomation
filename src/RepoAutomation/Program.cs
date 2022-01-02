@@ -19,7 +19,7 @@ public class Program
 
         //Parse arguments
         string workingDirectory = Environment.CurrentDirectory;
-        string workingTempDirectory = workingDirectory + "\temp";
+        string workingTempDirectory = workingDirectory + "\\temp";
         string owner = "";
         string repository = "";
         bool isPrivate = true;
