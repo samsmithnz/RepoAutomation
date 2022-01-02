@@ -15,7 +15,7 @@ namespace RepoAutomation.Helpers
             log.Append("Generating dependabot configuration");
             string yaml = GitHubActionsDotNet.Serialization.DependabotSerialization.Serialize(workingDirectory, files,
                 "daily",
-                @"""06:00""",
+                "06:00",
                 "America/New_York",
                 new() { owner },
                 10,
