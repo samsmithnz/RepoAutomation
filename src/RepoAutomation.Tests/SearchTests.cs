@@ -1,11 +1,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using RepoAutomation.APIAccess;
 using RepoAutomation.Helpers;
-using RepoAutomation.Models;
 using RepoAutomation.Tests.Helpers;
-using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Threading.Tasks;
 
 namespace RepoAutomation.Tests;
