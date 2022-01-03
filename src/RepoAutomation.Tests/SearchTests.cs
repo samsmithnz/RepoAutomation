@@ -4,6 +4,7 @@ using RepoAutomation.Helpers;
 using RepoAutomation.Models;
 using RepoAutomation.Tests.Helpers;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 
@@ -22,16 +23,18 @@ public class SearchTests : BaseAPIAccessTests
         string owner = "samsmithnz";
         string repository = "RepoAutomation"; //inception!!
         string? file = "dependabot.yml";
-        string? extension = "yml";
+        string? extension = null;
         string? path = ".github";
 
         //Act
-        GitHubFile[]? searchResult = await DependabotAutomation.CheckForDependabotFile(base.GitHubId, base.GitHubSecret,
-            owner, repository, path);
+        List<string>? searchResult = await GitHubFileSearch.SearchForFiles(base.GitHubId, base.GitHubSecret,
+            owner, repository, file, extension, path);
 
         //Assert
         Assert.IsNotNull(searchResult);
-        Assert.IsTrue(searchResult.Length > 0);
+        Assert.IsTrue(searchResult.Count > 0);
+        Assert.AreEqual(1, searchResult.Count);
+        Assert.AreEqual("dependabot.yml", searchResult[0]);
     }
 
     [TestMethod]
@@ -40,17 +43,19 @@ public class SearchTests : BaseAPIAccessTests
         //Arrange
         string owner = "samsmithnz";
         string repository = "RepoAutomation"; //inception!!
-        //string? file = null;
-        //string? extension = "yml";
+        string? file = null;
+        string? extension = "yml";
         string? path = ".github/workflows";
 
         //Act
-        GitHubFile[]? searchResult = await DependabotAutomation.CheckForDependabotFile(base.GitHubId, base.GitHubSecret,
-            owner, repository, path);
+        List<string>? searchResult = await GitHubFileSearch.SearchForFiles(base.GitHubId, base.GitHubSecret,
+            owner, repository, file, extension, path);
 
         //Assert
         Assert.IsNotNull(searchResult);
-        Assert.IsTrue(searchResult.Length > 0);
+        Assert.IsTrue(searchResult.Count > 0);
+        Assert.AreEqual(1, searchResult.Count);
+        Assert.AreEqual("dotnet.yml", searchResult[0]);
     }
 
 }
