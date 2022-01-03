@@ -4,9 +4,8 @@ namespace RepoAutomation.Helpers
 {
     public static class DotNetAutomation
     {
-        public static string SetupProject(string repoLocation, string repository,
-            string workingDirectory,
-            bool includeTests, bool includeClassLibrary, bool includeWeb)
+        public static string CloneRepo(string repoLocation, string repository,
+            string workingDirectory)
         {
             StringBuilder log = new();
             if (Directory.Exists(workingDirectory) == false)
@@ -21,6 +20,17 @@ namespace RepoAutomation.Helpers
             log.Append(CommandLine.RunCommand("git",
                 "clone " + repoLocation,
                 workingDirectory));
+
+            return log.ToString();
+        }
+
+        public static string SetupDotnetProjects(string repository, string workingDirectory,
+            bool includeTests, bool includeClassLibrary, bool includeWeb)
+        {
+            StringBuilder log = new();
+
+            //the project folder in the working directory
+            string workingDirectoryWithRepo = workingDirectory + "\\" + repository;
 
             //Create a src folder
             string workingSrcDirectory = workingDirectoryWithRepo + "/src";
@@ -87,7 +97,7 @@ namespace RepoAutomation.Helpers
                 workingSrcDirectory));
             }
 
-            string solutionText = System.IO.File.ReadAllText(workingSrcDirectory + "/" + solutionName + ".sln");
+            string solutionText = File.ReadAllText(workingSrcDirectory + "/" + solutionName + ".sln");
             log.Append(solutionText);
 
             return log.ToString();

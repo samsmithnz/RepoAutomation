@@ -52,7 +52,7 @@ Execute a .NET application.";
     }
 
     [TestMethod]
-    public void CreateDotNetSolutionAndProjectsTest()
+    public void CloneProjectsTest()
     {
         //Arrange
         string repoLocation = "https://github.com/samsmithnz/RepoAutomation";
@@ -60,7 +60,21 @@ Execute a .NET application.";
         string workingDirectory = Environment.CurrentDirectory;
 
         //Act
-        string log = DotNetAutomation.SetupProject(repoLocation, projectName, workingDirectory,
+        string log = DotNetAutomation.CloneRepo(repoLocation, projectName, workingDirectory);
+
+        //Assert
+        Assert.IsNotNull(log);
+    }
+
+    [TestMethod]
+    public void CreateDotNetSolutionAndProjectsTest()
+    {
+        //Arrange
+        string projectName = "RepoTestProject";
+        string workingDirectory = Environment.CurrentDirectory;
+
+        //Act
+        string log = DotNetAutomation.SetupDotnetProjects(projectName, workingDirectory,
             true, false, true);
 
         //Assert
