@@ -27,5 +27,10 @@ namespace RepoAutomation.Helpers
             return log.ToString();
         }
 
+        //public static bool CheckForDependabotFile(string owner, string repository)
+        //{
+
+        //}
+
     }
 }

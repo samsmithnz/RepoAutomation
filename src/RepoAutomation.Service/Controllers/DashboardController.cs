@@ -6,6 +6,11 @@ namespace RepoAutomation.Service.Controllers
     [Route("[controller]")]
     public class DashboardController : ControllerBase
     {
+        //Check for actions in .github/workflows folder
+        //Check for dependabot.yml file in .github folder
+        //Check for GitVersion.yml file
+        //Check for branch policies
+
         //private static readonly string[] Summaries = new[]
         //{
         //    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
