@@ -29,13 +29,5 @@ namespace RepoAutomation.Helpers
             return log.ToString();
         }
 
-        //public async static Task<GitHubFile[]?> CheckForDependabotFile(string? id, string? secret,
-        //    string owner, string repository, string path)
-        //{
-        //    GitHubFile[]? searchResult = await GitHubAPIAccess.GetFiles(id, secret,
-        //        owner, repository, path);
-        //    return searchResult;
-        //}
-
     }
 }
