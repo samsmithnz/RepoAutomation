@@ -1,4 +1,6 @@
 ﻿using GitHubActionsDotNet.Helpers;
+using RepoAutomation.APIAccess;
+using RepoAutomation.Models;
 using System.Text;
 
 namespace RepoAutomation.Helpers
@@ -27,10 +29,15 @@ namespace RepoAutomation.Helpers
             return log.ToString();
         }
 
-        //public static bool CheckForDependabotFile(string owner, string repository)
-        //{
-
-        //}
+        public async static Task<SearchResult?> CheckForDependabotFile(string? id, string? secret,
+            string owner, string repository,
+            string? file = null, string? extension = null, string? path = null)
+        {
+            SearchResult? searchResult = await GitHubAPIAccess.GetSearchCode(id, secret,
+                owner, repository,
+                file, extension, path);
+            return searchResult;
+        }
 
     }
 }

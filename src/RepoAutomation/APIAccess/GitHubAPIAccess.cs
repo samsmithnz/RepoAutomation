@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using RepoAutomation.Models;
 using System.Text;
+using System.Web;
 
 namespace RepoAutomation.APIAccess;
 
@@ -76,6 +77,39 @@ public static class GitHubAPIAccess
             //}
         }
         return true;
+    }
+
+    public async static Task<SearchResult?> GetSearchCode(string? clientId, string? clientSecret,
+        string owner, string repo, string? file = null, string? extension = null, string? path = null)
+    {
+        SearchResult? result = null;
+        if (clientId != null && clientSecret != null)
+        {
+            StringBuilder sb = new();
+            sb.Append($"repo:{owner}/{repo}");
+            //if (file != null)
+            //{
+            //    sb.Append($"+filename:{file}");
+            //}
+            //if (extension != null)
+            //{
+            //    sb.Append($"+extension:{extension}");
+            //}
+            //if (path != null)
+            //{
+            //    sb.Append($"+path:{path}");
+            //}
+            string searchString = HttpUtility.UrlEncode(sb.ToString());
+            string url = $"https://api.github.com/search/code?q={searchString}";
+            string? response = await BaseAPIAccess.GetGitHubMessage(url, clientId, clientSecret);
+            if (string.IsNullOrEmpty(response) == false)
+            {
+                dynamic? jsonObj = JsonConvert.DeserializeObject(response);
+                result = JsonConvert.DeserializeObject<SearchResult>(jsonObj?.ToString());
+                result.RawJSON = jsonObj?.ToString();
+            }
+        }
+        return result;
     }
 
     public async static Task<BranchProtectionPolicy?> GetBranchProtectionPolicy(string? clientId, string? clientSecret,
