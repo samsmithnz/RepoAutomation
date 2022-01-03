@@ -16,20 +16,41 @@ public class SearchTests : BaseAPIAccessTests
 {
 
     [TestMethod]
-    public async Task CheckFileExistsTest()
+    public async Task CheckDependabotFileExistsTest()
     {
         //Arrange
         string owner = "samsmithnz";
         string repository = "RepoAutomation"; //inception!!
-        string? file = "dependabot";
+        string? file = "dependabot.yml";
         string? extension = "yml";
-        string? path = null;
+        string? path = ".github";
 
         //Act
-        SearchResult? searchResult = await DependabotAutomation.CheckForDependabotFile(base.GitHubId, base.GitHubSecret, 
-            owner, repository, file,extension, path);
+        GitHubFile[]? searchResult = await DependabotAutomation.CheckForDependabotFile(base.GitHubId, base.GitHubSecret,
+            owner, repository, path);
 
         //Assert
         Assert.IsNotNull(searchResult);
+        Assert.IsTrue(searchResult.Length > 0);
     }
+
+    [TestMethod]
+    public async Task CheckActionFilesExistTest()
+    {
+        //Arrange
+        string owner = "samsmithnz";
+        string repository = "RepoAutomation"; //inception!!
+        //string? file = null;
+        //string? extension = "yml";
+        string? path = ".github/workflows";
+
+        //Act
+        GitHubFile[]? searchResult = await DependabotAutomation.CheckForDependabotFile(base.GitHubId, base.GitHubSecret,
+            owner, repository, path);
+
+        //Assert
+        Assert.IsNotNull(searchResult);
+        Assert.IsTrue(searchResult.Length > 0);
+    }
+
 }
