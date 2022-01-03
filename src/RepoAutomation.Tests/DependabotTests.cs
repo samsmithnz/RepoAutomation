@@ -11,7 +11,7 @@ namespace RepoAutomation.Tests;
 [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
 [TestClass]
 [TestCategory("IntegrationTests")]
-public class DependabotGenerationTests
+public class DependabotTests
 {
 
     [TestMethod]

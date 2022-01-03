@@ -76,6 +76,12 @@ jobs:
       shell: powershell
     - name: dotnet publish ${{ matrix.RID }}
       run: dotnet publish '.\src\RepoAutomation\RepoAutomation.csproj' -r ${{ matrix.RID }} --self-contained -c ${{ env.BuildConfiguration }} -o ${{ github.workspace }}\${{ needs.version.outputs.Version }}_${{ matrix.ChannelName }} /p:Version=${{ needs.version.outputs.Version }}
+    - name: dotnet publish web service
+      run: dotnet publish '.\src\RepoAutomation.Service\RepoAutomation.Service.csproj' -c ${{ env.BuildConfiguration }} -o ${{ github.workspace }}\service /p:Version=${{ needs.version.outputs.Version }}
+      if: ${{ matrix.ChannelName }} == "Linux_x64"
+    - name: dotnet publish website
+      run: dotnet publish '.\src\RepoAutomation.Web\RepoAutomation.Web.csproj' -c ${{ env.BuildConfiguration }} -o ${{ github.workspace }}\web /p:Version=${{ needs.version.outputs.Version }}
+      if: ${{ matrix.ChannelName }} == "Linux_x64"
     - name: zip files
       run: |
         Compress-Archive -Path '${{ github.workspace }}\${{ needs.version.outputs.Version }}_${{ matrix.ChannelName }}\' `
@@ -86,6 +92,16 @@ jobs:
       with:
         name: ${{ matrix.ChannelName }}
         path: ${{ github.workspace }}\${{ matrix.ChannelName }}    
+    - name: Publish service artifacts
+      uses: actions/upload-artifact@v2
+      with:
+        name: service
+        path: ${{ github.workspace }}\service
+    - name: Publish web artifacts
+      uses: actions/upload-artifact@v2
+      with:
+        name: web
+        path: ${{ github.workspace }}\web
 
 
   Release:
