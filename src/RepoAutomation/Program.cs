@@ -79,7 +79,7 @@ public class Program
 
             //2. Clone the repo
             DotNetAutomation.CloneRepo(repoURL, repository, workingDirectory);
-            
+
             //3. create the .NET projects
             bool includeTests = true;
             bool includeClassLibrary = true;
