@@ -71,10 +71,6 @@ public static class GitHubAPIAccess
             {
                 return false;
             }
-            //    dynamic? jsonObj = JsonConvert.DeserializeObject(response);
-            //    result = JsonConvert.DeserializeObject<Repo>(jsonObj?.ToString());
-            //    result.RawJSON = jsonObj?.ToString();
-            //}
         }
         return true;
     }
@@ -125,7 +121,6 @@ public static class GitHubAPIAccess
             {
                 dynamic? jsonObj = JsonConvert.DeserializeObject(response);
                 result = JsonConvert.DeserializeObject<GitHubFile[]>(jsonObj?.ToString());
-                //result.RawJSON = jsonObj?.ToString();
             }
         }
         return result;
