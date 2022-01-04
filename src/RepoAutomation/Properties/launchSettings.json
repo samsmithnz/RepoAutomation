@@ -2,7 +2,7 @@
   "profiles": {
     "RepoAutomation": {
       "commandName": "Project",
-      "commandLineArgs": "-o samsmithnz -r RepoAutomation -p mstest,classlib -d C:\\Users\\samsm\\source\\repos"
+      "commandLineArgs": "-o samsmithnz -r RepoAutomationTest -p mstest,classlib -d C:\\Users\\samsm\\source\\repos"
     }
   }
 }
