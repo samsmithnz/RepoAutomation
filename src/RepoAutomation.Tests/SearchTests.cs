@@ -33,26 +33,26 @@ public class SearchTests : BaseAPIAccessTests
         Assert.AreEqual("dependabot.yml", searchResult[0]);
     }
 
-    [TestMethod]
-    public async Task CheckActionFilesExistTest()
-    {
-        //Arrange
-        string owner = "samsmithnz";
-        string repository = "RepoAutomation"; //inception!!
-        string? file = null;
-        string? extension = "yml";
-        string? path = ".github/workflows";
+    //[TestMethod]
+    //public async Task CheckActionFilesExistTest()
+    //{
+    //    //Arrange
+    //    string owner = "samsmithnz";
+    //    string repository = "RepoAutomation"; //inception!!
+    //    string? file = null;
+    //    string? extension = "yml";
+    //    string? path = ".github/workflows";
 
-        //Act
-        List<string>? searchResult = await GitHubFileSearch.SearchForFiles(base.GitHubId, base.GitHubSecret,
-            owner, repository, file, extension, path);
+    //    //Act
+    //    List<string>? searchResult = await GitHubFileSearch.SearchForFiles(base.GitHubId, base.GitHubSecret,
+    //        owner, repository, file, extension, path);
 
-        //Assert
-        Assert.IsNotNull(searchResult);
-        Assert.IsTrue(searchResult.Count > 0);
-        Assert.AreEqual(1, searchResult.Count);
-        Assert.AreEqual("dotnet.yml", searchResult[0]);
-    }
+    //    //Assert
+    //    Assert.IsNotNull(searchResult);
+    //    Assert.IsTrue(searchResult.Count > 0);
+    //    Assert.AreEqual(1, searchResult.Count);
+    //    Assert.AreEqual("dotnet.yml", searchResult[0]);
+    //}
 
     [TestMethod]
     public async Task CheckGitVersionFilesExistTest()
