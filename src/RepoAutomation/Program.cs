@@ -143,5 +143,8 @@ public class Program
         [Option('v', "visibility", Required = false, HelpText = "new repo visibility. Can be set to private or public")]
         public string? Visibility { get; set; }
 
+        [Option('p', "projects", Required = false, HelpText = "dotnet projects, comma delimited, to create. See dotnet new docs for details: https://docs.microsoft.com/en-us/dotnet/core/tools/dotnet-new#arguments")]
+        public string? Projects { get; set; }
+
     }
 }
