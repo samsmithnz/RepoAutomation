@@ -72,10 +72,11 @@ Execute a .NET application.";
         //Arrange
         string projectName = "RepoTestProject";
         string workingDirectory = Environment.CurrentDirectory;
+        string projectTypes = "mstest,mvc";
 
         //Act
         string log = DotNetAutomation.SetupDotnetProjects(projectName, workingDirectory,
-            true, false, true);
+            projectTypes);
 
         //Assert
         Assert.IsNotNull(log);

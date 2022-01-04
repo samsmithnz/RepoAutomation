@@ -22,6 +22,7 @@ public class Program
         string workingTempDirectory = workingDirectory + "\\temp";
         string owner = "";
         string repository = "";
+        string projectTypes = "";
         bool isPrivate = true;
         Parser.Default.ParseArguments<Options>(args).WithParsed<Options>(o =>
         {
@@ -52,6 +53,10 @@ public class Program
             {
                 isPrivate = true;
             }
+            if (string.IsNullOrEmpty(o.ProjectTypes) == false)
+            {
+                projectTypes = o.ProjectTypes;
+            }
         });
 
         //Do the work
@@ -81,19 +86,17 @@ public class Program
             DotNetAutomation.CloneRepo(repoURL, repository, workingDirectory);
 
             //3. create the .NET projects
-            bool includeTests = true;
-            bool includeClassLibrary = true;
-            bool includeWeb = false;
-            DotNetAutomation.SetupDotnetProjects(repository, workingDirectory,
-                includeTests, includeClassLibrary, includeWeb);
+            if (string.IsNullOrEmpty(projectTypes) == false)
+            {
+                DotNetAutomation.SetupDotnetProjects(repository, workingDirectory,
+                    projectTypes);
+            }
 
             //4. Create the GitHub Action
             Console.WriteLine("Creating GitHub Action");
             GitHubActionsAutomation.SetupAction(workingDirectory + "\\" + repository,
                 repository,
-                includeTests,
-                includeClassLibrary,
-                includeWeb);
+                projectTypes);
 
             //5. Create the Dependabot file
             Console.WriteLine("Create Dependabot configuration");
@@ -142,6 +145,9 @@ public class Program
 
         [Option('v', "visibility", Required = false, HelpText = "new repo visibility. Can be set to private or public")]
         public string? Visibility { get; set; }
+
+        [Option('p', "projecttypes", Required = false, HelpText = "dotnet project types, comma delimited, to create. See dotnet new docs for details: https://docs.microsoft.com/en-us/dotnet/core/tools/dotnet-new#arguments")]
+        public string? ProjectTypes { get; set; }
 
     }
 }
