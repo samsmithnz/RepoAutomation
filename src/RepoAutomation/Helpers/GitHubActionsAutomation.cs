@@ -8,17 +8,12 @@ namespace RepoAutomation.Helpers
     public static class GitHubActionsAutomation
     {
         public static string SetupAction(string workingDirectory, string projectName,
-            bool includeTestProject,
-            bool includeClassLibraryProject,
-            bool includeWebProject)
+            string projectTypes)
         {
             StringBuilder log = new();
 
             //Create and Serialize to YAML
-            string yaml = CreateActionYaml(projectName,
-                includeTestProject,
-                includeClassLibraryProject,
-                includeWebProject);
+            string yaml = CreateActionYaml(projectName, projectTypes);
 
             //Save the YAML to a file
             if (Directory.Exists(workingDirectory) == false)
@@ -42,11 +37,11 @@ namespace RepoAutomation.Helpers
             return log.ToString();
         }
 
-        public static string CreateActionYaml(string projectName,
-            bool includeTestProject,
-            bool includeClassLibraryProject,
-            bool includeWebProject)
+        public static string CreateActionYaml(string projectName, string projectTypes)
         {
+            //Split out the project types
+            Dictionary<string, string> projectsToCreate = DotNetAutomation.CreateProjectTypeArray(projectTypes);
+
             JobHelper jobHelper = new();
             GitHubActionsRoot root = new();
             root.name = "CI/CD";
@@ -64,19 +59,38 @@ echo ""CommitsSinceVersionSource: ${{ steps.gitversion.outputs.CommitsSinceVersi
                 CommonStepHelper.AddScriptStep("Display GitVersion outputs", displayBuildGitVersionScript),
                 DotNetStepHelper.AddDotNetSetupStep("Setup .NET", "6.0.x")
             };
-            if (includeTestProject == true)
+            //Add all of the project types
+            foreach (KeyValuePair<string, string> item in projectsToCreate)
             {
-                steps.Add(DotNetStepHelper.AddDotNetTestStep(".NET test", "src/" + projectName + ".Tests/" + projectName + ".Tests.csproj", "Release", null, true));
-            }
-            if (includeClassLibraryProject == true)
-            {
-                steps.Add(DotNetStepHelper.AddDotNetPublishStep(".NET publish", "src/" + projectName + "/" + projectName + ".csproj", "Release", null, "-p:Version='${{ steps.gitversion.outputs.SemVer }}'", true));
-                steps.Add(CommonStepHelper.AddUploadArtifactStep("Upload package back to GitHub", "drop", "src/" + projectName + "/bin/Release"));
-            }
-            if (includeWebProject == true)
-            {
-                steps.Add(DotNetStepHelper.AddDotNetPublishStep(".NET publish", "src/" + projectName + ".Web/" + projectName + ".Web.csproj", "Release", null, "-p:Version='${{ steps.gitversion.outputs.SemVer }}'", true));
-                steps.Add(CommonStepHelper.AddUploadArtifactStep("Upload package back to GitHub", "web", "src/" + projectName + ".Web/bin/Release"));
+                if (item.Value == ".Tests")
+                {
+                    steps.Add(DotNetStepHelper.AddDotNetTestStep(".NET test", "src/" + projectName + item.Value + "/" + projectName + ".Tests.csproj", "Release", null, true));
+                }
+                else if (item.Value == "") //Console or library
+                {
+                    steps.Add(DotNetStepHelper.AddDotNetPublishStep(".NET publish", "src/" + projectName + "/" + projectName + item.Value + ".csproj", "Release", null, "-p:Version='${{ steps.gitversion.outputs.SemVer }}'", true));
+                    steps.Add(CommonStepHelper.AddUploadArtifactStep("Upload package back to GitHub", "drop", "src/" + projectName + item.Value + "/bin/Release"));
+                }
+                else if (item.Value == ".Web") //Website
+                {
+                    steps.Add(DotNetStepHelper.AddDotNetPublishStep(".NET publish", "src/" + projectName + item.Value + "/" + projectName + item.Value + ".csproj", "Release", null, "-p:Version='${{ steps.gitversion.outputs.SemVer }}'", true));
+                    steps.Add(CommonStepHelper.AddUploadArtifactStep("Upload package back to GitHub", "web", "src/" + projectName + item.Value + "/bin/Release"));
+                }
+                else if (item.Value == ".Service") //Service
+                {
+                    steps.Add(DotNetStepHelper.AddDotNetPublishStep(".NET publish", "src/" + projectName + item.Value + "/" + projectName + item.Value + ".csproj", "Release", null, "-p:Version='${{ steps.gitversion.outputs.SemVer }}'", true));
+                    steps.Add(CommonStepHelper.AddUploadArtifactStep("Upload package back to GitHub", "service", "src/" + projectName + item.Value + "/bin/Release"));
+                }
+                else if (item.Value == ".WPF") //WPF
+                {
+                    steps.Add(DotNetStepHelper.AddDotNetPublishStep(".NET publish", "src/" + projectName + "/" + projectName + item.Value + ".csproj", "Release", null, "-p:Version='${{ steps.gitversion.outputs.SemVer }}'", true));
+                    steps.Add(CommonStepHelper.AddUploadArtifactStep("Upload package back to GitHub", "wpf", "src/" + projectName + item.Value + "/bin/Release"));
+                }
+                else if (item.Value == ".Winforms") //Winforms
+                {
+                    steps.Add(DotNetStepHelper.AddDotNetPublishStep(".NET publish", "src/" + projectName + "/" + projectName + item.Value + ".csproj", "Release", null, "-p:Version='${{ steps.gitversion.outputs.SemVer }}'", true));
+                    steps.Add(CommonStepHelper.AddUploadArtifactStep("Upload package back to GitHub", "winforms", "src/" + projectName + item.Value + "/bin/Release"));
+                }
             }
             Step[] buildSteps = steps.ToArray();
 

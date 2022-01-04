@@ -15,15 +15,11 @@ public class ActionGenerationTests
     {
         //Arrange
         string projectName = "TestProject";
-        bool includeTestProject = false;
-        bool includeClassLibraryProject = false;
-        bool includeWebProject = false;
+        string projectTypes = "";
 
         //Act
         string yaml = GitHubActionsAutomation.CreateActionYaml(projectName,
-            includeTestProject,
-            includeClassLibraryProject,
-            includeWebProject);
+            projectTypes);
 
         //Assert
         string expected = @"name: CI/CD
@@ -68,15 +64,11 @@ jobs:
     {
         //Arrange
         string projectName = "TestProject";
-        bool includeTestProject = true;
-        bool includeClassLibraryProject = true;
-        bool includeWebProject = true;
+        string projectTypes = "mstest, classlib, mvc";
 
         //Act
         string yaml = GitHubActionsAutomation.CreateActionYaml(projectName,
-            includeTestProject,
-            includeClassLibraryProject,
-            includeWebProject);
+            projectTypes);
 
         //Assert
         string expected = @"name: CI/CD
