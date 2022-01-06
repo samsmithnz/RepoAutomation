@@ -48,4 +48,4 @@ Here is the result:
 
 For governance, we are building a website to monitor repos and take corrective action:
 
-![image](https://user-images.githubusercontent.com/8389039/148410838-90b3ae14-c922-4235-94fe-ce8f7367190a.png)
+![image](https://user-images.githubusercontent.com/8389039/148411631-46d2e485-022e-4815-b798-d88f344fc157.png)
