@@ -43,6 +43,9 @@ RepoAutomation --owner samsmithnz --repo RepoAutomationTest --directory c:\users
 Here is the result:
 ![image](https://user-images.githubusercontent.com/8389039/147702917-076d9502-4979-40f3-9b90-44664e495afe.png)
 
-[![CI/CD](https://github.com/samsmithnz/RepoAutomation/actions/workflows/workflow.yml/badge.svg)](https://github.com/samsmithnz/RepoAutomation/actions/workflows/workflow.yml)
 
-[![CI/CD](https://github.com/samsmithnz/RepoAutomation/actions/workflows/workflow.yml/badge.svg)](https://github.com/samsmithnz/RepoAutomation/actions/workflows/workflow.yml)
+## Website
+
+For governance, we are building a website to monitor repos and take corrective action:
+
+![image](https://user-images.githubusercontent.com/8389039/148411631-46d2e485-022e-4815-b798-d88f344fc157.png)
