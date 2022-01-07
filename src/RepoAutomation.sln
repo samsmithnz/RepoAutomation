@@ -15,10 +15,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		..\README.md = ..\README.md
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RepoAutomation.Service", "RepoAutomation.Service\RepoAutomation.Service.csproj", "{404B7F11-BECE-4E38-B6B8-FA0E5A142EC8}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RepoAutomation.Web", "RepoAutomation.Web\RepoAutomation.Web.csproj", "{26C1CB25-2139-4C84-99B4-2E5B18787829}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,14 +29,6 @@ Global
 		{071B1C42-51CA-4B81-B79B-BC533D26D65F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{071B1C42-51CA-4B81-B79B-BC533D26D65F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{071B1C42-51CA-4B81-B79B-BC533D26D65F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{404B7F11-BECE-4E38-B6B8-FA0E5A142EC8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{404B7F11-BECE-4E38-B6B8-FA0E5A142EC8}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{404B7F11-BECE-4E38-B6B8-FA0E5A142EC8}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{404B7F11-BECE-4E38-B6B8-FA0E5A142EC8}.Release|Any CPU.Build.0 = Release|Any CPU
-		{26C1CB25-2139-4C84-99B4-2E5B18787829}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{26C1CB25-2139-4C84-99B4-2E5B18787829}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{26C1CB25-2139-4C84-99B4-2E5B18787829}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{26C1CB25-2139-4C84-99B4-2E5B18787829}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
