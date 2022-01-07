@@ -11,4 +11,17 @@
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
 	</ItemGroup>
 
+	<PropertyGroup>
+		<IsPackable>true</IsPackable>
+		<PublishRepositoryUrl>true</PublishRepositoryUrl>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<PackageProjectUrl>https://github.com/samsmithnz/RepoAutomation</PackageProjectUrl>
+		<PackageDescription>A tool to GitHub operations .NET</PackageDescription>
+		<PackageTags>GitHub;repo automation;yaml;serialization;github;github actions;dependabot;dotnet;.NET;c#</PackageTags>
+		<IncludeSymbols>true</IncludeSymbols>
+		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
+		<EmbedUntrackedSources>true</EmbedUntrackedSources>
+		<AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
+	</PropertyGroup>
+
 </Project>

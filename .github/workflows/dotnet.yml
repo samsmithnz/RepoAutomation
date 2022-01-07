@@ -86,7 +86,16 @@ jobs:
       with:
         name: ${{ matrix.ChannelName }}
         path: ${{ github.workspace }}\${{ matrix.ChannelName }}    
-
+    #Pack the code into a NuGet package
+    - name: .NET pack
+      if: ${{ matrix.ChannelName }} == 'Linux_x64'
+      run: dotnet pack src/RepoAutomation/RepoAutomation.csproj -c Release --nologo --include-symbols -p:Version='${{ needs.version.outputs.Version }}'
+    - name: Upload nuget package back to GitHub
+      uses: actions/upload-artifact@v2
+      if: ${{ matrix.ChannelName }} == 'Linux_x64'
+      with:
+        name: nugetPackage
+        path: src/RepoAutomation/bin/Release  
 
   Release:
     runs-on: ubuntu-latest
@@ -109,3 +118,7 @@ jobs:
         tag: ${{ needs.version.outputs.Version }}
         name: Release ${{ needs.version.outputs.Version }}
         token: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
+    - name: Publish nuget package to nuget.org
+      if: needs.build.outputs.CommitsSinceVersionSource > 0 #Only publish a NuGet package if there has been a commit/version change
+      run: dotnet nuget push nugetPackage\*.nupkg --api-key "${{ secrets.GHPackagesToken }}" --source "https://api.nuget.org/v3/index.json"
+      shell: pwsh
