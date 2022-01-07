@@ -1,7 +1,7 @@
 ﻿using GitHubActionsDotNet.Helpers;
 using System.Text;
 
-namespace RepoAutomation.Helpers
+namespace RepoAutomation.Core.Helpers
 {
     public static class DependabotAutomation
     {

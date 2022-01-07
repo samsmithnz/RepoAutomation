@@ -1,4 +1,4 @@
-﻿namespace RepoAutomation.Helpers
+﻿namespace RepoAutomation.Core.Helpers
 {
     public static class GitVersionAutomation
     {

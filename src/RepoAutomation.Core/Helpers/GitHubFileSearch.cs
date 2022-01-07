@@ -1,7 +1,7 @@
-﻿using RepoAutomation.APIAccess;
-using RepoAutomation.Models;
+﻿using RepoAutomation.Core.APIAccess;
+using RepoAutomation.Core.Models;
 
-namespace RepoAutomation.Helpers
+namespace RepoAutomation.Core.Helpers
 {
     public static class GitHubFileSearch
     {

@@ -1,5 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using RepoAutomation.Helpers;
+using RepoAutomation.Core.Helpers;
 using RepoAutomation.Tests.Helpers;
 
 namespace RepoAutomation.Tests;

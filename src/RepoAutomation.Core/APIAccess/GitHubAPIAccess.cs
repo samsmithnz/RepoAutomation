@@ -1,9 +1,9 @@
 ﻿using Newtonsoft.Json;
-using RepoAutomation.Models;
+using RepoAutomation.Core.Models;
 using System.Text;
 using System.Web;
 
-namespace RepoAutomation.APIAccess;
+namespace RepoAutomation.Core.APIAccess;
 
 public static class GitHubAPIAccess
 {

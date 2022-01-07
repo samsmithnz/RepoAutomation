@@ -1,4 +1,4 @@
-﻿namespace RepoAutomation.Models
+﻿namespace RepoAutomation.Core.Models
 {
     public class GitHubFile : BaseModel
     {

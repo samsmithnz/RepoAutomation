@@ -1,6 +1,6 @@
 ﻿using System.Net.Http.Headers;
 
-namespace RepoAutomation.APIAccess;
+namespace RepoAutomation.Core.APIAccess;
 
 public static class BaseAPIAccess
 {

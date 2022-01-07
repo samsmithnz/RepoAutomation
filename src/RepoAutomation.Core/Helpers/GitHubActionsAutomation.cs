@@ -3,7 +3,7 @@ using GitHubActionsDotNet.Models;
 using GitHubActionsDotNet.Serialization;
 using System.Text;
 
-namespace RepoAutomation.Helpers
+namespace RepoAutomation.Core.Helpers
 {
     public static class GitHubActionsAutomation
     {
