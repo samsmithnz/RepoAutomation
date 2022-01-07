@@ -1,6 +1,9 @@
 # Repo Automation
 
 [![CI/ CD](https://github.com/samsmithnz/RepoAutomation/actions/workflows/dotnet.yml/badge.svg)](https://github.com/samsmithnz/RepoAutomation/actions/workflows/dotnet.yml)
+[![Latest NuGet package](https://img.shields.io/nuget/v/RepoAutomation)](https://www.nuget.org/packages/RepoAutomation/)
+![Current Release](https://img.shields.io/github/release/samsmithnz/RepoAutomation/all.svg)
+
 
 .NET code to create and configure a repo with C#. 
 - Enables repo "auto-merge" open
