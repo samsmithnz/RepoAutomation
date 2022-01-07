@@ -27,7 +27,7 @@ namespace RepoAutomation.Core.Helpers
                     if (extension != null && gitHubFile.name != null)
                     {
                         string[] splitFileName = gitHubFile.name.Split(".");
-                        if (splitFileName.Length > 0 && splitFileName[splitFileName.Length - 1] == extension)
+                        if (splitFileName.Length > 0 && splitFileName[^1] == extension)
                         {
                             results.Add(gitHubFile.name);
                         }
