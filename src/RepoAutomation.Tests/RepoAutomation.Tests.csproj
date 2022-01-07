@@ -18,6 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\RepoAutomation.Core\RepoAutomation.Core.csproj" />
     <ProjectReference Include="..\RepoAutomation\RepoAutomation.csproj" />
   </ItemGroup>
 

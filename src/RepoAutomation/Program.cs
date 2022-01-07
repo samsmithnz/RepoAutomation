@@ -1,8 +1,8 @@
 ﻿using CommandLine;
 using Microsoft.Extensions.Configuration;
-using RepoAutomation.APIAccess;
-using RepoAutomation.Helpers;
-using RepoAutomation.Models;
+using RepoAutomation.Core.APIAccess;
+using RepoAutomation.Core.Helpers;
+using RepoAutomation.Core.Models;
 
 namespace RepoAutomation;
 
@@ -111,9 +111,9 @@ public class Program
             GitVersionAutomation.AddGitVersionFile(workingDirectory + "\\" + repository, "0.1.0");
 
             //8. Push back to main         
-            Console.WriteLine(Helpers.CommandLine.RunCommand("git", "add .", workingDirectory + "\\" + repository));
-            Console.WriteLine(Helpers.CommandLine.RunCommand("git", @"commit -m""Created .NET projects, setup action, and created dependabot configuration""", workingDirectory + "\\" + repository));
-            Console.WriteLine(Helpers.CommandLine.RunCommand("git", "push", workingDirectory + "\\" + repository));
+            Console.WriteLine(Core.Helpers.CommandLine.RunCommand("git", "add .", workingDirectory + "\\" + repository));
+            Console.WriteLine(Core.Helpers.CommandLine.RunCommand("git", @"commit -m""Created .NET projects, setup action, and created dependabot configuration""", workingDirectory + "\\" + repository));
+            Console.WriteLine(Core.Helpers.CommandLine.RunCommand("git", "push", workingDirectory + "\\" + repository));
 
             //9. Set the branch policy
             //TODO: Set the branch policy
