@@ -88,9 +88,11 @@ jobs:
         path: ${{ github.workspace }}\${{ matrix.ChannelName }}    
     #Pack the code into a NuGet package
     - name: .NET pack
-      run: dotnet pack src/RepoAutomation/RepoAutomation.csproj -c Release --nologo --include-symbols -p:Version='${{ steps.gitversion.outputs.SemVer }}'
+      if: $matrix.ChannelName == 'Linux_x64'
+      run: dotnet pack src/RepoAutomation/RepoAutomation.csproj -c Release --nologo --include-symbols -p:Version='${{ needs.version.outputs.SemVer }}'
     - name: Upload nuget package back to GitHub
       uses: actions/upload-artifact@v2
+      if: $matrix.ChannelName == 'Linux_x64'
       with:
         name: nugetPackage
         path: src/RepoAutomation/bin/Release  
