@@ -32,7 +32,8 @@ public static class GitHubAPIAccess
         bool allowAutoMerge,
         bool deleteBranchOnMerge,
         bool allowRebaseMerge,
-        bool isPrivate)
+        bool isPrivate,
+        string gitIgnoreTemplate = "VisualStudio")
     {
         if (clientId != null && clientSecret != null)
         {
@@ -44,7 +45,7 @@ public static class GitHubAPIAccess
                 allow_rebase_merge = allowRebaseMerge,
                 @private = isPrivate,
                 auto_init = true,
-                gitignore_template = "VisualStudio",
+                gitignore_template = gitIgnoreTemplate,
 
             };
             StringContent content = new(JsonConvert.SerializeObject(body), Encoding.UTF8, "application/json");
