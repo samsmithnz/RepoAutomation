@@ -24,7 +24,7 @@ public class CommandTests
         string result = RepoAutomation.Core.Helpers.CommandLine.RunCommand(command, arguments);
 
         //Assert
-        string expected = @".NET SDK (6.0.101)
+        string expected = @".NET SDK (6.0.102)
 Usage: dotnet [runtime-options] [path-to-application] [arguments]
 
 Execute a .NET application.";
