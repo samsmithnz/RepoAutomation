@@ -24,11 +24,10 @@ public class CommandTests
         string result = RepoAutomation.Core.Helpers.CommandLine.RunCommand(command, arguments);
 
         //Assert
-        string expected = @".NET SDK (6.0.101)
-Usage: dotnet [runtime-options] [path-to-application] [arguments]
+        string expected = @"Usage: dotnet [runtime-options] [path-to-application] [arguments]
 
 Execute a .NET application.";
-        Assert.AreEqual(expected, Utility.TakeNLines(result, 4));
+        Assert.AreEqual(expected, Utility.TakeNLines(result, 3));
     }
 
     [TestMethod]
