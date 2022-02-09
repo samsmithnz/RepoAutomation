@@ -28,7 +28,7 @@ public class CommandTests
 Usage: dotnet [runtime-options] [path-to-application] [arguments]
 
 Execute a .NET application.";
-        Assert.AreEqual(expected, Utility.TakeNLines(result, 3));
+        Assert.AreEqual(expected, Utility.TakeNLines(result, 4));
     }
 
     [TestMethod]
