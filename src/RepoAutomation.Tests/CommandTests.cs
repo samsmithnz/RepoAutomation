@@ -25,13 +25,14 @@ public class CommandTests
         string result = RepoAutomation.Core.Helpers.CommandLine.RunCommand(command, arguments);
 
         //Assert
-        if (result.Split('\n').Length > 1 && 
-            result.Split('\n')[0].StartsWith(".NET SDK"))
+        string[] lines = result.Split('\n');
+        if (lines.Length > 1 &&
+            lines[0].StartsWith(".NET SDK"))
         {
             StringBuilder sb = new();
-            for (int i = 1; i < result.Split('\n').Length - 1; i++)
+            for (int i = 1; i < lines.Length - 1; i++)
             {
-                sb.Append(result[i]);
+                sb.Append(lines[i]);
                 sb.Append('\n');
             }
             result = sb.ToString();
