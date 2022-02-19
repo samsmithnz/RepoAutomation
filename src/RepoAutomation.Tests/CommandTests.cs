@@ -3,6 +3,7 @@ using RepoAutomation.Core.Helpers;
 using RepoAutomation.Tests.Helpers;
 using System;
 using System.IO;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace RepoAutomation.Tests;
@@ -24,11 +25,22 @@ public class CommandTests
         string result = RepoAutomation.Core.Helpers.CommandLine.RunCommand(command, arguments);
 
         //Assert
-        string expected = @".NET SDK (6.0.102)
-Usage: dotnet [runtime-options] [path-to-application] [arguments]
+        if (result.Split('\n').Length > 1 && 
+            result.Split('\n')[0].StartsWith(".NET SDK"))
+        {
+            StringBuilder sb = new();
+            for (int i = 1; i < result.Split('\n').Length - 1; i++)
+            {
+                sb.Append(result[i]);
+                sb.Append('\n');
+            }
+            result = sb.ToString();
+        }
+
+        string expected = @"Usage: dotnet [runtime-options] [path-to-application] [arguments]
 
 Execute a .NET application.";
-        Assert.AreEqual(expected, Utility.TakeNLines(result, 4));
+        Assert.AreEqual(expected, Utility.TakeNLines(result, 3));
     }
 
     [TestMethod]
