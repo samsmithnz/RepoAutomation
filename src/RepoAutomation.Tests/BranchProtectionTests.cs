@@ -65,17 +65,41 @@ public class BranchProtectionTests : BaseAPIAccessTests
         string owner = "samsmithnz";
         string repoName = "RepoAutomation";
         string branchName = "main";
-        string[] contexts = new string[]
+        //string[] contexts = new string[]
+        //{
+        //    "version"
+        //    //,
+        //    //"build (Linux_x64, linux-x64)",
+        //    //"build (Windows_x64, windows-x64)"
+        //};
+
+        RequiredStatusCheckPut requiredStatusCheck = new()
         {
-            "version"
-            //,
-            //"build (Linux_x64, linux-x64)",
-            //"build (Windows_x64, windows-x64)"
+            strict = true,
+            contexts = new string[0],
+            checks = new string[0]
         };
 
         //Act
         bool result = await GitHubAPIAccess.UpdateBranchProtectionPolicy(base.GitHubId, base.GitHubSecret, owner, repoName,
-            branchName, contexts);
+            branchName, requiredStatusCheck);
+
+        //Assert
+        Assert.IsTrue(result);
+    }
+
+    [TestMethod]
+    public async Task UpdateBranchProtectionNoContextsPolicyTest()
+    {
+        //Arrange
+        string owner = "samsmithnz";
+        string repoName = "RepoAutomation";
+        string branchName = "main";
+        RequiredStatusCheckPut? requiredStatusCheck = null;
+
+        //Act
+        bool result = await GitHubAPIAccess.UpdateBranchProtectionPolicy(base.GitHubId, base.GitHubSecret, owner, repoName,
+            branchName, requiredStatusCheck);
 
         //Assert
         Assert.IsTrue(result);

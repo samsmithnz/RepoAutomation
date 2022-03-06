@@ -164,7 +164,7 @@ public static class GitHubAPIAccess
     }
 
     public async static Task<bool> UpdateBranchProtectionPolicy(string? clientId, string? clientSecret, string owner, string repo,
-        string branch, string[] contexts)
+        string branch, RequiredStatusCheckPut requiredStatusCheck)
     {
         if (clientId != null && clientSecret != null)
         {
@@ -187,22 +187,9 @@ public static class GitHubAPIAccess
             //        dismiss_stale_reviews = true
             //    }
             //};
-            BranchProtectionPolicyPut body = new BranchProtectionPolicyPut
+            BranchProtectionPolicyPut body = new()
             {
-                required_status_checks = new RequiredStatusCheckPut()
-                {
-                    strict = true,
-                    contexts = new string[0],
-                    checks = new string[0]
-                    //contexts = new string[1] { "version" },
-                    //checks = new Check[]
-                    //{
-                    //    new Check() {
-                    //        context = "version"
-                    //    }
-                    //}
-
-                },
+                required_status_checks = requiredStatusCheck,
                 enforce_admins = true,
                 required_pull_request_reviews = null,
                 restrictions = null
