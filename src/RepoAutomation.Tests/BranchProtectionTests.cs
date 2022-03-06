@@ -31,8 +31,8 @@ public class BranchProtectionTests : BaseAPIAccessTests
             Assert.IsNotNull(branchProtectionPolicy.required_status_checks);
             Assert.AreEqual(3, branchProtectionPolicy.required_status_checks?.checks?.Length);
             Assert.AreEqual("version", branchProtectionPolicy.required_status_checks?.checks?[0].context);
-            Assert.IsTrue(branchProtectionPolicy.enforce_admins?.enabled);
-            Assert.IsTrue(branchProtectionPolicy.required_conversation_resolution?.enabled);
+            //Assert.IsTrue(branchProtectionPolicy.enforce_admins?.enabled);
+            //Assert.IsTrue(branchProtectionPolicy.required_conversation_resolution?.enabled);
             Assert.IsTrue(!branchProtectionPolicy.strict);
         }
     }
@@ -58,27 +58,28 @@ public class BranchProtectionTests : BaseAPIAccessTests
         }
     }
 
-    //[TestMethod]
-    //public async Task UpdateBranchProtectionPolicyTest()
-    //{
-    //    //Arrange
-    //    string owner = "samsmithnz";
-    //    string repoName = "RepoAutomation";
-    //    string branchName = "main";
-    //    string[] contexts = new string[]
-    //    {
-    //        "version",
-    //        "build (Linux_x64, linux-x64)",
-    //        "build (Windows_x64, windows-x64)"
-    //    };
+    [TestMethod]
+    public async Task UpdateBranchProtectionPolicyTest()
+    {
+        //Arrange
+        string owner = "samsmithnz";
+        string repoName = "RepoAutomation";
+        string branchName = "main";
+        string[] contexts = new string[]
+        {
+            "version"
+            //,
+            //"build (Linux_x64, linux-x64)",
+            //"build (Windows_x64, windows-x64)"
+        };
 
-    //    //Act
-    //    bool result = await GitHubAPIAccess.UpdateBranchProtectionPolicy(base.GitHubId, base.GitHubSecret, owner, repoName,
-    //        branchName, contexts);
+        //Act
+        bool result = await GitHubAPIAccess.UpdateBranchProtectionPolicy(base.GitHubId, base.GitHubSecret, owner, repoName,
+            branchName, contexts);
 
-    //    //Assert
-    //    Assert.IsFalse(result);
-    //}
+        //Assert
+        Assert.IsTrue(result);
+    }
 
     //[TestMethod]
     //public async Task CreateAndDeleteRepoTest()
