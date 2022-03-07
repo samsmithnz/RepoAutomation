@@ -49,17 +49,18 @@ jobs:
     #    path-to-lcov: src/GitHubActionsDotNet.Tests/TestResults/coverage.info
 
   build:
-    runs-on: windows-latest
+    runs-on: ${{matrix.os}}
     needs: version
     strategy:
       matrix:
-        include:
-        - ChannelName: Windows_x64
-          RID: win-x64
-        - ChannelName: MacOS_x64
-          RID: osx-x64
-        - ChannelName: Linux_x64
-          RID: linux-x64
+        os: [windows-latest, ubuntu-latest]
+        #include:
+        #- ChannelName: Windows_x64
+        #  RID: win-x64
+        #- ChannelName: MacOS_x64
+        #  RID: osx-x64
+        #- ChannelName: Linux_x64
+        #  RID: linux-x64
     env:
       BuildConfiguration: Release
     outputs: # https://stackoverflow.com/questions/59175332/using-output-from-a-previous-job-in-a-new-one-in-a-github-action
@@ -71,28 +72,28 @@ jobs:
       uses: actions/setup-dotnet@v2
       with:
         dotnet-version: 6.0.x
-    - name: Create directory for channel
-      run: mkdir ${{ github.workspace }}\${{ matrix.ChannelName }}
-      shell: powershell
-    - name: dotnet publish ${{ matrix.RID }}
-      run: dotnet publish '.\src\RepoAutomation\RepoAutomation.csproj' -r ${{ matrix.RID }} --self-contained -c ${{ env.BuildConfiguration }} -o ${{ github.workspace }}\${{ needs.version.outputs.Version }}_${{ matrix.ChannelName }} /p:Version=${{ needs.version.outputs.Version }}
-    - name: zip files
-      run: |
-        Compress-Archive -Path '${{ github.workspace }}\${{ needs.version.outputs.Version }}_${{ matrix.ChannelName }}\' `
-        -DestinationPath ${{ github.workspace }}\${{ matrix.ChannelName }}\RepoAutomation.${{ matrix.ChannelName }}.${{ needs.version.outputs.Version }}.zip
-      shell: powershell
-    - name: Publish Artifacts
-      uses: actions/upload-artifact@v2
-      with:
-        name: ${{ matrix.ChannelName }}
-        path: ${{ github.workspace }}\${{ matrix.ChannelName }}    
+    #- name: Create directory for channel
+    #  run: mkdir ${{ github.workspace }}\${{ matrix.ChannelName }}
+    #  shell: powershell
+    #- name: dotnet publish ${{ matrix.RID }}
+    #  run: dotnet publish '.\src\RepoAutomation\RepoAutomation.csproj' -r ${{ matrix.RID }} --self-contained -c ${{ env.BuildConfiguration }} -o ${{ github.workspace }}\${{ needs.version.outputs.Version }}_${{ matrix.ChannelName }} /p:Version=${{ needs.version.outputs.Version }}
+    #- name: zip files
+    #  run: |
+    #    Compress-Archive -Path '${{ github.workspace }}\${{ needs.version.outputs.Version }}_${{ matrix.ChannelName }}\' `
+    #    -DestinationPath ${{ github.workspace }}\${{ matrix.ChannelName }}\RepoAutomation.${{ matrix.ChannelName }}.${{ needs.version.outputs.Version }}.zip
+    #  shell: powershell
+    #- name: Publish Artifacts
+    #  uses: actions/upload-artifact@v2
+    #  with:
+    #    name: ${{ matrix.ChannelName }}
+    #    path: ${{ github.workspace }}\${{ matrix.ChannelName }}    
     #Pack the code into a NuGet package
     - name: .NET pack
-      if: ${{ matrix.ChannelName }} == 'Windows_x64'
-      run: dotnet pack src/RepoAutomation/RepoAutomation.csproj -c Release --nologo --include-symbols -p:Version='${{ needs.version.outputs.Version }}'
+      if: runner.OS == 'Linux' #Only pack the Linux nuget package
+      run: dotnet pack src/RepoAutomation.Core/RepoAutomation.Core.csproj -c Release --nologo --include-symbols -p:Version='${{ needs.version.outputs.Version }}'
     - name: Upload nuget package back to GitHub
       uses: actions/upload-artifact@v2
-      if: ${{ matrix.ChannelName }} == 'Windows_x64'
+      if: runner.OS == 'Linux' #Only pack the Linux nuget package
       with:
         name: nugetPackage
         path: src/RepoAutomation/bin/Release  
@@ -114,7 +115,7 @@ jobs:
       uses: ncipollo/release-action@v1
       if: needs.version.outputs.CommitsSinceVersionSource > 0 #Only create a release if there has been a commit/version change
       with:
-        artifacts: Linux_x64/RepoAutomation.Linux_x64.${{ needs.version.outputs.Version }}.zip,MacOS_x64/RepoAutomation.MacOS_x64.${{ needs.version.outputs.Version }}.zip,Windows_x64/RepoAutomation.Windows_x64.${{ needs.version.outputs.Version }}.zip
+        #artifacts: Linux_x64/RepoAutomation.Linux_x64.${{ needs.version.outputs.Version }}.zip,MacOS_x64/RepoAutomation.MacOS_x64.${{ needs.version.outputs.Version }}.zip,Windows_x64/RepoAutomation.Windows_x64.${{ needs.version.outputs.Version }}.zip
         tag: ${{ needs.version.outputs.Version }}
         name: Release ${{ needs.version.outputs.Version }}
         token: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
