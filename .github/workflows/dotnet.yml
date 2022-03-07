@@ -96,7 +96,7 @@ jobs:
       if: runner.OS == 'Linux' #Only pack the Linux nuget package
       with:
         name: nugetPackage
-        path: src/RepoAutomation/bin/Release  
+        path: src/RepoAutomation.Core/bin/Release  
 
   Release:
     runs-on: ubuntu-latest
