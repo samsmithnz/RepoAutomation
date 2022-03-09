@@ -17,7 +17,7 @@ public class BranchProtectionPolicyPut : BaseModel
     public bool strict { get; set; }
     public bool? enforce_admins { get; set; }
     public bool? required_conversation_resolution { get; set; }
-    public bool? required_pull_request_reviews { get; set; }
+    public RequiredPullRequestReviews? required_pull_request_reviews { get; set; }
     public bool? restrictions { get; set; }
 }
 
@@ -33,6 +33,13 @@ public class RequiredStatusCheckPut
     public bool? strict { get; set; }
     public string[]? contexts { get; set; }
     public string[]? checks { get; set; }
+}
+
+public class RequiredPullRequestReviews
+{
+    public bool dismiss_stale_reviews { get; set; }
+    public int required_approving_review_count { get; set; }
+    public bool require_code_owner_reviews { get; set; }
 }
 
 public class Check

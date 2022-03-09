@@ -164,7 +164,7 @@ public static class GitHubAPIAccess
     }
 
     public async static Task<bool> UpdateBranchProtectionPolicy(string? clientId, string? clientSecret, string owner, string repo,
-        string branch, RequiredStatusCheckPut requiredStatusCheck)
+        string branch, RequiredStatusCheckPut? requiredStatusCheck)
     {
         if (clientId != null && clientSecret != null)
         {
@@ -191,7 +191,12 @@ public static class GitHubAPIAccess
             {
                 required_status_checks = requiredStatusCheck,
                 enforce_admins = true,
-                required_pull_request_reviews = null,
+                required_pull_request_reviews = new RequiredPullRequestReviews
+                {
+                    dismiss_stale_reviews = false,
+                    required_approving_review_count = 0,
+                    require_code_owner_reviews = false
+                },
                 restrictions = null
             };
             string json = JsonConvert.SerializeObject(body);
