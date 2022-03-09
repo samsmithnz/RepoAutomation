@@ -6,7 +6,7 @@ public class BranchProtectionPolicy : BaseModel
     public bool strict { get; set; }
     public Enforce? enforce_admins { get; set; }
     public Enforce? required_conversation_resolution { get; set; }
-    public bool? required_pull_request_reviews { get; set; }
+    public RequiredPullRequestReviews? required_pull_request_reviews { get; set; }
     public bool? restrictions { get; set; }
 }
 
