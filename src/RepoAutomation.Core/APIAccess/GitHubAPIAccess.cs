@@ -190,14 +190,18 @@ public static class GitHubAPIAccess
             BranchProtectionPolicyPut body = new()
             {
                 required_status_checks = requiredStatusCheck,
-                enforce_admins = true,
                 required_pull_request_reviews = new RequiredPullRequestReviews
                 {
                     dismiss_stale_reviews = false,
                     required_approving_review_count = 0,
                     require_code_owner_reviews = false
                 },
-                restrictions = null
+                restrictions = null,
+                required_conversation_resolution = true,
+                required_linear_history = false,
+                enforce_admins = true,
+                allow_force_pushes = false,
+                allow_deletions = false
             };
             string json = JsonConvert.SerializeObject(body);
 

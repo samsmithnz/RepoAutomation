@@ -19,6 +19,9 @@ public class BranchProtectionPolicyPut : BaseModel
     public bool? required_conversation_resolution { get; set; }
     public RequiredPullRequestReviews? required_pull_request_reviews { get; set; }
     public bool? restrictions { get; set; }
+    public bool required_linear_history { get; set; }
+    public bool allow_force_pushes { get; set; }
+    public bool allow_deletions { get; set; }
 }
 
 public class RequiredStatusCheck
