@@ -24,10 +24,17 @@ namespace RepoAutomation.Core.Helpers
                     {
                         results.Add(gitHubFile.name);
                     }
-                    if (extension != null && gitHubFile.name != null)
+                    else if (extension != null && gitHubFile.name != null)
                     {
                         string[] splitFileName = gitHubFile.name.Split(".");
                         if (splitFileName.Length > 0 && splitFileName[^1] == extension)
+                        {
+                            results.Add(gitHubFile.name);
+                        }
+                    }
+                    else if (file == null && extension == null)
+                    {
+                        if (gitHubFile != null && gitHubFile.name != null)
                         {
                             results.Add(gitHubFile.name);
                         }
