@@ -116,4 +116,19 @@ public class BranchProtectionTests : BaseAPIAccessTests
 
     //    Assert.IsNull(repo);
     //}
+    [TestMethod]
+    public async Task GetBranchProtectionWhereItDoesnotExistTest()
+    {
+        //Arrange
+        string owner = "samsmithnz";
+        string repoName = "CustomQueue"; 
+        string branchName = "main";
+
+        //Act
+        BranchProtectionPolicy? branchProtectionPolicy = await GitHubAPIAccess.GetBranchProtectionPolicy(base.GitHubId, base.GitHubSecret,
+            owner, repoName, branchName);
+
+        //Assert
+        Assert.IsNull(branchProtectionPolicy);
+    }
 }
