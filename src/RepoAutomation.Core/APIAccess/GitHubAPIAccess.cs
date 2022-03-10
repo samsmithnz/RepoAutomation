@@ -141,7 +141,7 @@ public static class GitHubAPIAccess
         {
             path = HttpUtility.UrlEncode(path);
             string url = $"https://api.github.com/repos/{owner}/{repo}/contents/{path}";
-            string? response = await BaseAPIAccess.GetGitHubMessage(url, clientId, clientSecret);
+            string? response = await BaseAPIAccess.GetGitHubMessage(url, clientId, clientSecret, false);
             if (string.IsNullOrEmpty(response) == false)
             {
                 dynamic? jsonObj = JsonConvert.DeserializeObject(response);
