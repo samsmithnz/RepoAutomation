@@ -158,8 +158,8 @@ public static class GitHubAPIAccess
         if (clientId != null && clientSecret != null)
         {
             string url = $"https://api.github.com/repos/{owner}/{repo}/branches/{branch}/protection";
-            string? response = await BaseAPIAccess.GetGitHubMessage(url, clientId, clientSecret);
-            if (string.IsNullOrEmpty(response) == false)
+            string? response = await BaseAPIAccess.GetGitHubMessage(url, clientId, clientSecret, false);
+            if (string.IsNullOrEmpty(response) == false && response.IndexOf(@"""message"":""Branch not protected""") == -1)
             {
                 dynamic? jsonObj = JsonConvert.DeserializeObject(response);
                 result = JsonConvert.DeserializeObject<BranchProtectionPolicy>(jsonObj?.ToString());
