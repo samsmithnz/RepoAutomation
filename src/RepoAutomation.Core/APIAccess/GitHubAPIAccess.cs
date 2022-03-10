@@ -27,6 +27,30 @@ public static class GitHubAPIAccess
         return result;
     }
 
+    //https://docs.github.com/en/rest/reference/repos#list-repositories-for-a-user
+    public async static Task<List<Repo>> GetRepos(string? clientId, string? clientSecret, string owner)
+    {
+        List<Repo> result = new();
+        if (clientId != null && clientSecret != null)
+        {
+            string url = $"https://api.github.com/users/{owner}/repos";
+            string? response = await BaseAPIAccess.GetGitHubMessage(url, clientId, clientSecret, false);
+            if (string.IsNullOrEmpty(response) == false &&
+                response != @"{""message"":""Not Found"",""documentation_url"":""https://docs.github.com/rest/reference/repos#get-a-repository""}")
+            {
+                dynamic? jsonObj = JsonConvert.DeserializeObject(response);
+                string? jsonString = jsonObj?.ToString();
+                if (jsonString != null)
+                {
+                    result = JsonConvert.DeserializeObject<List<Repo>>(jsonString);
+                }
+                //Commented out because we are returning a list, and there is no RawJSON property on the list
+                //result.RawJSON = jsonObj?.ToString();
+            }
+        }
+        return result;
+    }
+
     public async static Task<bool> CreateRepo(string? clientId, string? clientSecret,
         string repo,
         bool allowAutoMerge,
@@ -225,7 +249,7 @@ public static class GitHubAPIAccess
                 allow_deletions = false
             };
             string json = JsonConvert.SerializeObject(body);
-                   
+
             StringContent content = new(json, Encoding.UTF8, "application/json");
             string url = $"https://api.github.com/repos/{owner}/{repo}/branches/{branch}/protection";
             string? response = await BaseAPIAccess.PutGitHubMessage(url, clientId, clientSecret, content);

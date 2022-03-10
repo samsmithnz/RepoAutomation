@@ -3,6 +3,7 @@ using RepoAutomation.Core.APIAccess;
 using RepoAutomation.Core.Models;
 using RepoAutomation.Tests.Helpers;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 
@@ -78,6 +79,36 @@ public class RepoTests : BaseAPIAccessTests
             //Assert
             Assert.AreEqual("Response status code does not indicate success: 404 (Not Found).", ex.Message);
         }
+    }
+
+    [TestMethod]
+    public async Task GetReposTest()
+    {
+        //Arrange
+        string owner = "samsmithnz";
+
+        //Act
+        List<Repo> repos = await GitHubAPIAccess.GetRepos(base.GitHubId, base.GitHubSecret,
+              owner);
+
+        //Assert
+        Assert.IsNotNull(repos);
+        Assert.IsTrue(repos.Count >= 30);
+        //bool foundPublicRepo = false;
+        //bool foundPrivateRepo = false;
+        //foreach (Repo repo in repos)
+        //{
+        //    if (repo.visibility == "public")
+        //    {
+        //        foundPublicRepo = true;
+        //    }
+        //    else if (repo.visibility == "private")
+        //    {
+        //        foundPrivateRepo = true;
+        //    }
+        //}
+        //Assert.IsTrue(foundPublicRepo);
+        //Assert.IsTrue(foundPrivateRepo);
     }
 
     [TestMethod]
