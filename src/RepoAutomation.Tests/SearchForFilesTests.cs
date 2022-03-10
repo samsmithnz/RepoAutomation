@@ -96,4 +96,22 @@ public class SearchForFilesTests : BaseAPIAccessTests
         Assert.AreEqual("dotnet.yml", searchResult[0]);
     }
 
+    [TestMethod]
+    public async Task GetAllWorkflowsWhereNoneExistTest()
+    {
+        //Arrange
+        string owner = "samsmithnz";
+        string repository = "CustomQueue";
+        string? file = null;
+        string? extension = null;
+        string? path = ".github/workflows";
+
+        //Act
+        List<string>? searchResult = await GitHubFileSearch.SearchForFiles(base.GitHubId, base.GitHubSecret,
+            owner, repository, file, extension, path);
+
+        //Assert
+        Assert.IsNull(searchResult);
+    }
+
 }
