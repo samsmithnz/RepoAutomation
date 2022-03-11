@@ -76,11 +76,11 @@ jobs:
     #  run: mkdir ${{ github.workspace }}\${{ matrix.ChannelName }}
     #  shell: powershell
     #- name: dotnet publish ${{ matrix.RID }}
-    #  run: dotnet publish '.\src\RepoAutomation\RepoAutomation.csproj' -r ${{ matrix.RID }} --self-contained -c ${{ env.BuildConfiguration }} -o ${{ github.workspace }}\${{ needs.version.outputs.Version }}_${{ matrix.ChannelName }} /p:Version=${{ needs.version.outputs.Version }}
+    #  run: dotnet publish '.\src\RepoAutomation\RepoAutomation.csproj' -r ${{ matrix.RID }} --self-contained -c ${{ env.BuildConfiguration }} -o ${{ github.workspace }}\${{ needs.versionAndTest.outputs.Version }}_${{ matrix.ChannelName }} /p:Version=${{ needs.versionAndTest.outputs.Version }}
     #- name: zip files
     #  run: |
-    #    Compress-Archive -Path '${{ github.workspace }}\${{ needs.version.outputs.Version }}_${{ matrix.ChannelName }}\' `
-    #    -DestinationPath ${{ github.workspace }}\${{ matrix.ChannelName }}\RepoAutomation.${{ matrix.ChannelName }}.${{ needs.version.outputs.Version }}.zip
+    #    Compress-Archive -Path '${{ github.workspace }}\${{ needs.versionAndTest.outputs.Version }}_${{ matrix.ChannelName }}\' `
+    #    -DestinationPath ${{ github.workspace }}\${{ matrix.ChannelName }}\RepoAutomation.${{ matrix.ChannelName }}.${{ needs.versionAndTest.outputs.Version }}.zip
     #  shell: powershell
     #- name: Publish Artifacts
     #  uses: actions/upload-artifact@v2
@@ -90,7 +90,7 @@ jobs:
     #Pack the code into a NuGet package
     - name: .NET pack
       if: runner.OS == 'Linux' #Only pack the Linux nuget package
-      run: dotnet pack src/RepoAutomation.Core/RepoAutomation.Core.csproj -c Release --nologo --include-symbols -p:Version='${{ needs.version.outputs.Version }}'
+      run: dotnet pack src/RepoAutomation.Core/RepoAutomation.Core.csproj -c Release --nologo --include-symbols -p:Version='${{ needs.versionAndTest.outputs.Version }}'
     - name: Upload nuget package back to GitHub
       uses: actions/upload-artifact@v2
       if: runner.OS == 'Linux' #Only pack the Linux nuget package
@@ -107,19 +107,19 @@ jobs:
     steps:
     - name: Display GitVersion outputs
       run: |
-        echo "Version: ${{ needs.version.outputs.Version }}" 
-        echo "CommitsSinceVersionSource: ${{ needs.version.outputs.CommitsSinceVersionSource }}" 
+        echo "Version: ${{ needs.versionAndTest.outputs.Version }}" 
+        echo "CommitsSinceVersionSource: ${{ needs.versionAndTest.outputs.CommitsSinceVersionSource }}" 
     - name: Download package artifacts
       uses: actions/download-artifact@v3
     - name: Create Release
       uses: ncipollo/release-action@v1
-      if: needs.version.outputs.CommitsSinceVersionSource > 0 #Only create a release if there has been a commit/version change
+      if: needs.versionAndTest.outputs.CommitsSinceVersionSource > 0 #Only create a release if there has been a commit/version change
       with:
-        #artifacts: Linux_x64/RepoAutomation.Linux_x64.${{ needs.version.outputs.Version }}.zip,MacOS_x64/RepoAutomation.MacOS_x64.${{ needs.version.outputs.Version }}.zip,Windows_x64/RepoAutomation.Windows_x64.${{ needs.version.outputs.Version }}.zip
-        tag: ${{ needs.version.outputs.Version }}
-        name: Release ${{ needs.version.outputs.Version }}
+        #artifacts: Linux_x64/RepoAutomation.Linux_x64.${{ needs.versionAndTest.outputs.Version }}.zip,MacOS_x64/RepoAutomation.MacOS_x64.${{ needs.versionAndTest.outputs.Version }}.zip,Windows_x64/RepoAutomation.Windows_x64.${{ needs.versionAndTest.outputs.Version }}.zip
+        tag: ${{ needs.versionAndTest.outputs.Version }}
+        name: Release ${{ needs.versionAndTest.outputs.Version }}
         token: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
     - name: Publish nuget package to nuget.org
-      if: needs.version.outputs.CommitsSinceVersionSource > 0 #Only publish a NuGet package if there has been a commit/version change
+      if: needs.versionAndTest.outputs.CommitsSinceVersionSource > 0 #Only publish a NuGet package if there has been a commit/version change
       run: dotnet nuget push nugetPackage\*.nupkg --api-key "${{ secrets.GHPackagesToken }}" --source "https://api.nuget.org/v3/index.json"
       shell: pwsh
