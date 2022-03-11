@@ -83,32 +83,32 @@ public class Program
             }
 
             //2. Clone the repo
-            DotNetAutomation.CloneRepo(repoURL, repository, workingDirectory);
+            DotNet.CloneRepo(repoURL, repository, workingDirectory);
 
             //3. create the .NET projects
             if (string.IsNullOrEmpty(projectTypes) == false)
             {
-                DotNetAutomation.SetupDotnetProjects(repository, workingDirectory,
+                DotNet.SetupDotnetProjects(repository, workingDirectory,
                     projectTypes);
             }
 
             //4. Create the GitHub Action
             Console.WriteLine("Creating GitHub Action");
-            GitHubActionsAutomation.SetupAction(workingDirectory + "\\" + repository,
+            GitHubActions.SetupAction(workingDirectory + "\\" + repository,
                 repository,
                 projectTypes);
 
             //5. Create the Dependabot file
             Console.WriteLine("Create Dependabot configuration");
-            DependabotAutomation.SetupDependabotFile(workingDirectory + "\\" + repository, owner);
+            GitHubDependabot.SetupDependabotFile(workingDirectory + "\\" + repository, owner);
 
             //6. Customize the README.md file
             Console.WriteLine("Adding GitHub Actions status badge to README.md file");
-            ReadmeAutomation.AddStatusBadge(workingDirectory + "\\" + repository, repository);
+            GitHubReadme.AddStatusBadge(workingDirectory + "\\" + repository, repository);
 
             //7. Add GitVersion file
             Console.WriteLine("Adding GitVersion.yml file");
-            GitVersionAutomation.AddGitVersionFile(workingDirectory + "\\" + repository, "0.1.0");
+            GitVersion.AddGitVersionFile(workingDirectory + "\\" + repository, "0.1.0");
 
             //8. Push back to main         
             Console.WriteLine(Core.Helpers.CommandLine.RunCommand("git", "add .", workingDirectory + "\\" + repository));

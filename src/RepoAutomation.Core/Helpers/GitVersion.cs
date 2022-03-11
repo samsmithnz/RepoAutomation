@@ -1,6 +1,6 @@
 ﻿namespace RepoAutomation.Core.Helpers
 {
-    public static class GitVersionAutomation
+    public static class GitVersion
     {
         public static void AddGitVersionFile(string workingDirectory, string startingVersion = "0.1.0")
         {

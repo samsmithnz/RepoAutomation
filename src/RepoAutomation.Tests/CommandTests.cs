@@ -73,7 +73,7 @@ Execute a .NET application.";
         string workingDirectory = Environment.CurrentDirectory;
 
         //Act
-        string log = DotNetAutomation.CloneRepo(repoLocation, projectName, workingDirectory);
+        string log = DotNet.CloneRepo(repoLocation, projectName, workingDirectory);
 
         //Assert
         Assert.IsNotNull(log);
@@ -88,7 +88,7 @@ Execute a .NET application.";
         string projectTypes = "mstest,mvc";
 
         //Act
-        string log = DotNetAutomation.SetupDotnetProjects(projectName, workingDirectory,
+        string log = DotNet.SetupDotnetProjects(projectName, workingDirectory,
             projectTypes);
 
         //Assert

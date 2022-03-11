@@ -5,7 +5,7 @@ using System.Text;
 
 namespace RepoAutomation.Core.Helpers
 {
-    public static class GitHubActionsAutomation
+    public static class GitHubActions
     {
         public static string SetupAction(string workingDirectory, string projectName,
             string projectTypes)
@@ -40,7 +40,7 @@ namespace RepoAutomation.Core.Helpers
         public static string CreateActionYaml(string projectName, string projectTypes)
         {
             //Split out the project types
-            Dictionary<string, string> projectsToCreate = DotNetAutomation.CreateProjectTypeArray(projectTypes);
+            Dictionary<string, string> projectsToCreate = DotNet.CreateProjectTypeArray(projectTypes);
 
             JobHelper jobHelper = new();
             GitHubActionsRoot root = new();

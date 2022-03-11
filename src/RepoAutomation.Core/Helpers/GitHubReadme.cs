@@ -1,6 +1,6 @@
 ﻿namespace RepoAutomation.Core.Helpers
 {
-    public static class ReadmeAutomation
+    public static class GitHubReadme
     {
         public static void AddStatusBadge(string workingDirectory, string repository)
         {
