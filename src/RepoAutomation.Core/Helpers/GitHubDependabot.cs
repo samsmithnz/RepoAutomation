@@ -3,7 +3,7 @@ using System.Text;
 
 namespace RepoAutomation.Core.Helpers
 {
-    public static class DependabotAutomation
+    public static class GitHubDependabot
     {
         public static string SetupDependabotFile(string workingDirectory, string owner)
         {

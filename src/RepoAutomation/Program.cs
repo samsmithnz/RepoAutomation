@@ -100,7 +100,7 @@ public class Program
 
             //5. Create the Dependabot file
             Console.WriteLine("Create Dependabot configuration");
-            DependabotAutomation.SetupDependabotFile(workingDirectory + "\\" + repository, owner);
+            GitHubDependabot.SetupDependabotFile(workingDirectory + "\\" + repository, owner);
 
             //6. Customize the README.md file
             Console.WriteLine("Adding GitHub Actions status badge to README.md file");
