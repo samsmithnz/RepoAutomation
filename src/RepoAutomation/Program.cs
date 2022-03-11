@@ -108,7 +108,7 @@ public class Program
 
             //7. Add GitVersion file
             Console.WriteLine("Adding GitVersion.yml file");
-            GitVersionAutomation.AddGitVersionFile(workingDirectory + "\\" + repository, "0.1.0");
+            GitVersion.AddGitVersionFile(workingDirectory + "\\" + repository, "0.1.0");
 
             //8. Push back to main         
             Console.WriteLine(Core.Helpers.CommandLine.RunCommand("git", "add .", workingDirectory + "\\" + repository));
