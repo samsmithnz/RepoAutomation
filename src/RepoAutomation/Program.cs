@@ -94,7 +94,7 @@ public class Program
 
             //4. Create the GitHub Action
             Console.WriteLine("Creating GitHub Action");
-            GitHubActionsAutomation.SetupAction(workingDirectory + "\\" + repository,
+            GitHubActions.SetupAction(workingDirectory + "\\" + repository,
                 repository,
                 projectTypes);
 

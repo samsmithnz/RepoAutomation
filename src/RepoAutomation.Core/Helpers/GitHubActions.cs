@@ -5,7 +5,7 @@ using System.Text;
 
 namespace RepoAutomation.Core.Helpers
 {
-    public static class GitHubActionsAutomation
+    public static class GitHubActions
     {
         public static string SetupAction(string workingDirectory, string projectName,
             string projectTypes)

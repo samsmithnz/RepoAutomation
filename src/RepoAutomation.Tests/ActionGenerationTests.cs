@@ -18,7 +18,7 @@ public class ActionGenerationTests
         string projectTypes = "";
 
         //Act
-        string yaml = GitHubActionsAutomation.CreateActionYaml(projectName,
+        string yaml = GitHubActions.CreateActionYaml(projectName,
             projectTypes);
 
         //Assert
@@ -67,7 +67,7 @@ jobs:
         string projectTypes = "mstest, classlib, mvc";
 
         //Act
-        string yaml = GitHubActionsAutomation.CreateActionYaml(projectName,
+        string yaml = GitHubActions.CreateActionYaml(projectName,
             projectTypes);
 
         //Assert
