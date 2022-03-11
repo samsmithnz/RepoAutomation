@@ -43,9 +43,9 @@ public static class GitHubAPIAccess
     /// <param name="clientSecret"></param>
     /// <param name="owner"></param>
     /// <returns></returns>
-    public async static Task<List<Repo>> GetRepos(string? clientId, string? clientSecret, string owner)
+    public async static Task<List<Repo>?> GetRepos(string? clientId, string? clientSecret, string owner)
     {
-        List<Repo> result = new();
+        List<Repo>? result = new();
         if (clientId != null && clientSecret != null)
         {
             string url = $"https://api.github.com/users/{owner}/repos";
@@ -154,7 +154,7 @@ public static class GitHubAPIAccess
             path = HttpUtility.UrlEncode(path);
             string url = $"https://api.github.com/repos/{owner}/{repo}/contents/{path}";
             string? response = await BaseAPIAccess.GetGitHubMessage(url, clientId, clientSecret, false);
-            if (string.IsNullOrEmpty(response) == false && response.IndexOf(@"""message"":""Not Found""") == -1)
+            if (string.IsNullOrEmpty(response) == false && response.Contains(@"""message"":""Not Found""") == false)
             {
                 dynamic? jsonObj = JsonConvert.DeserializeObject(response);
                 result = JsonConvert.DeserializeObject<GitHubFile[]>(jsonObj?.ToString());
@@ -181,7 +181,7 @@ public static class GitHubAPIAccess
             path = HttpUtility.UrlEncode(path);
             string url = $"https://api.github.com/repos/{owner}/{repo}/contents/{path}";
             string? response = await BaseAPIAccess.GetGitHubMessage(url, clientId, clientSecret, false);
-            if (string.IsNullOrEmpty(response) == false && response.IndexOf(@"""message"":""Not Found""") == -1)
+            if (string.IsNullOrEmpty(response) == false && response.Contains(@"""message"":""Not Found""") == false)
             {
                 dynamic? jsonObj = JsonConvert.DeserializeObject(response);
                 result = JsonConvert.DeserializeObject<GitHubFile>(jsonObj?.ToString());
@@ -214,7 +214,7 @@ public static class GitHubAPIAccess
         {
             string url = $"https://api.github.com/repos/{owner}/{repo}/branches/{branch}/protection";
             string? response = await BaseAPIAccess.GetGitHubMessage(url, clientId, clientSecret, false);
-            if (string.IsNullOrEmpty(response) == false && response.IndexOf(@"""message"":""Branch not protected""") == -1)
+            if (string.IsNullOrEmpty(response) == false && response.Contains(@"""message"":""Branch not protected""") == false)
             {
                 dynamic? jsonObj = JsonConvert.DeserializeObject(response);
                 result = JsonConvert.DeserializeObject<BranchProtectionPolicy>(jsonObj?.ToString());
@@ -279,6 +279,12 @@ public static class GitHubAPIAccess
             //      }
             //    ]
             //  },
+
+            requiredStatusCheck = new RequiredStatusCheckPut()
+            {
+                strict = true,
+                checks = new Check[1] { new Check() { context = "version" } }
+            };
 
             BranchProtectionPolicyPut body = new()
             {

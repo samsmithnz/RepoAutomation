@@ -34,8 +34,8 @@ public class RequiredStatusCheck
 public class RequiredStatusCheckPut
 {
     public bool? strict { get; set; }
-    public string[]? contexts { get; set; }
-    public string[]? checks { get; set; }
+    //NOTE: Don't include contexts property, it's deprecated
+    public Check[]? checks { get; set; }
 }
 
 public class RequiredPullRequestReviews
