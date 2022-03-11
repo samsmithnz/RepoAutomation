@@ -239,53 +239,6 @@ public static class GitHubAPIAccess
     {
         if (clientId != null && clientSecret != null)
         {
-            //TODO: Can't get checks to work
-            //var body = new
-            //{
-            //    required_status_checks = new
-            //    {
-            //        strict = true,
-            //        contexts = new string[] { "version" },
-            //        checks = new Check[]
-            //        {
-            //                 new Check() { context = "version" }
-            //                 //     //new Check() {context=contexts[1]},
-            //                 //     //new Check() {context=contexts[2]}
-            //        }
-            //    },
-            //    enforce_admins = true,
-            //    required_pull_request_reviews = new
-            //    {
-            //        dismiss_stale_reviews = true
-            //    }
-            //};
-
-
-            //string json = @"
-            //{""required_status_checks"":null, ""enforce_admins"": true, ""required_pull_request_reviews"": null, ""restrictions"": null }";
-            //{
-            //  ""url"": ""https://api.github.com/repos/samsmithnz/RepoAutomation/branches/main/protection"",
-            //  ""required_status_checks"": {
-            //    ""url"": ""https://api.github.com/repos/samsmithnz/RepoAutomation/branches/main/protection/required_status_checks"",
-            //    ""strict"": true,
-            //    ""contexts"": [
-            //      ""version""
-            //    ],
-            //    ""contexts_url"": ""https://api.github.com/repos/samsmithnz/RepoAutomation/branches/main/protection/required_status_checks/contexts"",
-            //    ""checks"": [
-            //      {
-            //        ""context"": ""version"",
-            //        ""app_id"": 15368
-            //      }
-            //    ]
-            //  },
-
-            requiredStatusCheck = new RequiredStatusCheckPut()
-            {
-                strict = true,
-                checks = new Check[1] { new Check() { context = "versionAndTest" } }
-            };
-
             BranchProtectionPolicyPut body = new()
             {
                 required_status_checks = requiredStatusCheck,
