@@ -65,7 +65,7 @@ public class BranchProtectionTests : BaseAPIAccessTests
         string owner = "samsmithnz";
         string repoName = "RepoAutomation";
         string branchName = "main";
-        RequiredStatusCheckPut requiredStatusCheck = new RequiredStatusCheckPut()
+        RequiredStatusCheckPut requiredStatusCheck = new()
         {
             strict = true,
             checks = new Check[1] { new Check() { context = "versionAndTest" } }
