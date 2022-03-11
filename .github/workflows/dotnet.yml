@@ -102,7 +102,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: 
     - build
-    - version
+    - versionAndTest
     if: github.ref == 'refs/heads/main'      
     steps:
     - name: Display GitVersion outputs
