@@ -104,7 +104,7 @@ public class Program
 
             //6. Customize the README.md file
             Console.WriteLine("Adding GitHub Actions status badge to README.md file");
-            ReadmeAutomation.AddStatusBadge(workingDirectory + "\\" + repository, repository);
+            GitHubReadme.AddStatusBadge(workingDirectory + "\\" + repository, repository);
 
             //7. Add GitVersion file
             Console.WriteLine("Adding GitVersion.yml file");
