@@ -83,12 +83,12 @@ public class Program
             }
 
             //2. Clone the repo
-            DotNetAutomation.CloneRepo(repoURL, repository, workingDirectory);
+            DotNet.CloneRepo(repoURL, repository, workingDirectory);
 
             //3. create the .NET projects
             if (string.IsNullOrEmpty(projectTypes) == false)
             {
-                DotNetAutomation.SetupDotnetProjects(repository, workingDirectory,
+                DotNet.SetupDotnetProjects(repository, workingDirectory,
                     projectTypes);
             }
 

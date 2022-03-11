@@ -2,7 +2,7 @@
 
 namespace RepoAutomation.Core.Helpers
 {
-    public static class DotNetAutomation
+    public static class DotNet
     {
         public static string CloneRepo(string repoLocation, string repository,
             string workingDirectory)
