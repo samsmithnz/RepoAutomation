@@ -9,6 +9,14 @@ public static class GitHubAPIAccess
 {
 
     //https://docs.github.com/en/enterprise-cloud@latest/rest/reference/repos
+    /// <summary>
+    /// Get a single repo
+    /// </summary>
+    /// <param name="clientId"></param>
+    /// <param name="clientSecret"></param>
+    /// <param name="owner"></param>
+    /// <param name="repo"></param>
+    /// <returns></returns>
     public async static Task<Repo?> GetRepo(string? clientId, string? clientSecret, string owner, string repo)
     {
         Repo? result = null;
@@ -28,9 +36,16 @@ public static class GitHubAPIAccess
     }
 
     //https://docs.github.com/en/rest/reference/repos#list-repositories-for-a-user
-    public async static Task<List<Repo>> GetRepos(string? clientId, string? clientSecret, string owner)
+    /// <summary>
+    /// Get a list of repos
+    /// </summary>
+    /// <param name="clientId"></param>
+    /// <param name="clientSecret"></param>
+    /// <param name="owner"></param>
+    /// <returns></returns>
+    public async static Task<List<Repo>?> GetRepos(string? clientId, string? clientSecret, string owner)
     {
-        List<Repo> result = new();
+        List<Repo>? result = new();
         if (clientId != null && clientSecret != null)
         {
             string url = $"https://api.github.com/users/{owner}/repos";
@@ -51,6 +66,18 @@ public static class GitHubAPIAccess
         return result;
     }
 
+    /// <summary>
+    /// Create a new repo
+    /// </summary>
+    /// <param name="clientId"></param>
+    /// <param name="clientSecret"></param>
+    /// <param name="repo"></param>
+    /// <param name="allowAutoMerge"></param>
+    /// <param name="deleteBranchOnMerge"></param>
+    /// <param name="allowRebaseMerge"></param>
+    /// <param name="isPrivate"></param>
+    /// <param name="gitIgnoreTemplate"></param>
+    /// <returns></returns>
     public async static Task<bool> CreateRepo(string? clientId, string? clientSecret,
         string repo,
         bool allowAutoMerge,
@@ -86,6 +113,15 @@ public static class GitHubAPIAccess
         return true;
     }
 
+    /// <summary>
+    /// Delete the repo
+    /// </summary>
+    /// <param name="clientId"></param>
+    /// <param name="clientSecret"></param>
+    /// <param name="owner"></param>
+    /// <param name="repo"></param>
+    /// <param name="processErrors"></param>
+    /// <returns></returns>
     public async static Task<bool> DeleteRepo(string? clientId, string? clientSecret, string owner, string repo, bool processErrors = true)
     {
         if (clientId != null && clientSecret != null)
@@ -100,39 +136,15 @@ public static class GitHubAPIAccess
         return true;
     }
 
-    //public async static Task<SearchResult?> GetSearchCode(string? clientId, string? clientSecret,
-    //    string owner, string repo, string? file = null, string? extension = null, string? path = null)
-    //{
-    //    SearchResult? result = null;
-    //    if (clientId != null && clientSecret != null)
-    //    {
-    //        StringBuilder sb = new();
-    //        sb.Append($"repo:{owner}/{repo}");
-    //        //if (file != null)
-    //        //{
-    //        //    sb.Append($"+filename:{file}");
-    //        //}
-    //        //if (extension != null)
-    //        //{
-    //        //    sb.Append($"+extension:{extension}");
-    //        //}
-    //        //if (path != null)
-    //        //{
-    //        //    sb.Append($"+path:{path}");
-    //        //}
-    //        string searchString = HttpUtility.UrlEncode(sb.ToString());
-    //        string url = $"https://api.github.com/search/code?q={searchString}";
-    //        string? response = await BaseAPIAccess.GetGitHubMessage(url, clientId, clientSecret);
-    //        if (string.IsNullOrEmpty(response) == false)
-    //        {
-    //            dynamic? jsonObj = JsonConvert.DeserializeObject(response);
-    //            result = JsonConvert.DeserializeObject<SearchResult>(jsonObj?.ToString());
-    //            result.RawJSON = jsonObj?.ToString();
-    //        }
-    //    }
-    //    return result;
-    //}
-
+    /// <summary>
+    /// Get a list of all files at a path
+    /// </summary>
+    /// <param name="clientId"></param>
+    /// <param name="clientSecret"></param>
+    /// <param name="owner"></param>
+    /// <param name="repo"></param>
+    /// <param name="path"></param>
+    /// <returns></returns>
     public async static Task<GitHubFile[]?> GetFiles(string? clientId, string? clientSecret,
         string owner, string repo, string path)
     {
@@ -142,7 +154,7 @@ public static class GitHubAPIAccess
             path = HttpUtility.UrlEncode(path);
             string url = $"https://api.github.com/repos/{owner}/{repo}/contents/{path}";
             string? response = await BaseAPIAccess.GetGitHubMessage(url, clientId, clientSecret, false);
-            if (string.IsNullOrEmpty(response) == false && response.IndexOf(@"""message"":""Not Found""") == -1)
+            if (string.IsNullOrEmpty(response) == false && response.Contains(@"""message"":""Not Found""") == false)
             {
                 dynamic? jsonObj = JsonConvert.DeserializeObject(response);
                 result = JsonConvert.DeserializeObject<GitHubFile[]>(jsonObj?.ToString());
@@ -151,6 +163,15 @@ public static class GitHubAPIAccess
         return result;
     }
 
+    /// <summary>
+    /// Get a file and it's contents
+    /// </summary>
+    /// <param name="clientId"></param>
+    /// <param name="clientSecret"></param>
+    /// <param name="owner"></param>
+    /// <param name="repo"></param>
+    /// <param name="path"></param>
+    /// <returns></returns>
     public async static Task<GitHubFile?> GetFile(string? clientId, string? clientSecret,
         string owner, string repo, string path)
     {
@@ -160,7 +181,7 @@ public static class GitHubAPIAccess
             path = HttpUtility.UrlEncode(path);
             string url = $"https://api.github.com/repos/{owner}/{repo}/contents/{path}";
             string? response = await BaseAPIAccess.GetGitHubMessage(url, clientId, clientSecret, false);
-            if (string.IsNullOrEmpty(response) == false && response.IndexOf(@"""message"":""Not Found""") == -1)
+            if (string.IsNullOrEmpty(response) == false && response.Contains(@"""message"":""Not Found""") == false)
             {
                 dynamic? jsonObj = JsonConvert.DeserializeObject(response);
                 result = JsonConvert.DeserializeObject<GitHubFile>(jsonObj?.ToString());
@@ -176,24 +197,15 @@ public static class GitHubAPIAccess
         return result;
     }
 
-    //public async static Task<string?> GetFileContents(string? clientId, string? clientSecret,
-    //    string owner, string repo, string path)
-    //{
-    //    GitHubFile[]? result = null;
-    //    if (clientId != null && clientSecret != null)
-    //    {
-    //        path = HttpUtility.UrlEncode(path);
-    //        string url = $"https://api.github.com/repos/{owner}/{repo}/contents/{path}";
-    //        string? response = await BaseAPIAccess.GetGitHubMessage(url, clientId, clientSecret, false);
-    //        if (string.IsNullOrEmpty(response) == false && response.IndexOf(@"""message"":""Not Found""") == -1)
-    //        {
-    //            dynamic? jsonObj = JsonConvert.DeserializeObject(response);
-    //            result = JsonConvert.DeserializeObject<GitHubFile[]>(jsonObj?.ToString());
-    //        }
-    //    }
-    //    return result;
-    //}
-
+    /// <summary>
+    /// Get the branch policy for a repo/branch
+    /// </summary>
+    /// <param name="clientId"></param>
+    /// <param name="clientSecret"></param>
+    /// <param name="owner"></param>
+    /// <param name="repo"></param>
+    /// <param name="branch"></param>
+    /// <returns></returns>
     public async static Task<BranchProtectionPolicy?> GetBranchProtectionPolicy(string? clientId, string? clientSecret,
         string owner, string repo, string branch)
     {
@@ -202,7 +214,7 @@ public static class GitHubAPIAccess
         {
             string url = $"https://api.github.com/repos/{owner}/{repo}/branches/{branch}/protection";
             string? response = await BaseAPIAccess.GetGitHubMessage(url, clientId, clientSecret, false);
-            if (string.IsNullOrEmpty(response) == false && response.IndexOf(@"""message"":""Branch not protected""") == -1)
+            if (string.IsNullOrEmpty(response) == false && response.Contains(@"""message"":""Branch not protected""") == false)
             {
                 dynamic? jsonObj = JsonConvert.DeserializeObject(response);
                 result = JsonConvert.DeserializeObject<BranchProtectionPolicy>(jsonObj?.ToString());
@@ -212,70 +224,21 @@ public static class GitHubAPIAccess
         return result;
     }
 
-    public async static Task<Release?> GetReleaseLatest(string? clientId, string? clientSecret,
-        string owner, string repo)
-    {
-        Release? result = null;
-        if (clientId != null && clientSecret != null)
-        {
-            string url = $"https://api.github.com/repos/{owner}/{repo}/releases/latest";
-            string? response = await BaseAPIAccess.GetGitHubMessage(url, clientId, clientSecret);
-            if (string.IsNullOrEmpty(response) == false)
-            {
-                dynamic? jsonObj = JsonConvert.DeserializeObject(response);
-                result = JsonConvert.DeserializeObject<Release>(jsonObj?.ToString());
-                result.RawJSON = jsonObj?.ToString();
-            }
-        }
-        return result;
-    }
-
+    /// <summary>
+    /// Update a branch policy for a repo/branch. Lots of assumptions/simplifications are made today. This definition WILL change.
+    /// </summary>
+    /// <param name="clientId"></param>
+    /// <param name="clientSecret"></param>
+    /// <param name="owner"></param>
+    /// <param name="repo"></param>
+    /// <param name="branch"></param>
+    /// <param name="requiredStatusCheck"></param>
+    /// <returns></returns>
     public async static Task<bool> UpdateBranchProtectionPolicy(string? clientId, string? clientSecret, string owner, string repo,
         string branch, RequiredStatusCheckPut? requiredStatusCheck)
     {
         if (clientId != null && clientSecret != null)
         {
-            //TODO: Can't get checks to work
-            //var body = new
-            //{
-            //    required_status_checks = new
-            //    {
-            //        strict = true,
-            //        contexts = new string[] { "version" },
-            //        checks = new Check[]
-            //        {
-            //                 new Check() { context = "version" }
-            //                 //     //new Check() {context=contexts[1]},
-            //                 //     //new Check() {context=contexts[2]}
-            //        }
-            //    },
-            //    enforce_admins = true,
-            //    required_pull_request_reviews = new
-            //    {
-            //        dismiss_stale_reviews = true
-            //    }
-            //};
-
-
-            //string json = @"
-            //{""required_status_checks"":null, ""enforce_admins"": true, ""required_pull_request_reviews"": null, ""restrictions"": null }";
-            //{
-            //  ""url"": ""https://api.github.com/repos/samsmithnz/RepoAutomation/branches/main/protection"",
-            //  ""required_status_checks"": {
-            //    ""url"": ""https://api.github.com/repos/samsmithnz/RepoAutomation/branches/main/protection/required_status_checks"",
-            //    ""strict"": true,
-            //    ""contexts"": [
-            //      ""version""
-            //    ],
-            //    ""contexts_url"": ""https://api.github.com/repos/samsmithnz/RepoAutomation/branches/main/protection/required_status_checks/contexts"",
-            //    ""checks"": [
-            //      {
-            //        ""context"": ""version"",
-            //        ""app_id"": 15368
-            //      }
-            //    ]
-            //  },
-
             BranchProtectionPolicyPut body = new()
             {
                 required_status_checks = requiredStatusCheck,
@@ -303,6 +266,32 @@ public static class GitHubAPIAccess
             }
         }
         return true;
+    }
+
+    /// <summary>
+    /// Get the latest release for a repo
+    /// </summary>
+    /// <param name="clientId"></param>
+    /// <param name="clientSecret"></param>
+    /// <param name="owner"></param>
+    /// <param name="repo"></param>
+    /// <returns></returns>
+    public async static Task<Release?> GetReleaseLatest(string? clientId, string? clientSecret,
+        string owner, string repo)
+    {
+        Release? result = null;
+        if (clientId != null && clientSecret != null)
+        {
+            string url = $"https://api.github.com/repos/{owner}/{repo}/releases/latest";
+            string? response = await BaseAPIAccess.GetGitHubMessage(url, clientId, clientSecret);
+            if (string.IsNullOrEmpty(response) == false)
+            {
+                dynamic? jsonObj = JsonConvert.DeserializeObject(response);
+                result = JsonConvert.DeserializeObject<Release>(jsonObj?.ToString());
+                result.RawJSON = jsonObj?.ToString();
+            }
+        }
+        return result;
     }
 
 }
