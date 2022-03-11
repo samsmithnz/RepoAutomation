@@ -44,5 +44,21 @@ namespace RepoAutomation.Core.Helpers
 
             return results;
         }
+
+        public async static Task<GitHubFile> GetFileContents(string? id, string? secret,
+            string owner, string repository, string filePath)
+        {
+            GitHubFile? file = await GitHubAPIAccess.GetFile(id, secret,
+                owner, repository, filePath);
+
+            if (file != null)
+            {
+                return file;
+            }
+            else
+            {
+                return null;
+            }
+        }
     }
 }

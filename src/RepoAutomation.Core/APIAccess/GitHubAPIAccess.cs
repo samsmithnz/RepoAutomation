@@ -151,6 +151,49 @@ public static class GitHubAPIAccess
         return result;
     }
 
+    public async static Task<GitHubFile?> GetFile(string? clientId, string? clientSecret,
+        string owner, string repo, string path)
+    {
+        GitHubFile? result = null;
+        if (clientId != null && clientSecret != null)
+        {
+            path = HttpUtility.UrlEncode(path);
+            string url = $"https://api.github.com/repos/{owner}/{repo}/contents/{path}";
+            string? response = await BaseAPIAccess.GetGitHubMessage(url, clientId, clientSecret, false);
+            if (string.IsNullOrEmpty(response) == false && response.IndexOf(@"""message"":""Not Found""") == -1)
+            {
+                dynamic? jsonObj = JsonConvert.DeserializeObject(response);
+                result = JsonConvert.DeserializeObject<GitHubFile>(jsonObj?.ToString());
+
+                //Decode the Base64 file contents result
+                if (result != null && result.content != null)
+                {
+                    byte[]? valueBytes = System.Convert.FromBase64String(result.content);
+                    result.content = Encoding.UTF8.GetString(valueBytes);
+                }
+            }
+        }
+        return result;
+    }
+
+    //public async static Task<string?> GetFileContents(string? clientId, string? clientSecret,
+    //    string owner, string repo, string path)
+    //{
+    //    GitHubFile[]? result = null;
+    //    if (clientId != null && clientSecret != null)
+    //    {
+    //        path = HttpUtility.UrlEncode(path);
+    //        string url = $"https://api.github.com/repos/{owner}/{repo}/contents/{path}";
+    //        string? response = await BaseAPIAccess.GetGitHubMessage(url, clientId, clientSecret, false);
+    //        if (string.IsNullOrEmpty(response) == false && response.IndexOf(@"""message"":""Not Found""") == -1)
+    //        {
+    //            dynamic? jsonObj = JsonConvert.DeserializeObject(response);
+    //            result = JsonConvert.DeserializeObject<GitHubFile[]>(jsonObj?.ToString());
+    //        }
+    //    }
+    //    return result;
+    //}
+
     public async static Task<BranchProtectionPolicy?> GetBranchProtectionPolicy(string? clientId, string? clientSecret,
         string owner, string repo, string branch)
     {
@@ -192,6 +235,7 @@ public static class GitHubAPIAccess
     {
         if (clientId != null && clientSecret != null)
         {
+            //TODO: Can't get checks to work
             //var body = new
             //{
             //    required_status_checks = new
