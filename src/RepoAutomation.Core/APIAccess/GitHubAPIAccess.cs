@@ -283,7 +283,7 @@ public static class GitHubAPIAccess
             requiredStatusCheck = new RequiredStatusCheckPut()
             {
                 strict = true,
-                checks = new Check[1] { new Check() { context = "version" } }
+                checks = new Check[1] { new Check() { context = "versionAndTest" } }
             };
 
             BranchProtectionPolicyPut body = new()
