@@ -28,12 +28,12 @@ public class BranchProtectionTests : BaseAPIAccessTests
         Assert.IsNotNull(branchProtectionPolicy);
         if (branchProtectionPolicy != null)
         {
-            //Assert.IsNotNull(branchProtectionPolicy.required_status_checks);
-            //Assert.AreEqual(3, branchProtectionPolicy.required_status_checks?.checks?.Length);
-            //Assert.AreEqual("version", branchProtectionPolicy.required_status_checks?.checks?[0].context);
+            Assert.IsNotNull(branchProtectionPolicy.required_status_checks);
+            Assert.AreEqual(1, branchProtectionPolicy.required_status_checks?.checks?.Length);
+            Assert.AreEqual("version", branchProtectionPolicy.required_status_checks?.checks?[0].context);
+            Assert.IsTrue(branchProtectionPolicy.required_status_checks?.strict);
             Assert.IsTrue(branchProtectionPolicy.enforce_admins?.enabled);
-            //Assert.IsTrue(branchProtectionPolicy.required_conversation_resolution?.enabled);
-            //Assert.IsTrue(!branchProtectionPolicy.strict);
+            Assert.IsTrue(branchProtectionPolicy.required_conversation_resolution?.enabled);
         }
     }
 
