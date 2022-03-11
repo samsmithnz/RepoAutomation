@@ -22,7 +22,7 @@ public class GetFileContentsTests : BaseAPIAccessTests
         string? filePath = ".github/dependabot.yml";
 
         //Act
-        GitHubFile? fileResult = await GitHubFileSearch.GetFileContents(base.GitHubId, base.GitHubSecret,
+        GitHubFile? fileResult = await GitHubFiles.GetFileContents(base.GitHubId, base.GitHubSecret,
             owner, repository, filePath);
 
         //Assert
@@ -41,7 +41,7 @@ public class GetFileContentsTests : BaseAPIAccessTests
         string? filePath = ".github/workflows/dotnet.yml";
 
         //Act
-        GitHubFile? fileResult = await GitHubFileSearch.GetFileContents(base.GitHubId, base.GitHubSecret,
+        GitHubFile? fileResult = await GitHubFiles.GetFileContents(base.GitHubId, base.GitHubSecret,
             owner, repository, filePath);
 
         //Assert
@@ -60,7 +60,7 @@ public class GetFileContentsTests : BaseAPIAccessTests
         string? filePath = ".github/workflows/workflow.yml";
 
         //Act
-        GitHubFile? fileResult = await GitHubFileSearch.GetFileContents(base.GitHubId, base.GitHubSecret,
+        GitHubFile? fileResult = await GitHubFiles.GetFileContents(base.GitHubId, base.GitHubSecret,
             owner, repository, filePath);
 
         //Assert

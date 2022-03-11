@@ -3,7 +3,7 @@ using RepoAutomation.Core.Models;
 
 namespace RepoAutomation.Core.Helpers
 {
-    public static class GitHubFileSearch
+    public static class GitHubFiles
     {
         public async static Task<List<string>?> SearchForFiles(string? id, string? secret,
             string owner, string repository, string? file, string? extension, string path)

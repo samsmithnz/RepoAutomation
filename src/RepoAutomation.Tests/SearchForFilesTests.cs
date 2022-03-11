@@ -23,7 +23,7 @@ public class SearchForFilesTests : BaseAPIAccessTests
         string? path = ".github";
 
         //Act
-        List<string>? searchResult = await GitHubFileSearch.SearchForFiles(base.GitHubId, base.GitHubSecret,
+        List<string>? searchResult = await GitHubFiles.SearchForFiles(base.GitHubId, base.GitHubSecret,
             owner, repository, file, extension, path);
 
         //Assert
@@ -44,7 +44,7 @@ public class SearchForFilesTests : BaseAPIAccessTests
         string? path = ".github/workflows";
 
         //Act
-        List<string>? searchResult = await GitHubFileSearch.SearchForFiles(base.GitHubId, base.GitHubSecret,
+        List<string>? searchResult = await GitHubFiles.SearchForFiles(base.GitHubId, base.GitHubSecret,
             owner, repository, file, extension, path);
 
         //Assert
@@ -65,7 +65,7 @@ public class SearchForFilesTests : BaseAPIAccessTests
         string? path = "";
 
         //Act
-        List<string>? searchResult = await GitHubFileSearch.SearchForFiles(base.GitHubId, base.GitHubSecret,
+        List<string>? searchResult = await GitHubFiles.SearchForFiles(base.GitHubId, base.GitHubSecret,
             owner, repository, file, extension, path);
 
         //Assert
@@ -86,7 +86,7 @@ public class SearchForFilesTests : BaseAPIAccessTests
         string? path = ".github/workflows";
 
         //Act
-        List<string>? searchResult = await GitHubFileSearch.SearchForFiles(base.GitHubId, base.GitHubSecret,
+        List<string>? searchResult = await GitHubFiles.SearchForFiles(base.GitHubId, base.GitHubSecret,
             owner, repository, file, extension, path);
 
         //Assert
@@ -107,7 +107,7 @@ public class SearchForFilesTests : BaseAPIAccessTests
         string? path = ".github/workflows";
 
         //Act
-        List<string>? searchResult = await GitHubFileSearch.SearchForFiles(base.GitHubId, base.GitHubSecret,
+        List<string>? searchResult = await GitHubFiles.SearchForFiles(base.GitHubId, base.GitHubSecret,
             owner, repository, file, extension, path);
 
         //Assert
