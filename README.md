@@ -1,7 +1,7 @@
 # Repo Automation
 
 [![CI/ CD](https://github.com/samsmithnz/RepoAutomation/actions/workflows/dotnet.yml/badge.svg)](https://github.com/samsmithnz/RepoAutomation/actions/workflows/dotnet.yml)
-[![Latest NuGet package](https://img.shields.io/nuget/v/RepoAutomation)](https://www.nuget.org/packages/RepoAutomation/)
+[![Latest NuGet package](https://img.shields.io/nuget/v/RepoAutomation.Core)](https://www.nuget.org/packages/RepoAutomation.Core/)
 ![Current Release](https://img.shields.io/github/release/samsmithnz/RepoAutomation/all.svg)
 
 
