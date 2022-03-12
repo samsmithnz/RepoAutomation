@@ -8,11 +8,11 @@
         public Owner? owner { get; set; }
         public string? default_branch { get; set; }
         public string? visibility { get; set; }
-        public string? allow_rebase_merge { get; set; }
-        public string? allow_squash_merge { get; set; }
-        public string? allow_merge_commit { get; set; }
-        public string? allow_auto_merge { get; set; }
-        public string? delete_branch_on_merge { get; set; }
+        public bool allow_rebase_merge { get; set; }
+        public bool allow_squash_merge { get; set; }
+        public bool allow_merge_commit { get; set; }
+        public bool allow_auto_merge { get; set; }
+        public bool delete_branch_on_merge { get; set; }
     }
 
     public class Owner
