@@ -3,7 +3,6 @@
 public class BranchProtectionPolicy : BaseModel
 {
     public RequiredStatusCheck? required_status_checks { get; set; }
-    public bool strict { get; set; }
     public Enforce? enforce_admins { get; set; }
     public Enforce? required_conversation_resolution { get; set; }
     public RequiredPullRequestReviews? required_pull_request_reviews { get; set; }
@@ -14,7 +13,6 @@ public class BranchProtectionPolicy : BaseModel
 public class BranchProtectionPolicyPut : BaseModel
 {
     public RequiredStatusCheckPut? required_status_checks { get; set; }
-    public bool strict { get; set; }
     public bool? enforce_admins { get; set; }
     public bool? required_conversation_resolution { get; set; }
     public RequiredPullRequestReviews? required_pull_request_reviews { get; set; }
