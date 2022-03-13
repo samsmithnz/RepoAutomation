@@ -134,4 +134,22 @@ public class GetFilesTests : BaseAPIAccessTests
         Assert.AreEqual(4, searchResult.items.Length);
     }
 
+    [TestMethod]
+    public async Task SearchForVSProjFilesThatDoNotExistTest()
+    {
+        //Arrange
+        string owner = "samsmithnz";
+        string repository = "RepoAutomation";
+        string? extension = "vsproj";
+
+        //Act
+        SearchResult? searchResult = await GitHubAPIAccess.SearchFiles(base.GitHubId, base.GitHubSecret,
+            owner, repository, extension);
+
+        //Assert
+        Assert.IsNotNull(searchResult);
+        Assert.IsNotNull(searchResult.items);
+        Assert.AreEqual(0, searchResult.items.Length);
+    }
+
 }

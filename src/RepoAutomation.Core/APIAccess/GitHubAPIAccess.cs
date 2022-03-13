@@ -303,7 +303,7 @@ public static class GitHubAPIAccess
             //"https://api.github.com/search/code?q=extension:js+repo:vnation/NewsAggregator";
             string url = $"https://api.github.com/search/code?q=extension:{extension}+repo:{owner}/{repo}";
             string? response = await BaseAPIAccess.GetGitHubMessage(url, clientId, clientSecret, false);
-            if (string.IsNullOrEmpty(response) == false && response.Contains(@"""message"":""Not Found""") == false)
+            if (string.IsNullOrEmpty(response) == false)// && response.Contains(@"""message"":""Not Found""") == false)
             {
                 dynamic? jsonObj = JsonConvert.DeserializeObject(response);
                 result = JsonConvert.DeserializeObject<SearchResult>(jsonObj?.ToString());
