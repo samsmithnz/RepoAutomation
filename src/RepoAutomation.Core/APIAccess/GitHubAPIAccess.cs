@@ -294,4 +294,22 @@ public static class GitHubAPIAccess
         return result;
     }
 
+    public async static Task<SearchResult?> SearchFiles(string? clientId, string? clientSecret,
+        string owner, string repo, string extension)
+    {
+        SearchResult? result = null;
+        if (clientId != null && clientSecret != null)
+        {
+            //"https://api.github.com/search/code?q=extension:js+repo:vnation/NewsAggregator";
+            string url = $"https://api.github.com/search/code?q=extension:{extension}+repo:{owner}/{repo}";
+            string? response = await BaseAPIAccess.GetGitHubMessage(url, clientId, clientSecret, false);
+            if (string.IsNullOrEmpty(response) == false)// && response.Contains(@"""message"":""Not Found""") == false)
+            {
+                dynamic? jsonObj = JsonConvert.DeserializeObject(response);
+                result = JsonConvert.DeserializeObject<SearchResult>(jsonObj?.ToString());
+            }
+        }
+        return result;
+    }
+
 }

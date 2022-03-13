@@ -5,7 +5,7 @@ namespace RepoAutomation.Core.Helpers
 {
     public static class GitHubFiles
     {
-        public async static Task<List<string>?> SearchForFiles(string? id, string? secret,
+        public async static Task<List<string>?> GetFiles(string? id, string? secret,
             string owner, string repository, string? file, string? extension, string path)
         {
             GitHubFile[]? searchResult = await GitHubAPIAccess.GetFiles(id, secret,
