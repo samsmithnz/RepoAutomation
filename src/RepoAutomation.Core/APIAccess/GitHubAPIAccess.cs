@@ -295,7 +295,7 @@ public static class GitHubAPIAccess
     }
 
     public async static Task<SearchResult?> SearchFiles(string? clientId, string? clientSecret,
-        string owner, string repo, string? extension = null, string? fileName = null)
+        string owner, string repo, string? extension = null, string? fileName = null, int counter = 0)
     {
         SearchResult? result = null;
         if (clientId != null && clientSecret != null)
@@ -322,6 +322,12 @@ public static class GitHubAPIAccess
                 }
             }
         }
+        if (result?.incomplete_results == true && counter < 3)
+        {
+            counter++;
+            result = await SearchFiles(clientId, clientSecret, owner, repo, extension, fileName, counter);
+        }
+
         return result;
     }
 

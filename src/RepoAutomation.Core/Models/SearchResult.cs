@@ -3,6 +3,7 @@
     public class SearchResult : BaseModel
     {
         public int? total_count { get; set; }
+        public bool? incomplete_results { get; set; }
         public SearchItem[]? items { get; set; }
     }
 
