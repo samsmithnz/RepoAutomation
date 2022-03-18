@@ -318,6 +318,7 @@ public static class GitHubAPIAccess
                 {
                     dynamic? jsonObj = JsonConvert.DeserializeObject(response);
                     result = JsonConvert.DeserializeObject<SearchResult>(jsonObj?.ToString());
+                    result.RawJSON = response;
                 }
             }
         }
