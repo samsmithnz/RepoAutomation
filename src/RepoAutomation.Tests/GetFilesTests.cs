@@ -152,4 +152,22 @@ public class GetFilesTests : BaseAPIAccessTests
         Assert.AreEqual(0, searchResult.items.Length);
     }
 
+    [TestMethod]
+    public async Task SearchForUnityFilesTest()
+    {
+        //Arrange
+        string owner = "samsmithnz";
+        string repository = "TBS";
+        string? file = "ProjectVersion.txt";
+
+        //Act
+        SearchResult? searchResult = await GitHubAPIAccess.SearchFiles(base.GitHubId, base.GitHubSecret,
+            owner, repository, null, file);
+
+        //Assert
+        Assert.IsNotNull(searchResult);
+        Assert.IsNotNull(searchResult.items);
+        Assert.AreEqual(1, searchResult.items.Length);
+    }
+
 }

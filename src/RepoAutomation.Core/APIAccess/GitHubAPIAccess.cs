@@ -295,18 +295,30 @@ public static class GitHubAPIAccess
     }
 
     public async static Task<SearchResult?> SearchFiles(string? clientId, string? clientSecret,
-        string owner, string repo, string extension)
+        string owner, string repo, string? extension = null, string? fileName = null)
     {
         SearchResult? result = null;
         if (clientId != null && clientSecret != null)
         {
-            //"https://api.github.com/search/code?q=extension:js+repo:vnation/NewsAggregator";
-            string url = $"https://api.github.com/search/code?q=extension:{extension}+repo:{owner}/{repo}";
-            string? response = await BaseAPIAccess.GetGitHubMessage(url, clientId, clientSecret, false);
-            if (string.IsNullOrEmpty(response) == false)// && response.Contains(@"""message"":""Not Found""") == false)
+            string url = "";
+            if (extension != null)
             {
-                dynamic? jsonObj = JsonConvert.DeserializeObject(response);
-                result = JsonConvert.DeserializeObject<SearchResult>(jsonObj?.ToString());
+                //"https://api.github.com/search/code?q=extension:js+repo:vnation/NewsAggregator";
+                url = $"https://api.github.com/search/code?q=extension:{extension}+repo:{owner}/{repo}";
+            }
+            else if (fileName != null)
+            {
+                //https://github.com/search?q=user%3Asamsmithnz+ProjectVersion.txt+filename%3AProjectVersion.txt&type=Repositories&ref=advsearch&l=&l=
+                url = $"https://api.github.com/search/code?q=filename%3A{fileName}+repo:{owner}/{repo}";
+            }
+            if (string.IsNullOrEmpty(url) == false)
+            {
+                string? response = await BaseAPIAccess.GetGitHubMessage(url, clientId, clientSecret, false);
+                if (string.IsNullOrEmpty(response) == false)// && response.Contains(@"""message"":""Not Found""") == false)
+                {
+                    dynamic? jsonObj = JsonConvert.DeserializeObject(response);
+                    result = JsonConvert.DeserializeObject<SearchResult>(jsonObj?.ToString());
+                }
             }
         }
         return result;
