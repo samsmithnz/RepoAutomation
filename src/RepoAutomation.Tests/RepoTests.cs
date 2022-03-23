@@ -179,4 +179,19 @@ public class RepoTests : BaseAPIAccessTests
             Directory.Delete(@"C:\Users\samsm\source\repos\RepoAutomationTest", true);
         }
     }
+
+    [TestMethod]
+    public async Task GetLastCommitForCustomQueueTest()
+    {
+        //Arrange
+        string owner = "samsmithnz";
+        string repo = "CustomQueue";
+
+        //Act
+        string? commitSHA = await GitHubAPIAccess.GetLastCommit(base.GitHubId, base.GitHubSecret, owner, repo);
+
+        //Assert
+        Assert.IsNotNull(commitSHA);
+        Assert.AreEqual("fe4e362c7ce972c3d2e83e6bd5a87db515c664c6", commitSHA);
+    }
 }
