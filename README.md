@@ -5,7 +5,7 @@
 ![Current Release](https://img.shields.io/github/release/samsmithnz/RepoAutomation/all.svg)
 
 
-.NET code to create and configure a repo with C#. 
+**.NET code to create and configure a repo with C#.** I'm in GitHub everyday. There are certain activities I found myself manually doing on a regular basis. Not super long activities, but boring, repetitive activities - the types of activities that are perfect for automation. Hence this project:
 - Enables repo "auto-merge" open
 - Enables repo "Delete head branch on merge" option 
 - Enables repo visibility to be set
@@ -19,7 +19,7 @@
     - Adds an action status badge to the readme file
 - Creates the dependabot configuration
 - Push all of the changes back to the repository/GitHub
-- [ ] (TODO) Sets up branch policies on default branch (require a pull request and successful build action)
+- Sets up branch policies on default branch (e.g. require a pull request and successful build action)
 
 ## Usage
 
