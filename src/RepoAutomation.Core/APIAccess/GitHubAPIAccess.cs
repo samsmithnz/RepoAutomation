@@ -297,7 +297,7 @@ public static class GitHubAPIAccess
     public async static Task<SearchResult?> SearchFiles(string? clientId, string? clientSecret,
         string owner, string repo, string? extension = null, string? fileName = null, int counter = 0)
     {
-        SearchResult? result = null;
+        SearchResult? result = new SearchResult();
         if (clientId != null && clientSecret != null)
         {
             string url = "";
@@ -318,8 +318,8 @@ public static class GitHubAPIAccess
                 {
                     dynamic? jsonObj = JsonConvert.DeserializeObject(response);
                     result = JsonConvert.DeserializeObject<SearchResult>(jsonObj?.ToString());
-                    result.RawJSON = response;
                 }
+                result.RawJSON = response;
             }
         }
         if (result?.incomplete_results == true && counter < 3)
