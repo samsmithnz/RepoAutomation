@@ -294,6 +294,7 @@ public static class GitHubAPIAccess
         return result;
     }
 
+    //IMPORTANT: Note that search has a rate limit of 30 requests per minute: https://docs.github.com/en/rest/reference/search#rate-limit
     public async static Task<SearchResult?> SearchFiles(string? clientId, string? clientSecret,
         string owner, string repo, string? extension = null, string? fileName = null, int counter = 0)
     {
