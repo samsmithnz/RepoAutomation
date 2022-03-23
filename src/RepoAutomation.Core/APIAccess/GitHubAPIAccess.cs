@@ -294,10 +294,11 @@ public static class GitHubAPIAccess
         return result;
     }
 
+    //IMPORTANT: Note that search has a rate limit of 30 requests per minute: https://docs.github.com/en/rest/reference/search#rate-limit
     public async static Task<SearchResult?> SearchFiles(string? clientId, string? clientSecret,
         string owner, string repo, string? extension = null, string? fileName = null, int counter = 0)
     {
-        SearchResult? result = new SearchResult();
+        SearchResult? result = new();
         if (clientId != null && clientSecret != null)
         {
             string url = "";
@@ -328,6 +329,28 @@ public static class GitHubAPIAccess
             result = await SearchFiles(clientId, clientSecret, owner, repo, extension, fileName, counter);
         }
 
+        return result;
+    }
+
+    public async static Task<string?> GetLastCommit(string? clientId, string? clientSecret,
+        string owner, string repo)
+    {
+        string? result = null;
+        if (clientId != null && clientSecret != null)
+        {
+            //https://api.github.com/repos/torvalds/linux/commits?per_page=1
+            string url = $"https://api.github.com/repos/{owner}/{repo}/commits?per_page=1";
+            string? response = await BaseAPIAccess.GetGitHubMessage(url, clientId, clientSecret, false);
+            if (string.IsNullOrEmpty(response) == false)// && response.Contains(@"""message"":""Not Found""") == false)
+            {
+                dynamic? jsonObj = JsonConvert.DeserializeObject(response);
+                Commit[] commits = JsonConvert.DeserializeObject<Commit[]>(jsonObj?.ToString());
+                if (commits != null && commits.Length > 0)
+                {
+                    result = commits[0].sha;
+                }
+            }
+        }
         return result;
     }
 
