@@ -298,7 +298,7 @@ public static class GitHubAPIAccess
     public async static Task<SearchResult?> SearchFiles(string? clientId, string? clientSecret,
         string owner, string repo, string? extension = null, string? fileName = null, int counter = 0)
     {
-        SearchResult? result = new SearchResult();
+        SearchResult? result = new();
         if (clientId != null && clientSecret != null)
         {
             string url = "";
