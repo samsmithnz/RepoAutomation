@@ -53,7 +53,7 @@ jobs:
         echo ""Version: ${{ steps.gitversion.outputs.SemVer }}""
         echo ""CommitsSinceVersionSource: ${{ steps.gitversion.outputs.CommitsSinceVersionSource }}""
     - name: Setup .NET
-      uses: actions/setup-dotnet@v1
+      uses: actions/setup-dotnet@v2
       with:
         dotnet-version: 6.0.x";
         Assert.AreEqual(expected, Utility.TrimNewLines(yaml));
@@ -102,7 +102,7 @@ jobs:
         echo ""Version: ${{ steps.gitversion.outputs.SemVer }}""
         echo ""CommitsSinceVersionSource: ${{ steps.gitversion.outputs.CommitsSinceVersionSource }}""
     - name: Setup .NET
-      uses: actions/setup-dotnet@v1
+      uses: actions/setup-dotnet@v2
       with:
         dotnet-version: 6.0.x
     - name: .NET test
@@ -110,14 +110,14 @@ jobs:
     - name: .NET publish
       run: dotnet publish src/TestProject/TestProject.csproj -c Release -p:Version='${{ steps.gitversion.outputs.SemVer }}'
     - name: Upload package back to GitHub
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       with:
         name: drop
         path: src/TestProject/bin/Release
     - name: .NET publish
       run: dotnet publish src/TestProject.Web/TestProject.Web.csproj -c Release -p:Version='${{ steps.gitversion.outputs.SemVer }}'
     - name: Upload package back to GitHub
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       with:
         name: web
         path: src/TestProject.Web/bin/Release";

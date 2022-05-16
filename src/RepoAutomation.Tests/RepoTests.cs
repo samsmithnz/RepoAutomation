@@ -88,7 +88,7 @@ public class RepoTests : BaseAPIAccessTests
         string owner = "samsmithnz";
 
         //Act
-        List<Repo> repos = await GitHubAPIAccess.GetRepos(base.GitHubId, base.GitHubSecret,
+        List<Repo>? repos = await GitHubAPIAccess.GetRepos(base.GitHubId, base.GitHubSecret,
               owner);
 
         //Assert
