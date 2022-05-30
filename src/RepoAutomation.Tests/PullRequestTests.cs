@@ -18,7 +18,7 @@ public class PullRequestTests : BaseAPIAccessTests
         //Arrange
         string owner = "samsmithnz";
         string repoName = "RepoAutomation"; //inception!!
-        
+
         //Act
         List<PullRequest>? pullRequests = await GitHubAPIAccess.GetPullRequests(base.GitHubId, base.GitHubSecret,
             owner, repoName);
@@ -27,7 +27,7 @@ public class PullRequestTests : BaseAPIAccessTests
         Assert.IsNotNull(pullRequests);
         if (pullRequests != null && pullRequests.Count > 0)
         {
-            Assert.IsTrue(string.IsNullOrEmpty(pullRequests[0].Title));
+            Assert.IsTrue(string.IsNullOrEmpty(pullRequests[0].Title) == false);
         }
     }
 
