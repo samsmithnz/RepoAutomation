@@ -9,7 +9,7 @@ on:
 jobs:
   #Install and calculate the new version with GitVersion  
   versionAndTest:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     outputs: 
       Version: ${{ steps.gitversion.outputs.SemVer }} 
       CommitsSinceVersionSource: ${{ steps.gitversion.outputs.CommitsSinceVersionSource }}  
@@ -40,7 +40,11 @@ jobs:
         AppSettings.GitHubClientId: "${{ secrets.GitHubClientId }}"
         AppSettings.GitHubClientSecret: "${{ secrets.GitHubClientSecret }}" 
     - name: .NET test
-      run: dotnet test src/RepoAutomation.Tests/RepoAutomation.Tests.csproj -c Release --nologo -p:CollectCoverage=true -p:CoverletOutput=TestResults/ -p:CoverletOutputFormat=lcov 
+      run: dotnet test src/RepoAutomation.Tests/RepoAutomation.Tests.csproj -c Release --nologo -p:CollectCoverage=true -p:CoverletOutput=TestResults/ -p:CoverletOutputFormat=lcov -l:"trx;LogFileName=${{ github.workspace }}/TestOutput.xml" 
+    - uses: samsmithnz/DotNetTestResults@0.1.1
+      with:
+        fileName: ${{ github.workspace }}/TestOutput.xml
+
     #- name: Publish coverage report to coveralls.io
     #  uses: coverallsapp/github-action@master
     #  if: runner.OS == 'Linux' #Only push the Linux coverage
