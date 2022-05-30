@@ -25,15 +25,10 @@ public class PullRequestTests : BaseAPIAccessTests
 
         //Assert
         Assert.IsNotNull(pullRequests);
-        //if (branchProtectionPolicy != null)
-        //{
-        //    Assert.IsNotNull(branchProtectionPolicy.required_status_checks);
-        //    Assert.AreEqual(1, branchProtectionPolicy.required_status_checks?.checks?.Length);
-        //    Assert.AreEqual("versionAndTest", branchProtectionPolicy.required_status_checks?.checks?[0].context);
-        //    Assert.IsTrue(branchProtectionPolicy.required_status_checks?.strict);
-        //    Assert.IsTrue(branchProtectionPolicy.enforce_admins?.enabled);
-        //    Assert.IsTrue(branchProtectionPolicy.required_conversation_resolution?.enabled);
-        //}
+        if (pullRequests != null && pullRequests.Count > 0)
+        {
+            Assert.IsTrue(string.IsNullOrEmpty(pullRequests[0].Title));
+        }
     }
-    
+
 }
