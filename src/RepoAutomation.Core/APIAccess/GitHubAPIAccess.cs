@@ -354,4 +354,54 @@ public static class GitHubAPIAccess
         return result;
     }
 
+    public async static Task<List<PullRequest>> GetPullRequests(string? clientId, string? clientSecret,
+        string owner, string repo)
+    {
+        List<PullRequest>? pullRequests = new();
+        if (clientId != null && clientSecret != null)
+        {
+            //https://docs.github.com/en/rest/pulls/pulls#list-pull-requests (only first 30)
+            string url = $"https://api.github.com/repos/{owner}/{repo}/pulls?state=open";
+            string? response = await BaseAPIAccess.GetGitHubMessage(url, clientId, clientSecret, false);
+            if (string.IsNullOrEmpty(response) == false)// && response.Contains(@"""message"":""Not Found""") == false)
+            {
+                dynamic? jsonObj = JsonConvert.DeserializeObject(response);
+                PR[] prs = JsonConvert.DeserializeObject<PR[]>(jsonObj?.ToString());
+                if (prs != null && prs.Length > 0)
+                {
+                    foreach (PR pr in prs)
+                    {
+                        PullRequest newPullRequest = new()
+                        {
+                            Title = pr.title,
+                            State = pr.state,
+                            LastUpdated = DateTime.Parse(pr.updated_at)
+                        };
+                        if (pr.auto_merge == null)
+                        {
+                            newPullRequest.AutoMergeEnabled = false;
+                        }
+                        else
+                        {
+                            newPullRequest.AutoMergeEnabled = bool.Parse(pr.auto_merge);
+                        }
+                        if (pr.labels != null)
+                        {
+                            foreach (Label item in pr.labels)
+                            {
+                                newPullRequest.Labels.Add(item.name);
+                                if (item.name == "dependencies")
+                                {
+                                    newPullRequest.IsDependabotPR = true;
+                                }
+                            }
+                        }
+                        pullRequests.Add(newPullRequest);
+                    }
+                }
+            }
+        }
+        return pullRequests;
+    }
+
 }
