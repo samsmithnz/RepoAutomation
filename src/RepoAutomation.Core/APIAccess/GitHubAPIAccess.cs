@@ -377,14 +377,14 @@ public static class GitHubAPIAccess
                             State = pr.state,
                             LastUpdated = DateTime.Parse(pr.updated_at)
                         };
-                        if (pr.auto_merge == null)
-                        {
-                            newPullRequest.AutoMergeEnabled = false;
-                        }
-                        else
-                        {
-                            newPullRequest.AutoMergeEnabled = bool.Parse(pr.auto_merge);
-                        }
+                        //if (pr.auto_merge == null)
+                        //{
+                        //    newPullRequest.AutoMergeEnabled = false;
+                        //}
+                        //else
+                        //{
+                        //    newPullRequest.AutoMergeEnabled = bool.Parse(pr.auto_merge);
+                        //}
                         if (pr.labels != null)
                         {
                             foreach (Label item in pr.labels)
