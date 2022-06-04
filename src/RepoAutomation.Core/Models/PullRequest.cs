@@ -25,17 +25,27 @@ namespace RepoAutomation.Core.Models
     //GitHub API class
     public class PR
     {
-        public string number { get; set; }
-        public string title { get; set; }
-        public string state { get; set; }
-        public string url { get; set; }
-        public List<Label> labels { get; set; }
+        public string? number { get; set; }
+        public string? title { get; set; }
+        public string? state { get; set; }
+        public string? url { get; set; }
+        public List<Label>? labels { get; set; }
         //public string? auto_merge { get; set; }
-        public string updated_at { get; set; }
+        public string? updated_at { get; set; }
     }
 
     public class Label
     {
-        public string name { get; set; }
+        public string? name { get; set; }
+    }
+
+    public class PRReview
+    {
+        public string? id { get; set; }
+        public string? state { get; set; }
+        public string? submitted_at { get; set; }
+        public string? commit_id { get; set; }
+
+
     }
 }

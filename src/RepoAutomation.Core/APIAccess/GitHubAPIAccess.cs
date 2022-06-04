@@ -404,4 +404,23 @@ public static class GitHubAPIAccess
         return pullRequests;
     }
 
+    public async static Task<PRReview> GetPullRequestReviews(string? clientId, string? clientSecret,
+        string owner, string repo, string pullRequestNumber)
+    {
+        PRReview prReview = new();
+        if (clientId != null && clientSecret != null)
+        {
+            //https://api.github.com/repos/OWNER/REPO/pulls/PULL_NUMBER/reviews
+            string url = $"https://api.github.com/repos/{owner}/{repo}/{pullRequestNumber}/reviews";
+            string? response = await BaseAPIAccess.GetGitHubMessage(url, clientId, clientSecret, false);
+            if (string.IsNullOrEmpty(response) == false)
+            {
+                dynamic? jsonObj = JsonConvert.DeserializeObject(response);
+                prReview = JsonConvert.DeserializeObject<PRReview>(jsonObj?.ToString());
+            }
+
+        }
+
+        return prReview;
+    }
 }
