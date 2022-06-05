@@ -45,7 +45,7 @@ public class PullRequestTests : BaseAPIAccessTests
 
         //Assert
         Assert.IsNotNull(pullRequestReviews);
-        Assert.AreEqual(1, pullRequestReviews.Count);
+        Assert.AreEqual(0, pullRequestReviews.Count);
     }
 
     [TestMethod]
