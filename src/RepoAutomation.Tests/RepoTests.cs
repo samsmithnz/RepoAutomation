@@ -19,7 +19,7 @@ public class RepoTests : BaseAPIAccessTests
     {
         //Arrange
         string owner = "samsmithnz";
-        string repoName = "RepoAutomation"; //inception!!
+        string repoName = "RepoAutomationUnitTests";
 
         //Act
         Repo? repo = await GitHubAPIAccess.GetRepo(base.GitHubId, base.GitHubSecret, owner, repoName);

@@ -17,7 +17,7 @@ public class PullRequestTests : BaseAPIAccessTests
     {
         //Arrange
         string owner = "samsmithnz";
-        string repoName = "RepoAutomation"; //inception!!
+        string repoName = "RepoAutomationUnitTests";
 
         //Act
         List<PullRequest>? pullRequests = await GitHubAPIAccess.GetPullRequests(base.GitHubId, base.GitHubSecret,

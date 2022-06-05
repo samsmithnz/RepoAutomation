@@ -17,7 +17,7 @@ public class BranchProtectionTests : BaseAPIAccessTests
     {
         //Arrange
         string owner = "samsmithnz";
-        string repoName = "RepoAutomation"; //inception!!
+        string repoName = "RepoAutomationUnitTests"; 
         string branchName = "main";
 
         //Act
@@ -42,7 +42,7 @@ public class BranchProtectionTests : BaseAPIAccessTests
     {
         //Arrange
         string owner = "samsmithnz";
-        string repoName = "RepoAutomation"; //inception!!
+        string repoName = "RepoAutomationUnitTests"; 
         string branchName = "main2";
 
         //Act
@@ -63,7 +63,7 @@ public class BranchProtectionTests : BaseAPIAccessTests
     {
         //Arrange
         string owner = "samsmithnz";
-        string repoName = "RepoAutomation";
+        string repoName = "RepoAutomationUnitTests";
         string branchName = "main";
         RequiredStatusCheckPut requiredStatusCheck = new()
         {

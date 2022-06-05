@@ -19,7 +19,7 @@ public class GetFilesTests : BaseAPIAccessTests
     {
         //Arrange
         string owner = "samsmithnz";
-        string repository = "RepoAutomation"; //inception!!
+        string repository = "RepoAutomationUnitTests";
         string? file = "dependabot.yml";
         string? extension = null;
         string? path = ".github";
@@ -40,7 +40,7 @@ public class GetFilesTests : BaseAPIAccessTests
     {
         //Arrange
         string owner = "samsmithnz";
-        string repository = "RepoAutomation"; //inception!!
+        string repository = "RepoAutomationUnitTests";
         string? file = null;
         string? extension = "yml";
         string? path = ".github/workflows";
@@ -61,7 +61,7 @@ public class GetFilesTests : BaseAPIAccessTests
     {
         //Arrange
         string owner = "samsmithnz";
-        string repository = "RepoAutomation"; //inception!!
+        string repository = "RepoAutomationUnitTests";
         string? file = "GitVersion.yml";
         string? extension = null;
         string? path = "";
@@ -82,7 +82,7 @@ public class GetFilesTests : BaseAPIAccessTests
     {
         //Arrange
         string owner = "samsmithnz";
-        string repository = "RepoAutomation"; //inception!!
+        string repository = "RepoAutomationUnitTests";
         string? file = null;
         string? extension = null;
         string? path = ".github/workflows";
@@ -121,7 +121,7 @@ public class GetFilesTests : BaseAPIAccessTests
     {
         //Arrange
         string owner = "samsmithnz";
-        string repository = "RepoAutomation";
+        string repository = "RepoAutomationUnitTests";
         string? extension = "csproj";
 
         //Act
@@ -139,7 +139,7 @@ public class GetFilesTests : BaseAPIAccessTests
     {
         //Arrange
         string owner = "samsmithnz";
-        string repository = "RepoAutomation";
+        string repository = "RepoAutomationUnitTests";
         string? extension = "vsproj";
 
         //Act

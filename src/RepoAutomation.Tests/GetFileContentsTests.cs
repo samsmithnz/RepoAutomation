@@ -17,7 +17,7 @@ public class GetFileContentsTests : BaseAPIAccessTests
     {
         //Arrange
         string owner = "samsmithnz";
-        string repository = "RepoAutomation"; //inception!!
+        string repository = "RepoAutomationUnitTests";
         string? filePath = ".github/dependabot.yml";
 
         //Act
@@ -36,7 +36,7 @@ public class GetFileContentsTests : BaseAPIAccessTests
     {
         //Arrange
         string owner = "samsmithnz";
-        string repository = "RepoAutomation"; //inception!!
+        string repository = "RepoAutomationUnitTests";
         string? filePath = ".github/workflows/dotnet.yml";
 
         //Act
