@@ -19,7 +19,7 @@ public class RepoTests : BaseAPIAccessTests
     {
         //Arrange
         string owner = "samsmithnz";
-        string repoName = "RepoAutomation"; //inception!!
+        string repoName = "RepoAutomationUnitTests";
 
         //Act
         Repo? repo = await GitHubAPIAccess.GetRepo(base.GitHubId, base.GitHubSecret, owner, repoName);
@@ -36,7 +36,7 @@ public class RepoTests : BaseAPIAccessTests
             Assert.AreEqual(true, repo.allow_merge_commit);
             Assert.AreEqual(false, repo.allow_rebase_merge);
             Assert.AreEqual(true, repo.allow_squash_merge);
-            Assert.AreEqual("public", repo.visibility);
+            Assert.AreEqual("private", repo.visibility);
             Assert.AreEqual("main", repo.default_branch);
             Assert.IsNotNull(repo.RawJSON);
             Assert.IsNotNull(repo.id);
@@ -192,6 +192,6 @@ public class RepoTests : BaseAPIAccessTests
 
         //Assert
         Assert.IsNotNull(commitSHA);
-        Assert.AreEqual("fe4e362c7ce972c3d2e83e6bd5a87db515c664c6", commitSHA);
+        Assert.AreEqual("e18a81f32522af019efe584c0b9655e0f0c03835", commitSHA);
     }
 }

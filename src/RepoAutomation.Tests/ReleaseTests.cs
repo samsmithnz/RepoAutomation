@@ -16,7 +16,7 @@ public class ReleaseTests : BaseAPIAccessTests
     {
         //Arrange
         string owner = "samsmithnz";
-        string repoName = "RepoAutomation"; //inception!!
+        string repoName = "RepoAutomationUnitTests";
 
         //Act
         Release? release = await GitHubAPIAccess.GetReleaseLatest(base.GitHubId, base.GitHubSecret, owner, repoName);
@@ -30,7 +30,7 @@ public class ReleaseTests : BaseAPIAccessTests
             //Assert.IsTrue(release.assets?.Length > 0);
             //Assert.AreEqual($"https://github.com/{owner}/{repoName}/releases/download/{releaseTag}/RepoAutomation.Linux_x64.{releaseTag}.zip", release.assets?[0].browser_download_url);
             Assert.IsNotNull(release.id);
-            Assert.AreEqual($"Release {releaseTag}", release.name);
+            Assert.AreEqual("V1.0", release.name);
         }
     }
 

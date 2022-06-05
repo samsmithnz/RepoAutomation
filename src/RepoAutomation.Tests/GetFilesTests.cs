@@ -19,7 +19,7 @@ public class GetFilesTests : BaseAPIAccessTests
     {
         //Arrange
         string owner = "samsmithnz";
-        string repository = "RepoAutomation"; //inception!!
+        string repository = "RepoAutomationUnitTests";
         string? file = "dependabot.yml";
         string? extension = null;
         string? path = ".github";
@@ -40,7 +40,7 @@ public class GetFilesTests : BaseAPIAccessTests
     {
         //Arrange
         string owner = "samsmithnz";
-        string repository = "RepoAutomation"; //inception!!
+        string repository = "RepoAutomationUnitTests";
         string? file = null;
         string? extension = "yml";
         string? path = ".github/workflows";
@@ -53,7 +53,7 @@ public class GetFilesTests : BaseAPIAccessTests
         Assert.IsNotNull(searchResult);
         Assert.IsTrue(searchResult.Count > 0);
         Assert.AreEqual(1, searchResult.Count);
-        Assert.AreEqual("dotnet.yml", searchResult[0]);
+        Assert.AreEqual("workflow.yml", searchResult[0]);
     }
 
     [TestMethod]
@@ -61,7 +61,7 @@ public class GetFilesTests : BaseAPIAccessTests
     {
         //Arrange
         string owner = "samsmithnz";
-        string repository = "RepoAutomation"; //inception!!
+        string repository = "RepoAutomationUnitTests";
         string? file = "GitVersion.yml";
         string? extension = null;
         string? path = "";
@@ -82,7 +82,7 @@ public class GetFilesTests : BaseAPIAccessTests
     {
         //Arrange
         string owner = "samsmithnz";
-        string repository = "RepoAutomation"; //inception!!
+        string repository = "RepoAutomationUnitTests";
         string? file = null;
         string? extension = null;
         string? path = ".github/workflows";
@@ -95,7 +95,7 @@ public class GetFilesTests : BaseAPIAccessTests
         Assert.IsNotNull(searchResult);
         Assert.IsTrue(searchResult.Count > 0);
         Assert.AreEqual(1, searchResult.Count);
-        Assert.AreEqual("dotnet.yml", searchResult[0]);
+        Assert.AreEqual("workflow.yml", searchResult[0]);
     }
 
     [TestMethod]
@@ -121,7 +121,7 @@ public class GetFilesTests : BaseAPIAccessTests
     {
         //Arrange
         string owner = "samsmithnz";
-        string repository = "RepoAutomation";
+        string repository = "RepoAutomationUnitTests";
         string? extension = "csproj";
 
         //Act
@@ -131,7 +131,7 @@ public class GetFilesTests : BaseAPIAccessTests
         //Assert
         Assert.IsNotNull(searchResult);
         Assert.IsNotNull(searchResult.items);
-        Assert.AreEqual(4, searchResult.items.Length);
+        Assert.AreEqual(2, searchResult.items.Length);
     }
 
     [TestMethod]
@@ -139,7 +139,7 @@ public class GetFilesTests : BaseAPIAccessTests
     {
         //Arrange
         string owner = "samsmithnz";
-        string repository = "RepoAutomation";
+        string repository = "RepoAutomationUnitTests";
         string? extension = "vsproj";
 
         //Act
