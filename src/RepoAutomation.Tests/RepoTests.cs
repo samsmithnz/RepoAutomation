@@ -36,7 +36,7 @@ public class RepoTests : BaseAPIAccessTests
             Assert.AreEqual(true, repo.allow_merge_commit);
             Assert.AreEqual(false, repo.allow_rebase_merge);
             Assert.AreEqual(true, repo.allow_squash_merge);
-            Assert.AreEqual("public", repo.visibility);
+            Assert.AreEqual("private", repo.visibility);
             Assert.AreEqual("main", repo.default_branch);
             Assert.IsNotNull(repo.RawJSON);
             Assert.IsNotNull(repo.id);
