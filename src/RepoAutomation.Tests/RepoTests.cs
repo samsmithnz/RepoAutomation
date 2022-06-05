@@ -192,6 +192,6 @@ public class RepoTests : BaseAPIAccessTests
 
         //Assert
         Assert.IsNotNull(commitSHA);
-        Assert.AreEqual("fe4e362c7ce972c3d2e83e6bd5a87db515c664c6", commitSHA);
+        Assert.AreEqual("e18a81f32522af019efe584c0b9655e0f0c03835", commitSHA);
     }
 }
