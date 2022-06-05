@@ -53,7 +53,7 @@ public class GetFilesTests : BaseAPIAccessTests
         Assert.IsNotNull(searchResult);
         Assert.IsTrue(searchResult.Count > 0);
         Assert.AreEqual(1, searchResult.Count);
-        Assert.AreEqual("dotnet.yml", searchResult[0]);
+        Assert.AreEqual("workflow.yml", searchResult[0]);
     }
 
     [TestMethod]
@@ -95,7 +95,7 @@ public class GetFilesTests : BaseAPIAccessTests
         Assert.IsNotNull(searchResult);
         Assert.IsTrue(searchResult.Count > 0);
         Assert.AreEqual(1, searchResult.Count);
-        Assert.AreEqual("dotnet.yml", searchResult[0]);
+        Assert.AreEqual("workflow.yml", searchResult[0]);
     }
 
     [TestMethod]
@@ -131,7 +131,7 @@ public class GetFilesTests : BaseAPIAccessTests
         //Assert
         Assert.IsNotNull(searchResult);
         Assert.IsNotNull(searchResult.items);
-        Assert.AreEqual(4, searchResult.items.Length);
+        Assert.AreEqual(2, searchResult.items.Length);
     }
 
     [TestMethod]

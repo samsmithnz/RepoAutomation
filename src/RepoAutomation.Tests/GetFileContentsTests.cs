@@ -37,7 +37,7 @@ public class GetFileContentsTests : BaseAPIAccessTests
         //Arrange
         string owner = "samsmithnz";
         string repository = "RepoAutomationUnitTests";
-        string? filePath = ".github/workflows/dotnet.yml";
+        string? filePath = ".github/workflows/workflow.yml";
 
         //Act
         GitHubFile? fileResult = await GitHubFiles.GetFileContents(base.GitHubId, base.GitHubSecret,
@@ -45,9 +45,9 @@ public class GetFileContentsTests : BaseAPIAccessTests
 
         //Assert
         Assert.IsNotNull(fileResult);
-        Assert.AreEqual("dotnet.yml", fileResult.name);
+        Assert.AreEqual("workflow.yml", fileResult.name);
         Assert.IsNotNull(fileResult.content);
-        Assert.AreEqual("name: 'CI/ CD'", fileResult.content.Substring(0, 14));
+        Assert.AreEqual("name: CI/CD", fileResult.content.Substring(0, 14));
     }
 
     [TestMethod]
