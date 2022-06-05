@@ -30,7 +30,7 @@ public class BranchProtectionTests : BaseAPIAccessTests
         {
             Assert.IsNotNull(branchProtectionPolicy.required_status_checks);
             Assert.AreEqual(1, branchProtectionPolicy.required_status_checks?.checks?.Length);
-            Assert.AreEqual("build", branchProtectionPolicy.required_status_checks?.checks?[0].context);
+            Assert.AreEqual("Build job", branchProtectionPolicy.required_status_checks?.checks?[0].context);
             Assert.IsTrue(branchProtectionPolicy.required_status_checks?.strict);
             Assert.IsTrue(branchProtectionPolicy.enforce_admins?.enabled);
             Assert.IsTrue(branchProtectionPolicy.required_conversation_resolution?.enabled);
@@ -68,7 +68,7 @@ public class BranchProtectionTests : BaseAPIAccessTests
         RequiredStatusCheckPut requiredStatusCheck = new()
         {
             strict = true,
-            checks = new Check[1] { new Check() { context = "build" } }
+            checks = new Check[1] { new Check() { context = "Build job" } }
         };
 
         //Act

@@ -47,7 +47,7 @@ public class GetFileContentsTests : BaseAPIAccessTests
         Assert.IsNotNull(fileResult);
         Assert.AreEqual("workflow.yml", fileResult.name);
         Assert.IsNotNull(fileResult.content);
-        Assert.AreEqual("name: CI/CD", fileResult.content.Substring(0, 14));
+        Assert.AreEqual("name: CI/CD", fileResult.content.Substring(0, 11));
     }
 
     [TestMethod]
