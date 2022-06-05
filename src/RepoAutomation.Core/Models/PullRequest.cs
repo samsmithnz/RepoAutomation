@@ -13,6 +13,7 @@ namespace RepoAutomation.Core.Models
         {
             Labels = new();
         }
+        public string? Number { get; set; }
         public string? Title { get; set; }
         public List<string> Labels { get; set; }
         public bool? IsDependabotPR { get; set; }

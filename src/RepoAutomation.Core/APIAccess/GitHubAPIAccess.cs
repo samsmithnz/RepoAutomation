@@ -373,6 +373,7 @@ public static class GitHubAPIAccess
                     {
                         PullRequest newPullRequest = new()
                         {
+                            Number = pr.number,
                             Title = pr.title,
                             State = pr.state,
                             LastUpdated = DateTime.Parse(pr.updated_at)
