@@ -373,6 +373,7 @@ public static class GitHubAPIAccess
                     {
                         PullRequest newPullRequest = new()
                         {
+                            Number = pr.number,
                             Title = pr.title,
                             State = pr.state,
                             LastUpdated = DateTime.Parse(pr.updated_at)
@@ -410,7 +411,7 @@ public static class GitHubAPIAccess
         List<PRReview> prReview = new();
         if (clientId != null && clientSecret != null)
         {
-            //https://api.github.com/repos/OWNER/REPO/pulls/PULL_NUMBER/reviews
+            //https://docs.github.com/en/rest/pulls/reviews#submit-a-pull-request-review
             string url = $"https://api.github.com/repos/{owner}/{repo}/pulls/{pullRequestNumber}/reviews";
             string? response = await BaseAPIAccess.GetGitHubMessage(url, clientId, clientSecret, false);
             if (string.IsNullOrEmpty(response) == false)
