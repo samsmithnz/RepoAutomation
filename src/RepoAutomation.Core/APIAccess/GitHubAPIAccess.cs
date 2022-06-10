@@ -437,14 +437,17 @@ public static class GitHubAPIAccess
                         //{
                         //    newPullRequest.AutoMergeEnabled = bool.Parse(pr.auto_merge);
                         //}
-                        if (pr.labels != null)
+                        if (pr != null && pr.labels != null)
                         {
                             foreach (Label item in pr.labels)
                             {
-                                newPullRequest.Labels.Add(item.name);
-                                if (item.name == "dependencies")
+                                if (item != null && item.name != null)
                                 {
-                                    newPullRequest.IsDependabotPR = true;
+                                    newPullRequest.Labels.Add(item.name);
+                                    if (item.name == "dependencies")
+                                    {
+                                        newPullRequest.IsDependabotPR = true;
+                                    }
                                 }
                             }
                         }
