@@ -146,7 +146,7 @@ public static class GitHubAPIAccess
             };
             StringContent content = new(JsonConvert.SerializeObject(body), Encoding.UTF8, "application/json");
             //https://docs.github.com/en/rest/repos/repos#update-a-repository
-            string url = $"https://api.github.com/{owner}/{repo}";
+            string url = $"https://api.github.com/repos/{owner}/{repo}";
             await BaseAPIAccess.PatchGitHubMessage(url, clientId, clientSecret, content);
             //string response = 
             //if (string.IsNullOrEmpty(response) == false)
