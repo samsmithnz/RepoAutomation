@@ -27,6 +27,17 @@ public static class BaseAPIAccess
         return await response.Content.ReadAsStringAsync();
     }
 
+    public async static Task<string?> PatchGitHubMessage(string url, string clientId, string clientSecret, StringContent content, bool processErrors = true)
+    {
+        HttpClient client = BuildHttpClient(url, clientId, clientSecret);
+        HttpResponseMessage response = await client.PatchAsync(url, content);
+        if (processErrors)
+        {
+            response.EnsureSuccessStatusCode();
+        }
+        return await response.Content.ReadAsStringAsync();
+    }
+
     public async static Task<string?> DeleteGitHubMessage(string url, string clientId, string clientSecret, bool processErrors = true)
     {
         HttpClient client = BuildHttpClient(url, clientId, clientSecret);
