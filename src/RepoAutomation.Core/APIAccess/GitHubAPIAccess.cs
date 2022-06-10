@@ -114,6 +114,54 @@ public static class GitHubAPIAccess
     }
 
     /// <summary>
+    /// Update a new repo
+    /// </summary>
+    /// <param name="clientId"></param>
+    /// <param name="clientSecret"></param>
+    /// <param name="owner"></param>
+    /// <param name="repo"></param>
+    /// <param name="allowAutoMerge"></param>
+    /// <param name="deleteBranchOnMerge"></param>
+    /// <param name="allowRebaseMerge"></param>
+    /// <param name="isPrivate"></param>
+    /// <returns></returns>
+    public async static Task<bool> UpdateRepo(string? clientId, string? clientSecret,
+        string owner,
+        string repo,
+        bool allowAutoMerge,
+        bool deleteBranchOnMerge,
+        bool allowRebaseMerge,
+        bool isPrivate)
+    {
+        if (clientId != null && clientSecret != null)
+        {
+            var body = new
+            {
+                name = repo,
+                allow_auto_merge = allowAutoMerge,
+                delete_branch_on_merge = deleteBranchOnMerge,
+                allow_rebase_merge = allowRebaseMerge,
+                @private = isPrivate,
+                auto_init = true
+            };
+            StringContent content = new(JsonConvert.SerializeObject(body), Encoding.UTF8, "application/json");
+            //https://docs.github.com/en/rest/repos/repos#update-a-repository
+            string url = $"https://api.github.com/repos/{owner}/{repo}";
+            await BaseAPIAccess.PatchGitHubMessage(url, clientId, clientSecret, content);
+            //string response = 
+            //if (string.IsNullOrEmpty(response) == false)
+            //{
+            //    dynamic? jsonObj = JsonConvert.DeserializeObject(response);
+            //    result = JsonConvert.DeserializeObject<Repo>(jsonObj?.ToString());
+            //    result.RawJSON = jsonObj?.ToString();
+            //}
+        }
+        return true;
+    }
+
+
+
+    /// <summary>
     /// Delete the repo
     /// </summary>
     /// <param name="clientId"></param>
@@ -375,9 +423,12 @@ public static class GitHubAPIAccess
                         {
                             Number = pr.number,
                             Title = pr.title,
-                            State = pr.state,
-                            LastUpdated = DateTime.Parse(pr.updated_at)
+                            State = pr.state
                         };
+                        if (pr != null && pr.updated_at != null)
+                        {
+                            newPullRequest.LastUpdated = DateTime.Parse(pr.updated_at);
+                        }
                         //if (pr.auto_merge == null)
                         //{
                         //    newPullRequest.AutoMergeEnabled = false;
@@ -386,14 +437,17 @@ public static class GitHubAPIAccess
                         //{
                         //    newPullRequest.AutoMergeEnabled = bool.Parse(pr.auto_merge);
                         //}
-                        if (pr.labels != null)
+                        if (pr != null && pr.labels != null)
                         {
                             foreach (Label item in pr.labels)
                             {
-                                newPullRequest.Labels.Add(item.name);
-                                if (item.name == "dependencies")
+                                if (item != null && item.name != null)
                                 {
-                                    newPullRequest.IsDependabotPR = true;
+                                    newPullRequest.Labels.Add(item.name);
+                                    if (item.name == "dependencies")
+                                    {
+                                        newPullRequest.IsDependabotPR = true;
+                                    }
                                 }
                             }
                         }

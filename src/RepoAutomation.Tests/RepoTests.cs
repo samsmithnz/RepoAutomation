@@ -41,6 +41,46 @@ public class RepoTests : BaseAPIAccessTests
             Assert.IsNotNull(repo.RawJSON);
             Assert.IsNotNull(repo.id);
         }
+
+        //Act 2
+        bool isPrivate = false;
+        if (repo != null)
+        {
+            if (repo.visibility == "private")
+            {
+                isPrivate = true;
+            }
+            bool result = await GitHubAPIAccess.UpdateRepo(base.GitHubId, base.GitHubSecret, owner, repoName,
+                     repo.allow_auto_merge,
+                     repo.delete_branch_on_merge,
+                     repo.allow_rebase_merge,
+                     isPrivate);
+
+            //Assert 2
+            Assert.IsTrue(result);
+        }
+
+
+        //Act 3
+        repo = await GitHubAPIAccess.GetRepo(base.GitHubId, base.GitHubSecret, owner, repoName);
+
+        //Assert 3
+        Assert.IsNotNull(repo);
+        if (repo != null)
+        {
+            Assert.AreEqual(owner, repo.owner?.login);
+            Assert.AreEqual(repoName, repo.name);
+            Assert.AreEqual(owner + "/" + repoName, repo.full_name);
+            Assert.AreEqual(true, repo.allow_auto_merge);
+            Assert.AreEqual(true, repo.delete_branch_on_merge);
+            Assert.AreEqual(true, repo.allow_merge_commit);
+            Assert.AreEqual(false, repo.allow_rebase_merge);
+            Assert.AreEqual(true, repo.allow_squash_merge);
+            Assert.AreEqual("private", repo.visibility);
+            Assert.AreEqual("main", repo.default_branch);
+            Assert.IsNotNull(repo.RawJSON);
+            Assert.IsNotNull(repo.id);
+        }
     }
 
     [TestMethod]
