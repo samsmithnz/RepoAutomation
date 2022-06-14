@@ -109,6 +109,7 @@ namespace RepoAutomation.Core.Helpers
                         case "razor":
                         case "angular":
                         case "react":
+                        case "blazorserver":
                             projectsToCreate.Add(project, ".Web");
                             break;
 
