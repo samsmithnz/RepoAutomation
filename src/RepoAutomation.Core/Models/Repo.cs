@@ -6,6 +6,7 @@
         public string? name { get; set; }
         public string? full_name { get; set; }
         public Owner? owner { get; set; }
+        public string? description { get; set; }
         public string? default_branch { get; set; }
         public string? visibility { get; set; }
         public bool allow_rebase_merge { get; set; }
