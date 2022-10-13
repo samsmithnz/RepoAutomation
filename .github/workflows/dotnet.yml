@@ -41,7 +41,7 @@ jobs:
         AppSettings.GitHubClientSecret: "${{ secrets.GitHubClientSecret }}" 
     - name: .NET test
       run: dotnet test src/RepoAutomation.Tests/RepoAutomation.Tests.csproj -c Release --nologo -p:CollectCoverage=true -p:CoverletOutput=TestResults/ -p:CoverletOutputFormat=lcov -l:"trx;LogFileName=${{ github.workspace }}/TestOutput.xml" 
-    - uses: samsmithnz/DotNetTestResults@0.1.1
+    - uses: samsmithnz/DotNetTestResults@0.1.2
       with:
         fileName: ${{ github.workspace }}/TestOutput.xml
 
