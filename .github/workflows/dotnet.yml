@@ -18,11 +18,11 @@ jobs:
       with:
         fetch-depth: 0 #fetch-depth is needed for GitVersion
     - name: Install GitVersion
-      uses: gittools/actions/gitversion/setup@v0.9.13
+      uses: gittools/actions/gitversion/setup@v0.9.14
       with:
         versionSpec: 5.x
     - name: Determine Version
-      uses: gittools/actions/gitversion/execute@v0.9.13
+      uses: gittools/actions/gitversion/execute@v0.9.14
       id: gitversion # step id used as reference for output values
     - name: Display GitVersion outputs
       run: |
@@ -41,7 +41,7 @@ jobs:
         AppSettings.GitHubClientSecret: "${{ secrets.GitHubClientSecret }}" 
     - name: .NET test
       run: dotnet test src/RepoAutomation.Tests/RepoAutomation.Tests.csproj -c Release --nologo -p:CollectCoverage=true -p:CoverletOutput=TestResults/ -p:CoverletOutputFormat=lcov -l:"trx;LogFileName=${{ github.workspace }}/TestOutput.xml" 
-    - uses: samsmithnz/DotNetTestResults@0.1.1
+    - uses: samsmithnz/DotNetTestResults@0.1.2
       with:
         fileName: ${{ github.workspace }}/TestOutput.xml
 
