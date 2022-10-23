@@ -5,6 +5,7 @@
         public string? id { get; set; }
         public string? name { get; set; }
         public string? tag_name { get; set; }
+        public DateTime? published_at { get; set;  }
         public Asset[]? assets { get; set; }
     }
 
