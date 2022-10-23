@@ -32,7 +32,7 @@ public class ReleaseTests : BaseAPIAccessTests
             Assert.IsNotNull(release.id);
             Assert.IsNotNull(release.published_at);
             Assert.IsNotNull(release.html_url);
-            Assert.IsNotNull(release.ToTimingString);
+            Assert.IsNotNull(release.ToTimingString());
             Assert.AreEqual("V1.0", release.name);
         }
     }
