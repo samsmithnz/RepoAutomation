@@ -11,7 +11,7 @@ namespace RepoAutomation.Core.Models
         public string? html_url { get; set; }
         public Asset[]? assets { get; set; }
 
-        public string Timing
+        public string ToTimingString
         {
             get
             {
