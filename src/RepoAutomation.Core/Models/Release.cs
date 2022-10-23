@@ -18,9 +18,29 @@ namespace RepoAutomation.Core.Models
                 if (published_at != null)
                 {
                     StringBuilder sb = new();
-                    sb.Append("(");
-                    
-                    sb.Append(") ");
+                    sb.Append(" (");
+                    TimeSpan span = DateTime.Now - (DateTime)published_at;
+                    if (span.TotalMinutes < 60)
+                    {
+                        sb.Append(span.TotalMinutes.ToString("0"));
+                        sb.Append(" minutes");
+                    }
+                    else if (span.TotalHours < 24)
+                    {
+                        sb.Append(span.TotalHours.ToString("0"));
+                        sb.Append(" hours");
+                    }
+                    else if (span.TotalDays <= 30) //approximation
+                    {
+                        sb.Append(span.TotalDays.ToString("0"));
+                        sb.Append(" days");
+                    }
+                    else
+                    {
+                        sb.Append((span.TotalDays / 30).ToString("0"));
+                        sb.Append(" months");
+                    }
+                    sb.Append(" ago) ");
 
                     return sb.ToString();
                 }
