@@ -31,6 +31,8 @@ public class ReleaseTests : BaseAPIAccessTests
             //Assert.AreEqual($"https://github.com/{owner}/{repoName}/releases/download/{releaseTag}/RepoAutomation.Linux_x64.{releaseTag}.zip", release.assets?[0].browser_download_url);
             Assert.IsNotNull(release.id);
             Assert.IsNotNull(release.published_at);
+            Assert.IsNotNull(release.html_url);
+            Assert.IsNotNull(release.ToTimingString());
             Assert.AreEqual("V1.0", release.name);
         }
     }
