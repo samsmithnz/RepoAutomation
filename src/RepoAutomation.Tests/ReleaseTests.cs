@@ -26,10 +26,11 @@ public class ReleaseTests : BaseAPIAccessTests
         if (release != null)
         {
             Assert.IsNotNull(release.tag_name);
-            string releaseTag = release.tag_name;
+            //string releaseTag = release.tag_name;
             //Assert.IsTrue(release.assets?.Length > 0);
             //Assert.AreEqual($"https://github.com/{owner}/{repoName}/releases/download/{releaseTag}/RepoAutomation.Linux_x64.{releaseTag}.zip", release.assets?[0].browser_download_url);
             Assert.IsNotNull(release.id);
+            Assert.IsNotNull(release.published_at);
             Assert.AreEqual("V1.0", release.name);
         }
     }
