@@ -8,7 +8,7 @@ namespace RepoAutomation.Core.Models
         public string? name { get; set; }
         public string? tag_name { get; set; }
         public DateTime? published_at { get; set; }
-        public string? url { get; set; }
+        public string? html_url { get; set; }
         public Asset[]? assets { get; set; }
 
         public string Timing
