@@ -18,7 +18,11 @@ namespace RepoAutomation.Core.Models
                 StringBuilder sb = new();
                 sb.Append(" (");
                 TimeSpan span = DateTime.Now - (DateTime)published_at;
-                if (span.TotalMinutes < 60)
+                if (span.TotalMinutes < 0) //Happens when the timezone messes with the published at date.
+                {
+                    sb.Append(" a few moments");
+                }
+                else if (span.TotalMinutes < 60)
                 {
                     sb.Append(span.TotalMinutes.ToString("0"));
                     sb.Append(" minutes");
