@@ -22,11 +22,6 @@ namespace RepoAutomation.Core.Models
                 {
                     sb.Append(" a few moments");
                 }
-                else if (span.TotalMinutes < 60)
-                {
-                    sb.Append(span.TotalMinutes.ToString("0"));
-                    sb.Append(" minutes");
-                }
                 else if (span.TotalHours < 24)
                 {
                     sb.Append(span.TotalHours.ToString("0"));
