@@ -331,12 +331,17 @@ public static class GitHubAPIAccess
         if (clientId != null && clientSecret != null)
         {
             string url = $"https://api.github.com/repos/{owner}/{repo}/releases/latest";
-            string? response = await BaseAPIAccess.GetGitHubMessage(url, clientId, clientSecret);
+            string? response = await BaseAPIAccess.GetGitHubMessage(url, clientId, clientSecret, false);
             if (string.IsNullOrEmpty(response) == false)
             {
                 dynamic? jsonObj = JsonConvert.DeserializeObject(response);
                 result = JsonConvert.DeserializeObject<Release>(jsonObj?.ToString());
                 result.RawJSON = jsonObj?.ToString();
+            }
+            //Check if the release is effectively empty - if so, mark it as null
+            if (result != null && result.name == null)
+            {
+                result = null;
             }
         }
         return result;
