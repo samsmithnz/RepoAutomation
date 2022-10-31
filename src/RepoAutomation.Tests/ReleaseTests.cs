@@ -36,5 +36,19 @@ public class ReleaseTests : BaseAPIAccessTests
             Assert.AreEqual("V1.0", release.name);
         }
     }
+    
+    [TestMethod]
+    public async Task GetReleaseFromRepoWithNoReleasesTest()
+    {
+        //Arrange
+        string owner = "samsmithnz";
+        string repoName = "FictionBook";
+
+        //Act
+        Release? release = await GitHubAPIAccess.GetReleaseLatest(base.GitHubId, base.GitHubSecret, owner, repoName);
+
+        //Assert
+        Assert.IsNull(release);
+    }
 
 }
