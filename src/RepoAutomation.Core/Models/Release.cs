@@ -20,7 +20,7 @@ namespace RepoAutomation.Core.Models
                 TimeSpan span = DateTime.Now - (DateTime)published_at;
                 if (span.TotalMinutes < 0) //Happens when the timezone messes with the published at date.
                 {
-                    sb.Append(" a few moments");
+                    sb.Append("a few moments");
                 }
                 else if (span.TotalMinutes < 60)
                 {
