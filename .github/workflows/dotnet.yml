@@ -47,7 +47,6 @@ jobs:
         fileName: ${{ github.workspace }}/TestOutput.xml
     - name: Publish coverage report to coveralls.io
       uses: coverallsapp/github-action@master
-      if: runner.OS == 'Linux' #Only push the Linux coverage
       with:
         github-token: ${{ secrets.GITHUB_TOKEN }}
         path-to-lcov: src/GitHubActionsDotNet.Tests/TestResults/coverage.info
