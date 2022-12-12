@@ -2,7 +2,7 @@
   "profiles": {
     "RepoAutomation": {
       "commandName": "Project",
-      "commandLineArgs": "-o samsmithnz -r RepoAutomationUnitTests -p mstest,classlib -d C:\\Users\\samsm\\source\\repos -v private"
+      "commandLineArgs": "-o samsmithnz -r PuzzleSolver -p mstest,classlib -d C:\\Users\\samsm\\source\\repos -v public"
     }
   }
 }
