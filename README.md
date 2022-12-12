@@ -1,8 +1,10 @@
 # Repo Automation
 
 [![CI/ CD](https://github.com/samsmithnz/RepoAutomation/actions/workflows/dotnet.yml/badge.svg)](https://github.com/samsmithnz/RepoAutomation/actions/workflows/dotnet.yml)
+[![Coverage Status](https://coveralls.io/repos/github/samsmithnz/RepoAutomation/badge.svg?branch=main)](https://coveralls.io/github/samsmithnz/RepoAutomation?branch=main)
+[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=samsmithnz_RepoAutomation&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=samsmithnz_RepoAutomation)
 [![Latest NuGet package](https://img.shields.io/nuget/v/RepoAutomation.Core)](https://www.nuget.org/packages/RepoAutomation.Core/)
-![Current Release](https://img.shields.io/github/release/samsmithnz/RepoAutomation/all.svg)
+[![Current Release](https://img.shields.io/github/release/samsmithnz/RepoAutomation/all.svg)](https://github.com/samsmithnz/RepoAutomation/releases)
 
 
 **.NET code to create and configure a repo with C#.** I'm in GitHub everyday. There are certain activities I found myself manually doing on a regular basis. Not super long activities, but boring, repetitive activities - the types of activities that are perfect for automation. Hence this project:
