@@ -92,6 +92,6 @@ public class BranchProtectionTests : BaseAPIAccessTests
             owner, repoName, branchName);
 
         //Assert
-        Assert.IsNull(branchProtectionPolicy);
+        Assert.IsNotNull(branchProtectionPolicy);
     }
 }
