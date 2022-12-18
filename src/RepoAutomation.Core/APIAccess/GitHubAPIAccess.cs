@@ -365,7 +365,7 @@ public static class GitHubApiAccess
                 result.RawJSON = response;
             }
         }
-        if (result?.incomplete_results && counter < 3)
+        if (result?.incomplete_results == true && counter < 3)
         {
             counter++;
             result = await SearchFiles(clientId, clientSecret, owner, repo, extension, fileName, counter);
