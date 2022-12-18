@@ -22,7 +22,7 @@ public class RepoTests : BaseAPIAccessTests
         string repoName = "RepoAutomationUnitTests";
 
         //Act
-        Repo? repo = await GitHubAPIAccess.GetRepo(base.GitHubId, base.GitHubSecret, owner, repoName);
+        Repo? repo = await GitHubApiAccess.GetRepo(base.GitHubId, base.GitHubSecret, owner, repoName);
 
         //Assert
         Assert.IsNotNull(repo);
@@ -51,7 +51,7 @@ public class RepoTests : BaseAPIAccessTests
             {
                 isPrivate = true;
             }
-            bool result = await GitHubAPIAccess.UpdateRepo(base.GitHubId, base.GitHubSecret, owner, repoName,
+            bool result = await GitHubApiAccess.UpdateRepo(base.GitHubId, base.GitHubSecret, owner, repoName,
                      repo.allow_auto_merge,
                      repo.delete_branch_on_merge,
                      repo.allow_rebase_merge,
@@ -63,7 +63,7 @@ public class RepoTests : BaseAPIAccessTests
 
 
         //Act 3
-        repo = await GitHubAPIAccess.GetRepo(base.GitHubId, base.GitHubSecret, owner, repoName);
+        repo = await GitHubApiAccess.GetRepo(base.GitHubId, base.GitHubSecret, owner, repoName);
 
         //Assert 3
         Assert.IsNotNull(repo);
@@ -94,7 +94,7 @@ public class RepoTests : BaseAPIAccessTests
         //Act
         try
         {
-            Repo? repo = await GitHubAPIAccess.GetRepo(base.GitHubId, base.GitHubSecret, owner, repoName);
+            Repo? repo = await GitHubApiAccess.GetRepo(base.GitHubId, base.GitHubSecret, owner, repoName);
         }
         catch (Exception ex)
         {
@@ -113,7 +113,7 @@ public class RepoTests : BaseAPIAccessTests
         //Act
         try
         {
-            bool result = await GitHubAPIAccess.DeleteRepo(base.GitHubId, base.GitHubSecret, owner, repoName);
+            bool result = await GitHubApiAccess.DeleteRepo(base.GitHubId, base.GitHubSecret, owner, repoName);
         }
         catch (Exception ex)
         {
@@ -129,7 +129,7 @@ public class RepoTests : BaseAPIAccessTests
         string owner = "samsmithnz";
 
         //Act
-        List<Repo>? repos = await GitHubAPIAccess.GetRepos(base.GitHubId, base.GitHubSecret,
+        List<Repo>? repos = await GitHubApiAccess.GetRepos(base.GitHubId, base.GitHubSecret,
               owner);
 
         //Assert
@@ -163,13 +163,13 @@ public class RepoTests : BaseAPIAccessTests
         try
         {
             //Act 0: Check if the test half failed earlier
-            repo = await GitHubAPIAccess.GetRepo(base.GitHubId, base.GitHubSecret, owner, repoName);
+            repo = await GitHubApiAccess.GetRepo(base.GitHubId, base.GitHubSecret, owner, repoName);
             if (repo == null)
             {
                 //Act I: Creation
-                await GitHubAPIAccess.CreateRepo(base.GitHubId, base.GitHubSecret, repoName,
+                await GitHubApiAccess.CreateRepo(base.GitHubId, base.GitHubSecret, repoName,
                     true, true, false, true);
-                repo = await GitHubAPIAccess.GetRepo(base.GitHubId, base.GitHubSecret, owner, repoName);
+                repo = await GitHubApiAccess.GetRepo(base.GitHubId, base.GitHubSecret, owner, repoName);
 
                 //Assert
                 Assert.IsNotNull(repo);
@@ -193,10 +193,10 @@ public class RepoTests : BaseAPIAccessTests
         finally
         {
             //Act II: End of days
-            await GitHubAPIAccess.DeleteRepo(base.GitHubId, base.GitHubSecret, owner, repoName);
+            await GitHubApiAccess.DeleteRepo(base.GitHubId, base.GitHubSecret, owner, repoName);
             try
             {
-                repo = await GitHubAPIAccess.GetRepo(base.GitHubId, base.GitHubSecret, owner, repoName);
+                repo = await GitHubApiAccess.GetRepo(base.GitHubId, base.GitHubSecret, owner, repoName);
             }
             catch (Exception ex)
             {
@@ -214,7 +214,7 @@ public class RepoTests : BaseAPIAccessTests
         string repoName = "RepoAutomationTest"; //shouldn't exist, but if it does, it's deleted
 
         //Act
-        await GitHubAPIAccess.DeleteRepo(base.GitHubId, base.GitHubSecret, owner, repoName, false);
+        await GitHubApiAccess.DeleteRepo(base.GitHubId, base.GitHubSecret, owner, repoName, false);
         if (Directory.Exists(@"C:\Users\samsm\source\repos\RepoAutomationTest"))
         {
             Directory.Delete(@"C:\Users\samsm\source\repos\RepoAutomationTest", true);
@@ -229,7 +229,7 @@ public class RepoTests : BaseAPIAccessTests
         string repo = "CustomQueue";
 
         //Act
-        string? commitSHA = await GitHubAPIAccess.GetLastCommit(base.GitHubId, base.GitHubSecret, owner, repo);
+        string? commitSHA = await GitHubApiAccess.GetLastCommit(base.GitHubId, base.GitHubSecret, owner, repo);
 
         //Assert
         Assert.IsNotNull(commitSHA);

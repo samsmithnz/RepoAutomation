@@ -125,7 +125,7 @@ public class GetFilesTests : BaseAPIAccessTests
         string? extension = "csproj";
 
         //Act
-        SearchResult? searchResult = await GitHubAPIAccess.SearchFiles(base.GitHubId, base.GitHubSecret,
+        SearchResult? searchResult = await GitHubApiAccess.SearchFiles(base.GitHubId, base.GitHubSecret,
             owner, repository, extension);
 
         //Assert
@@ -143,7 +143,7 @@ public class GetFilesTests : BaseAPIAccessTests
         string? extension = "vsproj";
 
         //Act
-        SearchResult? searchResult = await GitHubAPIAccess.SearchFiles(base.GitHubId, base.GitHubSecret,
+        SearchResult? searchResult = await GitHubApiAccess.SearchFiles(base.GitHubId, base.GitHubSecret,
             owner, repository, extension);
 
         //Assert
@@ -161,7 +161,7 @@ public class GetFilesTests : BaseAPIAccessTests
         string? file = "ProjectVersion.txt";
 
         //Act
-        SearchResult? searchResult = await GitHubAPIAccess.SearchFiles(base.GitHubId, base.GitHubSecret,
+        SearchResult? searchResult = await GitHubApiAccess.SearchFiles(base.GitHubId, base.GitHubSecret,
             owner, repository, null, file);
 
         //Assert

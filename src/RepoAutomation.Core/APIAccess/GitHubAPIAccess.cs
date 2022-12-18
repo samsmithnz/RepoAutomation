@@ -5,7 +5,7 @@ using System.Web;
 
 namespace RepoAutomation.Core.APIAccess;
 
-public static class GitHubAPIAccess
+public static class GitHubApiAccess
 {
 
     //https://docs.github.com/en/enterprise-cloud@latest/rest/reference/repos

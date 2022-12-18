@@ -20,7 +20,7 @@ public class PullRequestTests : BaseAPIAccessTests
         string repoName = "RepoAutomationUnitTests";
 
         //Act
-        List<PullRequest>? pullRequests = await GitHubAPIAccess.GetPullRequests(base.GitHubId, base.GitHubSecret,
+        List<PullRequest>? pullRequests = await GitHubApiAccess.GetPullRequests(base.GitHubId, base.GitHubSecret,
             owner, repoName);
 
         //Assert
@@ -40,7 +40,7 @@ public class PullRequestTests : BaseAPIAccessTests
         string pullRequestNumber = "1";
 
         //Act
-        List<PRReview>? pullRequestReviews = await GitHubAPIAccess.GetPullRequestReview(base.GitHubId, base.GitHubSecret,
+        List<PRReview>? pullRequestReviews = await GitHubApiAccess.GetPullRequestReview(base.GitHubId, base.GitHubSecret,
             owner, repoName, pullRequestNumber);
 
         //Assert
@@ -57,7 +57,7 @@ public class PullRequestTests : BaseAPIAccessTests
         string pullRequestNumber = "7";
 
         //Act
-        List<PRReview>? pullRequestReviews = await GitHubAPIAccess.GetPullRequestReview(base.GitHubId, base.GitHubSecret,
+        List<PRReview>? pullRequestReviews = await GitHubApiAccess.GetPullRequestReview(base.GitHubId, base.GitHubSecret,
             owner, repoName, pullRequestNumber);
 
         //Assert

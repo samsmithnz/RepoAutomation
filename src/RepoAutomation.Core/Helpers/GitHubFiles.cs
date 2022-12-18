@@ -8,7 +8,7 @@ namespace RepoAutomation.Core.Helpers
         public async static Task<List<string>?> GetFiles(string? id, string? secret,
             string owner, string repository, string? file, string? extension, string path)
         {
-            GitHubFile[]? searchResult = await GitHubAPIAccess.GetFiles(id, secret,
+            GitHubFile[]? searchResult = await GitHubApiAccess.GetFiles(id, secret,
                 owner, repository, path);
 
             List<string> results = new();
@@ -48,7 +48,7 @@ namespace RepoAutomation.Core.Helpers
         public async static Task<GitHubFile?> GetFileContents(string? id, string? secret,
             string owner, string repository, string filePath)
         {
-            GitHubFile? file = await GitHubAPIAccess.GetFile(id, secret,
+            GitHubFile? file = await GitHubApiAccess.GetFile(id, secret,
                 owner, repository, filePath);
             return file;
         }

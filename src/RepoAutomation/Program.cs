@@ -69,11 +69,11 @@ public class Program
             string repoURL = $"https://github.com/{owner}/{repository}";
 
             //1. Create the repo (if it doesn't exist)
-            Repo? repo = await GitHubAPIAccess.GetRepo(id, secret, owner, repository);
+            Repo? repo = await GitHubApiAccess.GetRepo(id, secret, owner, repository);
             if (repo == null)
             {
                 Console.WriteLine("Creating repo: " + repository);
-                await GitHubAPIAccess.CreateRepo(id,
+                await GitHubApiAccess.CreateRepo(id,
                     secret,
                     repository,
                     true,
