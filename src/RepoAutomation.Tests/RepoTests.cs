@@ -31,7 +31,7 @@ public class RepoTests : BaseAPIAccessTests
             Assert.AreEqual(owner, repo.owner?.login);
             Assert.AreEqual(repoName, repo.name);
             Assert.AreEqual(owner + "/" + repoName, repo.full_name);
-            Assert.AreEqual("A test project", repo.description);
+            Assert.AreEqual("A test project, where everything is configured 'wrong'", repo.description);
             Assert.AreEqual(true, repo.allow_auto_merge);
             Assert.AreEqual(true, repo.delete_branch_on_merge);
             Assert.AreEqual(true, repo.allow_merge_commit);
