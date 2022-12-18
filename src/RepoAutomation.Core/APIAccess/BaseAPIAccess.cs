@@ -62,7 +62,6 @@ public static class BaseApiAccess
 
     private static HttpClient BuildHttpClient(string url, string clientId, string clientSecret)
     {
-        //Console.WriteLine($"Running GitHub url: {url}");
         if (!url.Contains("api.github.com"))
         {
             throw new Exception("api.github.com missing from URL");
