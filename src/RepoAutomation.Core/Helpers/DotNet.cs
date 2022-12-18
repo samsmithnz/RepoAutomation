@@ -8,7 +8,7 @@ namespace RepoAutomation.Core.Helpers
             string workingDirectory)
         {
             StringBuilder log = new();
-            if (Directory.Exists(workingDirectory) == false)
+            if (!Directory.Exists(workingDirectory))
             {
                 Directory.CreateDirectory(workingDirectory);
             }
@@ -37,7 +37,7 @@ namespace RepoAutomation.Core.Helpers
 
             //Create a src folder
             string workingSrcDirectory = workingDirectoryWithRepo + "/src";
-            if (Directory.Exists(workingSrcDirectory) == false)
+            if (!Directory.Exists(workingSrcDirectory))
             {
                 Console.WriteLine("Creating directory '" + workingSrcDirectory + "'");
                 Directory.CreateDirectory(workingSrcDirectory);
@@ -76,7 +76,7 @@ namespace RepoAutomation.Core.Helpers
         public static Dictionary<string, string> CreateProjectTypeArray(string projectTypes)
         {
             Dictionary<string, string> projectsToCreate = new();
-            if (string.IsNullOrEmpty(projectTypes) == false)
+            if (!string.IsNullOrEmpty(projectTypes))
             {
                 string[] projectsArray = projectTypes.Replace(" ", "").Split(',');
                 foreach (string project in projectsArray)

@@ -21,7 +21,7 @@ public class BranchProtectionTests : BaseAPIAccessTests
         string branchName = "main";
 
         //Act
-        BranchProtectionPolicy? branchProtectionPolicy = await GitHubAPIAccess.GetBranchProtectionPolicy(base.GitHubId, base.GitHubSecret,
+        BranchProtectionPolicy? branchProtectionPolicy = await GitHubApiAccess.GetBranchProtectionPolicy(base.GitHubId, base.GitHubSecret,
             owner, repoName, branchName);
 
         //Assert
@@ -48,7 +48,7 @@ public class BranchProtectionTests : BaseAPIAccessTests
         //Act
         try
         {
-            BranchProtectionPolicy? branchProtectionPolicy = await GitHubAPIAccess.GetBranchProtectionPolicy(base.GitHubId, base.GitHubSecret,
+            BranchProtectionPolicy? branchProtectionPolicy = await GitHubApiAccess.GetBranchProtectionPolicy(base.GitHubId, base.GitHubSecret,
                 owner, repoName, branchName);
         }
         catch (Exception ex)
@@ -72,7 +72,7 @@ public class BranchProtectionTests : BaseAPIAccessTests
         };
 
         //Act
-        bool result = await GitHubAPIAccess.UpdateBranchProtectionPolicy(base.GitHubId, base.GitHubSecret, owner, repoName,
+        bool result = await GitHubApiAccess.UpdateBranchProtectionPolicy(base.GitHubId, base.GitHubSecret, owner, repoName,
             branchName, requiredStatusCheck);
 
         //Assert
@@ -88,10 +88,10 @@ public class BranchProtectionTests : BaseAPIAccessTests
         string branchName = "main";
 
         //Act
-        BranchProtectionPolicy? branchProtectionPolicy = await GitHubAPIAccess.GetBranchProtectionPolicy(base.GitHubId, base.GitHubSecret,
+        BranchProtectionPolicy? branchProtectionPolicy = await GitHubApiAccess.GetBranchProtectionPolicy(base.GitHubId, base.GitHubSecret,
             owner, repoName, branchName);
 
         //Assert
-        Assert.IsNull(branchProtectionPolicy);
+        Assert.IsNotNull(branchProtectionPolicy);
     }
 }

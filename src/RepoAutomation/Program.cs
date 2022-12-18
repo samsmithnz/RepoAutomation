@@ -26,19 +26,19 @@ public class Program
         bool isPrivate = true;
         Parser.Default.ParseArguments<Options>(args).WithParsed<Options>(o =>
         {
-            if (string.IsNullOrEmpty(o.Directory) == false)
+            if (!string.IsNullOrEmpty(o.Directory))
             {
                 workingDirectory = o.Directory;
             }
-            if (string.IsNullOrEmpty(o.Owner) == false)
+            if (!string.IsNullOrEmpty(o.Owner))
             {
                 owner = o.Owner;
             }
-            if (string.IsNullOrEmpty(o.Repo) == false)
+            if (!string.IsNullOrEmpty(o.Repo))
             {
                 repository = o.Repo;
             }
-            if (string.IsNullOrEmpty(o.Visibility) == false)
+            if (!string.IsNullOrEmpty(o.Visibility))
             {
                 if (o.Visibility.ToLower() == "public")
                 {
@@ -53,27 +53,27 @@ public class Program
             {
                 isPrivate = true;
             }
-            if (string.IsNullOrEmpty(o.ProjectTypes) == false)
+            if (!string.IsNullOrEmpty(o.ProjectTypes))
             {
                 projectTypes = o.ProjectTypes;
             }
         });
 
         //Do the work
-        if (string.IsNullOrEmpty(workingDirectory) == false &&
-            string.IsNullOrEmpty(owner) == false &&
-            string.IsNullOrEmpty(repository) == false)
+        if (!string.IsNullOrEmpty(workingDirectory) &&
+            !string.IsNullOrEmpty(owner) &&
+            !string.IsNullOrEmpty(repository))
         {
             string id = configuration["AppSettings:GitHubClientId"];
             string secret = configuration["AppSettings:GitHubClientSecret"];
             string repoURL = $"https://github.com/{owner}/{repository}";
 
             //1. Create the repo (if it doesn't exist)
-            Repo? repo = await GitHubAPIAccess.GetRepo(id, secret, owner, repository);
+            Repo? repo = await GitHubApiAccess.GetRepo(id, secret, owner, repository);
             if (repo == null)
             {
                 Console.WriteLine("Creating repo: " + repository);
-                await GitHubAPIAccess.CreateRepo(id,
+                await GitHubApiAccess.CreateRepo(id,
                     secret,
                     repository,
                     true,
@@ -86,7 +86,7 @@ public class Program
             DotNet.CloneRepo(repoURL, repository, workingDirectory);
 
             //3. create the .NET projects
-            if (string.IsNullOrEmpty(projectTypes) == false)
+            if (!string.IsNullOrEmpty(projectTypes))
             {
                 DotNet.SetupDotnetProjects(repository, workingDirectory,
                     projectTypes);

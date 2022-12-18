@@ -19,7 +19,7 @@ public class ReleaseTests : BaseAPIAccessTests
         string repoName = "RepoAutomationUnitTests";
 
         //Act
-        Release? release = await GitHubAPIAccess.GetReleaseLatest(base.GitHubId, base.GitHubSecret, owner, repoName);
+        Release? release = await GitHubApiAccess.GetReleaseLatest(base.GitHubId, base.GitHubSecret, owner, repoName);
 
         //Assert
         Assert.IsNotNull(release);
@@ -45,7 +45,7 @@ public class ReleaseTests : BaseAPIAccessTests
         string repoName = "FictionBook";
 
         //Act
-        Release? release = await GitHubAPIAccess.GetReleaseLatest(base.GitHubId, base.GitHubSecret, owner, repoName);
+        Release? release = await GitHubApiAccess.GetReleaseLatest(base.GitHubId, base.GitHubSecret, owner, repoName);
 
         //Assert
         Assert.IsNull(release);

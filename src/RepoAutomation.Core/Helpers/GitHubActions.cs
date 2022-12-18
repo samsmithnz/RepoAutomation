@@ -16,17 +16,17 @@ namespace RepoAutomation.Core.Helpers
             string yaml = CreateActionYaml(projectName, projectTypes);
 
             //Save the YAML to a file
-            if (Directory.Exists(workingDirectory) == false)
+            if (!Directory.Exists(workingDirectory))
             {
                 log.Append("Create directory " + workingDirectory);
                 Directory.CreateDirectory(workingDirectory);
             }
-            if (Directory.Exists(workingDirectory + "\\.github") == false)
+            if (!Directory.Exists(workingDirectory + "\\.github"))
             {
                 log.Append("Create directory " + workingDirectory + "\\.github");
                 Directory.CreateDirectory(workingDirectory + "\\.github");
             }
-            if (Directory.Exists(workingDirectory + "\\.github\\workflows") == false)
+            if (!Directory.Exists(workingDirectory + "\\.github\\workflows"))
             {
                 log.Append("Create directory " + workingDirectory + "\\.github\\workflows");
                 Directory.CreateDirectory(workingDirectory + "\\.github\\workflows");
