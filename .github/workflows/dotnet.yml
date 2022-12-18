@@ -108,7 +108,7 @@ jobs:
     if: github.ref == 'refs/heads/main' 
     steps:
       - name: Run Sonarcloud test
-        uses: samsmithnz/SamsDotNetSonarCloudAction@1.0.5
+        uses: samsmithnz/SamsDotNetSonarCloudAction@1.0.6
         with:
           projects: 'src/RepoAutomation/RepoAutomation.csproj,src/RepoAutomation.Core/RepoAutomation.Core.csproj,src/RepoAutomation.Tests/RepoAutomation.Tests.csproj'
           dotnet-version: '7.0.x'
