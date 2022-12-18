@@ -24,7 +24,7 @@ public static class GitHubApiAccess
         {
             string url = $"https://api.github.com/repos/{owner}/{repo}";
             string? response = await BaseApiAccess.GetGitHubMessage(url, clientId, clientSecret, false);
-            if (string.IsNullOrEmpty(response) == false &&
+            if (!string.IsNullOrEmpty(response) &&
                 response != @"{""message"":""Not Found"",""documentation_url"":""https://docs.github.com/rest/reference/repos#get-a-repository""}")
             {
                 dynamic? jsonObj = JsonConvert.DeserializeObject(response);
@@ -50,7 +50,7 @@ public static class GitHubApiAccess
         {
             string url = $"https://api.github.com/users/{owner}/repos";
             string? response = await BaseApiAccess.GetGitHubMessage(url, clientId, clientSecret, false);
-            if (string.IsNullOrEmpty(response) == false &&
+            if (!string.IsNullOrEmpty(response) &&
                 response != @"{""message"":""Not Found"",""documentation_url"":""https://docs.github.com/rest/reference/repos#get-a-repository""}")
             {
                 dynamic? jsonObj = JsonConvert.DeserializeObject(response);
@@ -176,7 +176,7 @@ public static class GitHubApiAccess
         {
             string url = $"https://api.github.com/repos/{owner}/{repo}";
             string? response = await BaseApiAccess.DeleteGitHubMessage(url, clientId, clientSecret, processErrors);
-            if (string.IsNullOrEmpty(response) == true)
+            if (string.IsNullOrEmpty(response))
             {
                 return false;
             }
@@ -202,7 +202,8 @@ public static class GitHubApiAccess
             path = HttpUtility.UrlEncode(path);
             string url = $"https://api.github.com/repos/{owner}/{repo}/contents/{path}";
             string? response = await BaseApiAccess.GetGitHubMessage(url, clientId, clientSecret, false);
-            if (string.IsNullOrEmpty(response) == false && response.Contains(@"""message"":""Not Found""") == false)
+            if (!string.IsNullOrEmpty(response) &&
+                !response.Contains(@"""message"":""Not Found"""))
             {
                 dynamic? jsonObj = JsonConvert.DeserializeObject(response);
                 result = JsonConvert.DeserializeObject<GitHubFile[]>(jsonObj?.ToString());
@@ -229,7 +230,8 @@ public static class GitHubApiAccess
             path = HttpUtility.UrlEncode(path);
             string url = $"https://api.github.com/repos/{owner}/{repo}/contents/{path}";
             string? response = await BaseApiAccess.GetGitHubMessage(url, clientId, clientSecret, false);
-            if (string.IsNullOrEmpty(response) == false && response.Contains(@"""message"":""Not Found""") == false)
+            if (!string.IsNullOrEmpty(response) &&
+                !response.Contains(@"""message"":""Not Found"""))
             {
                 dynamic? jsonObj = JsonConvert.DeserializeObject(response);
                 result = JsonConvert.DeserializeObject<GitHubFile>(jsonObj?.ToString());
@@ -262,7 +264,8 @@ public static class GitHubApiAccess
         {
             string url = $"https://api.github.com/repos/{owner}/{repo}/branches/{branch}/protection";
             string? response = await BaseApiAccess.GetGitHubMessage(url, clientId, clientSecret, false);
-            if (string.IsNullOrEmpty(response) == false && response.Contains(@"""message"":""Branch not protected""") == false)
+            if (!string.IsNullOrEmpty(response) &&
+                !response.Contains(@"""message"":""Branch not protected"""))
             {
                 dynamic? jsonObj = JsonConvert.DeserializeObject(response);
                 result = JsonConvert.DeserializeObject<BranchProtectionPolicy>(jsonObj?.ToString());
@@ -308,7 +311,7 @@ public static class GitHubApiAccess
             StringContent content = new(json, Encoding.UTF8, "application/json");
             string url = $"https://api.github.com/repos/{owner}/{repo}/branches/{branch}/protection";
             string? response = await BaseApiAccess.PutGitHubMessage(url, clientId, clientSecret, content);
-            if (string.IsNullOrEmpty(response) == true)
+            if (string.IsNullOrEmpty(response))
             {
                 return false;
             }
@@ -332,7 +335,7 @@ public static class GitHubApiAccess
         {
             string url = $"https://api.github.com/repos/{owner}/{repo}/releases/latest";
             string? response = await BaseApiAccess.GetGitHubMessage(url, clientId, clientSecret, false);
-            if (string.IsNullOrEmpty(response) == false)
+            if (!string.IsNullOrEmpty(response))
             {
                 dynamic? jsonObj = JsonConvert.DeserializeObject(response);
                 result = JsonConvert.DeserializeObject<Release>(jsonObj?.ToString());
@@ -365,10 +368,10 @@ public static class GitHubApiAccess
                 //https://github.com/search?q=user%3Asamsmithnz+ProjectVersion.txt+filename%3AProjectVersion.txt&type=Repositories&ref=advsearch&l=&l=
                 url = $"https://api.github.com/search/code?q=filename%3A{fileName}+repo:{owner}/{repo}";
             }
-            if (string.IsNullOrEmpty(url) == false)
+            if (!string.IsNullOrEmpty(url))
             {
                 string? response = await BaseApiAccess.GetGitHubMessage(url, clientId, clientSecret, false);
-                if (string.IsNullOrEmpty(response) == false)// && response.Contains(@"""message"":""Not Found""") == false)
+                if (!string.IsNullOrEmpty(response))// && response.Contains(@"""message"":""Not Found""") == false)
                 {
                     dynamic? jsonObj = JsonConvert.DeserializeObject(response);
                     result = JsonConvert.DeserializeObject<SearchResult>(jsonObj?.ToString());
@@ -376,7 +379,7 @@ public static class GitHubApiAccess
                 result.RawJSON = response;
             }
         }
-        if (result?.incomplete_results == true && counter < 3)
+        if (result?.incomplete_results && counter < 3)
         {
             counter++;
             result = await SearchFiles(clientId, clientSecret, owner, repo, extension, fileName, counter);
@@ -394,7 +397,7 @@ public static class GitHubApiAccess
             //https://api.github.com/repos/torvalds/linux/commits?per_page=1
             string url = $"https://api.github.com/repos/{owner}/{repo}/commits?per_page=1";
             string? response = await BaseApiAccess.GetGitHubMessage(url, clientId, clientSecret, false);
-            if (string.IsNullOrEmpty(response) == false)// && response.Contains(@"""message"":""Not Found""") == false)
+            if (!string.IsNullOrEmpty(response))// && response.Contains(@"""message"":""Not Found""") == false)
             {
                 dynamic? jsonObj = JsonConvert.DeserializeObject(response);
                 Commit[] commits = JsonConvert.DeserializeObject<Commit[]>(jsonObj?.ToString());
@@ -416,7 +419,7 @@ public static class GitHubApiAccess
             //https://docs.github.com/en/rest/pulls/pulls#list-pull-requests (only first 30)
             string url = $"https://api.github.com/repos/{owner}/{repo}/pulls?state=open";
             string? response = await BaseApiAccess.GetGitHubMessage(url, clientId, clientSecret, false);
-            if (string.IsNullOrEmpty(response) == false)// && response.Contains(@"""message"":""Not Found""") == false)
+            if (!string.IsNullOrEmpty(response))// && response.Contains(@"""message"":""Not Found""") == false)
             {
                 dynamic? jsonObj = JsonConvert.DeserializeObject(response);
                 PR[] prs = JsonConvert.DeserializeObject<PR[]>(jsonObj?.ToString());
@@ -473,7 +476,7 @@ public static class GitHubApiAccess
             //https://docs.github.com/en/rest/pulls/reviews#submit-a-pull-request-review
             string url = $"https://api.github.com/repos/{owner}/{repo}/pulls/{pullRequestNumber}/reviews";
             string? response = await BaseApiAccess.GetGitHubMessage(url, clientId, clientSecret, false);
-            if (string.IsNullOrEmpty(response) == false)
+            if (!string.IsNullOrEmpty(response))
             {
                 dynamic? jsonObj = JsonConvert.DeserializeObject(response);
                 prReview = JsonConvert.DeserializeObject<List<PRReview>>(jsonObj?.ToString());
