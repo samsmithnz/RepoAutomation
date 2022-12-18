@@ -32,10 +32,10 @@ public class RepoTests : BaseAPIAccessTests
             Assert.AreEqual(repoName, repo.name);
             Assert.AreEqual(owner + "/" + repoName, repo.full_name);
             Assert.AreEqual("A test project, where everything is configured 'wrong'", repo.description);
-            Assert.AreEqual(true, repo.allow_auto_merge);
-            Assert.AreEqual(true, repo.delete_branch_on_merge);
+            Assert.AreEqual(false, repo.allow_auto_merge);
+            Assert.AreEqual(false, repo.delete_branch_on_merge);
             Assert.AreEqual(true, repo.allow_merge_commit);
-            Assert.AreEqual(false, repo.allow_rebase_merge);
+            Assert.AreEqual(expected: true, repo.allow_rebase_merge);
             Assert.AreEqual(true, repo.allow_squash_merge);
             Assert.AreEqual("private", repo.visibility);
             Assert.AreEqual("main", repo.default_branch);
@@ -72,10 +72,10 @@ public class RepoTests : BaseAPIAccessTests
             Assert.AreEqual(owner, repo.owner?.login);
             Assert.AreEqual(repoName, repo.name);
             Assert.AreEqual(owner + "/" + repoName, repo.full_name);
-            Assert.AreEqual(true, repo.allow_auto_merge);
-            Assert.AreEqual(true, repo.delete_branch_on_merge);
+            Assert.AreEqual(false, repo.allow_auto_merge);
+            Assert.AreEqual(false, repo.delete_branch_on_merge);
             Assert.AreEqual(true, repo.allow_merge_commit);
-            Assert.AreEqual(false, repo.allow_rebase_merge);
+            Assert.AreEqual(true, repo.allow_rebase_merge);
             Assert.AreEqual(true, repo.allow_squash_merge);
             Assert.AreEqual("private", repo.visibility);
             Assert.AreEqual("main", repo.default_branch);
