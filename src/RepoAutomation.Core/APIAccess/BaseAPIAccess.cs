@@ -2,7 +2,7 @@
 
 namespace RepoAutomation.Core.APIAccess;
 
-public static class BaseAPIAccess
+public static class BaseApiAccess
 {
 
     public async static Task<string?> GetGitHubMessage(string url, string clientId, string clientSecret, bool processErrors = true)
