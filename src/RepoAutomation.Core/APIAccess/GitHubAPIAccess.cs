@@ -102,13 +102,6 @@ public static class GitHubApiAccess
             StringContent content = new(JsonConvert.SerializeObject(body), Encoding.UTF8, "application/json");
             string url = $"https://api.github.com/user/repos";
             await BaseApiAccess.PostGitHubMessage(url, clientId, clientSecret, content);
-            //string response = 
-            //if (string.IsNullOrEmpty(response) == false)
-            //{
-            //    dynamic? jsonObj = JsonConvert.DeserializeObject(response);
-            //    result = JsonConvert.DeserializeObject<Repo>(jsonObj?.ToString());
-            //    result.RawJSON = jsonObj?.ToString();
-            //}
         }
         return true;
     }
@@ -148,13 +141,6 @@ public static class GitHubApiAccess
             //https://docs.github.com/en/rest/repos/repos#update-a-repository
             string url = $"https://api.github.com/repos/{owner}/{repo}";
             await BaseApiAccess.PatchGitHubMessage(url, clientId, clientSecret, content);
-            //string response = 
-            //if (string.IsNullOrEmpty(response) == false)
-            //{
-            //    dynamic? jsonObj = JsonConvert.DeserializeObject(response);
-            //    result = JsonConvert.DeserializeObject<Repo>(jsonObj?.ToString());
-            //    result.RawJSON = jsonObj?.ToString();
-            //}
         }
         return true;
     }
@@ -371,7 +357,7 @@ public static class GitHubApiAccess
             if (!string.IsNullOrEmpty(url))
             {
                 string? response = await BaseApiAccess.GetGitHubMessage(url, clientId, clientSecret, false);
-                if (!string.IsNullOrEmpty(response))// && response.Contains(@"""message"":""Not Found""") == false)
+                if (!string.IsNullOrEmpty(response))
                 {
                     dynamic? jsonObj = JsonConvert.DeserializeObject(response);
                     result = JsonConvert.DeserializeObject<SearchResult>(jsonObj?.ToString());
@@ -397,7 +383,7 @@ public static class GitHubApiAccess
             //https://api.github.com/repos/torvalds/linux/commits?per_page=1
             string url = $"https://api.github.com/repos/{owner}/{repo}/commits?per_page=1";
             string? response = await BaseApiAccess.GetGitHubMessage(url, clientId, clientSecret, false);
-            if (!string.IsNullOrEmpty(response))// && response.Contains(@"""message"":""Not Found""") == false)
+            if (!string.IsNullOrEmpty(response))
             {
                 dynamic? jsonObj = JsonConvert.DeserializeObject(response);
                 Commit[] commits = JsonConvert.DeserializeObject<Commit[]>(jsonObj?.ToString());
@@ -419,7 +405,7 @@ public static class GitHubApiAccess
             //https://docs.github.com/en/rest/pulls/pulls#list-pull-requests (only first 30)
             string url = $"https://api.github.com/repos/{owner}/{repo}/pulls?state=open";
             string? response = await BaseApiAccess.GetGitHubMessage(url, clientId, clientSecret, false);
-            if (!string.IsNullOrEmpty(response))// && response.Contains(@"""message"":""Not Found""") == false)
+            if (!string.IsNullOrEmpty(response))
             {
                 dynamic? jsonObj = JsonConvert.DeserializeObject(response);
                 PR[] prs = JsonConvert.DeserializeObject<PR[]>(jsonObj?.ToString());
