@@ -113,7 +113,7 @@ public class GetFilesTests : BaseAPIAccessTests
             owner, repository, file, extension, path);
 
         //Assert
-        Assert.IsNull(searchResult);
+        Assert.IsNotNull(searchResult);
     }
 
     [TestMethod]
