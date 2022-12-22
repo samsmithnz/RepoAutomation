@@ -57,7 +57,7 @@ echo ""CommitsSinceVersionSource: ${{ steps.gitversion.outputs.CommitsSinceVersi
                 GitVersionStepHelper.AddGitVersionSetupStep(),
                 GitVersionStepHelper.AddGitVersionDetermineVersionStep(),
                 CommonStepHelper.AddScriptStep("Display GitVersion outputs", displayBuildGitVersionScript),
-                DotNetStepHelper.AddDotNetSetupStep("Setup .NET", "6.0.x")
+                DotNetStepHelper.AddDotNetSetupStep("Setup .NET", "7.0.x")
             };
             //Add all of the project types
             foreach (KeyValuePair<string, string> item in projectsToCreate)
