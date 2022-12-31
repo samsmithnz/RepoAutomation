@@ -1,5 +1,6 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using RepoAutomation.Core.APIAccess;
+using RepoAutomation.Core.Helpers;
 using RepoAutomation.Core.Models;
 using RepoAutomation.Tests.Helpers;
 using System;
@@ -235,4 +236,46 @@ public class RepoTests : BaseAPIAccessTests
         Assert.IsNotNull(commitSHA);
         Assert.AreEqual("10c269b8170ffe4e811bf1e5f917fd422afb1b07", commitSHA);
     }
+
+    [TestMethod]
+    public async Task GetRepoLanguagesTest()
+    {
+        //Arrange
+        string owner = "samsmithnz";
+        string repo = "RepoAutomation";
+
+        //Act
+        Dictionary<string, int>? languages = await GitHubApiAccess.GetRepoLanguages(base.GitHubId, base.GitHubSecret, owner, repo);
+
+        //Assert
+        Assert.IsNotNull(languages);
+        Assert.AreEqual(5, languages.Count);
+    }
+
+    [TestMethod]
+    public async Task GetRepoLanguagesWithHelperTest()
+    {
+        //Arrange
+        string owner = "samsmithnz";
+        string repo = "RepoAutomation";
+
+        //Act
+        Dictionary<string, int>? languages = await GitHubApiAccess.GetRepoLanguages(base.GitHubId, base.GitHubSecret, owner, repo);
+        List<RepoLanguage> repoLanguages = RepoLanguageHelper.TransformRepoLanguages(languages);
+
+        //Assert
+        Assert.IsNotNull(repoLanguages);
+        Assert.AreEqual(5, repoLanguages.Count);
+        Assert.AreEqual("C#", repoLanguages[0].Name);
+        Assert.AreEqual(0.9403M, repoLanguages[0].Percent);
+        Assert.AreEqual("HTML", repoLanguages[1].Name);
+        Assert.AreEqual(0.0375M, repoLanguages[1].Percent);
+        Assert.AreEqual("CSS", repoLanguages[2].Name);
+        Assert.AreEqual(0.0104M, repoLanguages[2].Percent);
+        Assert.AreEqual("Dockerfile", repoLanguages[3].Name);
+        Assert.AreEqual(0.0095M, repoLanguages[3].Percent);
+        Assert.AreEqual("JavaScript", repoLanguages[4].Name);
+        Assert.AreEqual(0.0022M, repoLanguages[4].Percent);
+    }
+
 }
