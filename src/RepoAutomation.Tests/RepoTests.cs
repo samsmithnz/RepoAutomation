@@ -235,4 +235,19 @@ public class RepoTests : BaseAPIAccessTests
         Assert.IsNotNull(commitSHA);
         Assert.AreEqual("10c269b8170ffe4e811bf1e5f917fd422afb1b07", commitSHA);
     }
+
+    [TestMethod]
+    public async Task GetRepoLanguagesTest()
+    {
+        //Arrange
+        string owner = "samsmithnz";
+        string repo = "RepoAutomation";
+
+        //Act
+        Dictionary<string, int>? languages = await GitHubApiAccess.GetRepoLanguages(base.GitHubId, base.GitHubSecret, owner, repo);
+
+        //Assert
+        Assert.IsNotNull(languages);
+        Assert.AreEqual(5, languages.Count);
+    }
 }
