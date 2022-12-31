@@ -22,7 +22,7 @@ namespace RepoAutomation.Core.Helpers
                 {
                     Name = item.Key,
                     Total = item.Value,
-                    Percent = Math.Round((decimal)item.Value / total,2)
+                    Percent = Math.Round((decimal)item.Value / total,4)
                 });
             }
 
