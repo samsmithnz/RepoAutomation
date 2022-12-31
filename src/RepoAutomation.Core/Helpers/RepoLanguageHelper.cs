@@ -4,7 +4,7 @@ namespace RepoAutomation.Core.Helpers
 {
     public static class RepoLanguageHelper
     {
-        public static List<RepoLanguage> GetRepoLanguages(Dictionary<string, int> languages)
+        public static List<RepoLanguage> TransformRepoLanguages(Dictionary<string, int> languages)
         {
             List<RepoLanguage> repoLanguages = new();
 

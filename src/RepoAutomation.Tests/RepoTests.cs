@@ -261,7 +261,7 @@ public class RepoTests : BaseAPIAccessTests
 
         //Act
         Dictionary<string, int>? languages = await GitHubApiAccess.GetRepoLanguages(base.GitHubId, base.GitHubSecret, owner, repo);
-        List<RepoLanguage> repoLanguages = RepoLanguageHelper.GetRepoLanguages(languages);
+        List<RepoLanguage> repoLanguages = RepoLanguageHelper.TransformRepoLanguages(languages);
 
         //Assert
         Assert.IsNotNull(repoLanguages);
@@ -277,4 +277,5 @@ public class RepoTests : BaseAPIAccessTests
         Assert.AreEqual("JavaScript", repoLanguages[4].Name);
         Assert.AreEqual(0.0022M, repoLanguages[4].Percent);
     }
+
 }
