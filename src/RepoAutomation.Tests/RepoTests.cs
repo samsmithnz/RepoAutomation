@@ -1,5 +1,6 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using RepoAutomation.Core.APIAccess;
+using RepoAutomation.Core.Helpers;
 using RepoAutomation.Core.Models;
 using RepoAutomation.Tests.Helpers;
 using System;
@@ -249,5 +250,31 @@ public class RepoTests : BaseAPIAccessTests
         //Assert
         Assert.IsNotNull(languages);
         Assert.AreEqual(5, languages.Count);
+    }
+
+    [TestMethod]
+    public async Task GetRepoLanguagesWithHelperTest()
+    {
+        //Arrange
+        string owner = "samsmithnz";
+        string repo = "RepoAutomation";
+
+        //Act
+        Dictionary<string, int>? languages = await GitHubApiAccess.GetRepoLanguages(base.GitHubId, base.GitHubSecret, owner, repo);
+        List<RepoLanguage> repoLanguages = RepoLanguageHelper.GetRepoLanguages(languages);
+
+        //Assert
+        Assert.IsNotNull(repoLanguages);
+        Assert.AreEqual(5, repoLanguages.Count);
+        Assert.AreEqual("cSharp", repoLanguages[0].Name);
+        Assert.AreEqual(0.94M, repoLanguages[0].Percent);
+        Assert.AreEqual("cSharp", repoLanguages[1].Name);
+        Assert.AreEqual(0.04M, repoLanguages[1].Percent);
+        Assert.AreEqual("cSharp", repoLanguages[2].Name);
+        Assert.AreEqual(0.01M, repoLanguages[2].Percent);
+        Assert.AreEqual("cSharp", repoLanguages[3].Name);
+        Assert.AreEqual(0.01M, repoLanguages[3].Percent);
+        Assert.AreEqual("cSharp", repoLanguages[4].Name);
+        Assert.AreEqual(0.00M, repoLanguages[4].Percent);
     }
 }

@@ -2,8 +2,8 @@
 {
     public class RepoLanguage
     {
-        public string name { get; set; }
-        public int total { get; set; }
-        public decimal percent { get; set; }
+        public string Name { get; set; }
+        public int Total { get; set; }
+        public decimal Percent { get; set; }
     }
 }
