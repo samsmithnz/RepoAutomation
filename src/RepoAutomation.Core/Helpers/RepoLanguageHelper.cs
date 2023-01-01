@@ -24,7 +24,7 @@ namespace RepoAutomation.Core.Helpers
             if (fileResult != null && fileResult.content != null)
             {
                 IDeserializer deserializer = new DeserializerBuilder()
-                    .IgnoreUnmatchedProperties()
+                    .IgnoreUnmatchedProperties() //Ignore YAML that doesn't have a matching .NET property
                     .Build();
                 repoLanguageDetails = deserializer.Deserialize<Dictionary<string, LanguageDefinition>>(fileResult.content);
             }
