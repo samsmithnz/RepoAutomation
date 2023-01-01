@@ -276,7 +276,7 @@ public class RepoTests : BaseAPIAccessTests
         Assert.AreEqual("#563d7c", repoLanguages[2].Color);
         Assert.AreEqual("Dockerfile", repoLanguages[3].Name);
         Assert.AreEqual(0.01M, repoLanguages[3].Percent);
-        Assert.AreEqual("#", repoLanguages[3].Color);
+        Assert.AreEqual("#384d54", repoLanguages[3].Color);
         Assert.AreEqual("JavaScript", repoLanguages[4].Name);
         Assert.AreEqual(0.0M, repoLanguages[4].Percent);
         Assert.AreEqual("#", repoLanguages[0].Color);
