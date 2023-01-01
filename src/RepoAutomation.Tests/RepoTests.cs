@@ -260,22 +260,26 @@ public class RepoTests : BaseAPIAccessTests
         string repo = "RepoAutomation";
 
         //Act
-        Dictionary<string, int>? languages = await GitHubApiAccess.GetRepoLanguages(base.GitHubId, base.GitHubSecret, owner, repo);
-        List<RepoLanguage> repoLanguages = RepoLanguageHelper.TransformRepoLanguages(languages);
+        List<RepoLanguage> repoLanguages = await RepoLanguageHelper.GetRepoLanguages(base.GitHubId, base.GitHubSecret, owner, repo);
 
         //Assert
         Assert.IsNotNull(repoLanguages);
         Assert.AreEqual(5, repoLanguages.Count);
         Assert.AreEqual("C#", repoLanguages[0].Name);
         Assert.AreEqual(0.94M, repoLanguages[0].Percent);
+        Assert.AreEqual("#178600", repoLanguages[0].Color);
         Assert.AreEqual("HTML", repoLanguages[1].Name);
         Assert.AreEqual(0.04M, repoLanguages[1].Percent);
+        Assert.AreEqual("#", repoLanguages[1].Color);
         Assert.AreEqual("CSS", repoLanguages[2].Name);
         Assert.AreEqual(0.01M, repoLanguages[2].Percent);
+        Assert.AreEqual("#", repoLanguages[2].Color);
         Assert.AreEqual("Dockerfile", repoLanguages[3].Name);
         Assert.AreEqual(0.01M, repoLanguages[3].Percent);
+        Assert.AreEqual("#", repoLanguages[3].Color);
         Assert.AreEqual("JavaScript", repoLanguages[4].Name);
         Assert.AreEqual(0.0M, repoLanguages[4].Percent);
+        Assert.AreEqual("#", repoLanguages[0].Color);
     }
 
 }

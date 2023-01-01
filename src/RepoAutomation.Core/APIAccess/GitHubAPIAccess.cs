@@ -211,23 +211,20 @@ public static class GitHubApiAccess
         string owner, string repo, string path)
     {
         GitHubFile? result = null;
-        if (clientId != null && clientSecret != null)
+        path = HttpUtility.UrlEncode(path);
+        string url = $"https://api.github.com/repos/{owner}/{repo}/contents/{path}";
+        string? response = await BaseApiAccess.GetGitHubMessage(url, clientId, clientSecret, false);
+        if (!string.IsNullOrEmpty(response) &&
+            !response.Contains(@"""message"":""Not Found"""))
         {
-            path = HttpUtility.UrlEncode(path);
-            string url = $"https://api.github.com/repos/{owner}/{repo}/contents/{path}";
-            string? response = await BaseApiAccess.GetGitHubMessage(url, clientId, clientSecret, false);
-            if (!string.IsNullOrEmpty(response) &&
-                !response.Contains(@"""message"":""Not Found"""))
-            {
-                dynamic? jsonObj = JsonConvert.DeserializeObject(response);
-                result = JsonConvert.DeserializeObject<GitHubFile>(jsonObj?.ToString());
+            dynamic? jsonObj = JsonConvert.DeserializeObject(response);
+            result = JsonConvert.DeserializeObject<GitHubFile>(jsonObj?.ToString());
 
-                //Decode the Base64 file contents result
-                if (result != null && result.content != null)
-                {
-                    byte[]? valueBytes = System.Convert.FromBase64String(result.content);
-                    result.content = Encoding.UTF8.GetString(valueBytes);
-                }
+            //Decode the Base64 file contents result
+            if (result != null && result.content != null)
+            {
+                byte[]? valueBytes = System.Convert.FromBase64String(result.content);
+                result.content = Encoding.UTF8.GetString(valueBytes);
             }
         }
         return result;
@@ -472,7 +469,7 @@ public static class GitHubApiAccess
         return prReview;
     }
 
-    public async static Task<Dictionary<string,int>> GetRepoLanguages(string? clientId, string? clientSecret,
+    public async static Task<Dictionary<string, int>> GetRepoLanguages(string? clientId, string? clientSecret,
         string owner, string repo)
     {
         Dictionary<string, int> languages = new();
@@ -490,4 +487,5 @@ public static class GitHubApiAccess
 
         return languages;
     }
+
 }
