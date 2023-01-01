@@ -279,7 +279,7 @@ public class RepoTests : BaseAPIAccessTests
         Assert.AreEqual("#384d54", repoLanguages[3].Color);
         Assert.AreEqual("JavaScript", repoLanguages[4].Name);
         Assert.AreEqual(0.0M, repoLanguages[4].Percent);
-        Assert.AreEqual("#", repoLanguages[0].Color);
+        Assert.AreEqual("#178600", repoLanguages[0].Color);
     }
 
 }
