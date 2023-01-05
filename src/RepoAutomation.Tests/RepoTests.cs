@@ -266,19 +266,19 @@ public class RepoTests : BaseAPIAccessTests
         Assert.IsNotNull(repoLanguages);
         Assert.AreEqual(5, repoLanguages.Count);
         Assert.AreEqual("C#", repoLanguages[0].Name);
-        Assert.AreEqual(0.944M, repoLanguages[0].Percent);
+        Assert.AreEqual(94.4M, repoLanguages[0].Percent);
         Assert.AreEqual("#178600", repoLanguages[0].Color);
         Assert.AreEqual("HTML", repoLanguages[1].Name);
-        Assert.AreEqual(0.035M, repoLanguages[1].Percent);
+        Assert.AreEqual(3.5M, repoLanguages[1].Percent);
         Assert.AreEqual("#e34c26", repoLanguages[1].Color);
         Assert.AreEqual("CSS", repoLanguages[2].Name);
-        Assert.AreEqual(0.010M, repoLanguages[2].Percent);
+        Assert.AreEqual(1.0M, repoLanguages[2].Percent);
         Assert.AreEqual("#563d7c", repoLanguages[2].Color);
         Assert.AreEqual("Dockerfile", repoLanguages[3].Name);
-        Assert.AreEqual(0.009M, repoLanguages[3].Percent);
+        Assert.AreEqual(0.9M, repoLanguages[3].Percent);
         Assert.AreEqual("#384d54", repoLanguages[3].Color);
         Assert.AreEqual("JavaScript", repoLanguages[4].Name);
-        Assert.AreEqual(0.002M, repoLanguages[4].Percent);
+        Assert.AreEqual(0.2M, repoLanguages[4].Percent);
         Assert.AreEqual("#178600", repoLanguages[0].Color);
     }
 
