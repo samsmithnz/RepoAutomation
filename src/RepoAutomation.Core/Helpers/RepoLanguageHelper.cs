@@ -52,7 +52,7 @@ namespace RepoAutomation.Core.Helpers
                 {
                     Name = item.Key,
                     Total = item.Value,
-                    Percent = Math.Round((decimal)item.Value / total, 2)
+                    Percent = Math.Round((decimal)item.Value / total, 3)
                 });
                 if (repoLanguageDetails != null && repoLanguageDetails.ContainsKey(item.Key))
                 {
