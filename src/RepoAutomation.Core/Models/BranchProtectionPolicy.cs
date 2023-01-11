@@ -6,7 +6,7 @@ public class BranchProtectionPolicy : BaseModel
     public Enforce? enforce_admins { get; set; }
     public Enforce? required_conversation_resolution { get; set; }
     public RequiredPullRequestReviews? required_pull_request_reviews { get; set; }
-    public bool? restrictions { get; set; }
+    //public bool? restrictions { get; set; }
 }
 
 //Different structure when updating in PUT

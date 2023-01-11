@@ -28,6 +28,7 @@ public class PullRequestTests : BaseAPIAccessTests
         if (pullRequests != null && pullRequests.Count > 0)
         {
             Assert.IsTrue(string.IsNullOrEmpty(pullRequests[0].Title) == false);
+            Assert.AreEqual("dependabot[bot]", pullRequests[0].LoginUser);
         }
     }
 
@@ -63,13 +64,29 @@ public class PullRequestTests : BaseAPIAccessTests
         //Assert
         Assert.IsNotNull(pullRequestReviews);
         Assert.AreEqual(2, pullRequestReviews.Count);
-        if (pullRequestReviews != null )
+        if (pullRequestReviews != null)
         {
             Assert.AreEqual("8d495f5ba3e16d70800328c081aeb6d408f4ac86", pullRequestReviews[0].commit_id);
             Assert.AreEqual("996002417", pullRequestReviews[0].id);
             Assert.AreEqual("APPROVED", pullRequestReviews[0].state);
             Assert.AreEqual("2022-06-05T12:31:44Z", pullRequestReviews[0].submitted_at);
         }
+    }
+
+    [TestMethod]
+    public async Task ApprovePullRequestsTest()
+    {
+        //Arrange
+        string owner = "samsmithnz";
+        string approver = "samsmithnz";
+        string repoName = "RepoAutomationUnitTests";
+
+        //Act
+        bool? result = await GitHubApiAccess.ApprovePullRequests(base.GitHubId, base.GitHubSecret,
+            owner, repoName, approver);
+
+        //Assert
+        Assert.IsTrue(result);
     }
 
 }

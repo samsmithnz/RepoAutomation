@@ -414,7 +414,8 @@ public static class GitHubApiAccess
                         {
                             Number = pr.number,
                             Title = pr.title,
-                            State = pr.state
+                            State = pr.state,
+                            LoginUser = pr?.user?.login
                         };
                         if (pr != null && pr.updated_at != null)
                         {
@@ -486,6 +487,50 @@ public static class GitHubApiAccess
         }
 
         return languages;
+    }
+
+    //Approve Pull Request
+    public async static Task<bool> ApprovePullRequests(string? clientId, string? clientSecret,
+        string owner, string repo, string approver)
+    {
+        bool result = false;
+        //Get the pull request details
+        List<PullRequest> pullRequests = await GetPullRequests(clientId, clientSecret, owner, repo);
+
+        foreach (PullRequest pr in pullRequests)
+        {
+            if (pr.LoginUser != approver)
+            {
+                //Approve the pull request (if the approver is not the author)
+                //https://api.github.com/repos/OWNER/REPO/pulls/PULL_NUMBER/reviews
+                if (clientId != null && clientSecret != null)
+                {
+                    var body = new
+                    {
+                        @event = "APPROVE" //Note that event is a reserved word and therefore needs the @prefix
+                    };
+                    //https://docs.github.com/en/rest/pulls/reviews?apiVersion=2022-11-28#create-a-review-for-a-pull-request
+                    string url = $"https://api.github.com/repos/{owner}/{repo}/pulls/{pr.Number}/reviews";
+                    StringContent content = new(JsonConvert.SerializeObject(body), Encoding.UTF8, "application/json");
+                    string? response = await BaseApiAccess.PostGitHubMessage(url, clientId, clientSecret, content, false);
+                    if (!string.IsNullOrEmpty(response))
+                    {
+                        dynamic? jsonObj = JsonConvert.DeserializeObject(response);
+                        PRReview pullRequestReview = JsonConvert.DeserializeObject<PRReview>(jsonObj?.ToString());
+                        if (pullRequestReview.submitted_at != null)
+                        {
+                            result = true;
+                        }
+                        else
+                        {
+                            return false;
+                        }
+                    }
+                }
+            }
+        }
+
+        return result;
     }
 
 }
