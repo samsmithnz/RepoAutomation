@@ -18,7 +18,7 @@ namespace RepoAutomation.Core.Models
         public string? Title { get; set; }
         public List<string> Labels { get; set; }
         public bool? IsDependabotPR { get; set; }
-        //public bool? Approved { get; set; }
+        public bool? Approved { get; set; }
         public string? State { get; set; }
         //public bool AutoMergeEnabled { get; set; }
         public DateTime? LastUpdated { get; set; }
