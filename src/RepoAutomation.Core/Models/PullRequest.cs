@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Metadata;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -21,6 +22,7 @@ namespace RepoAutomation.Core.Models
         public string? State { get; set; }
         public bool AutoMergeEnabled { get; set; }
         public DateTime? LastUpdated { get; set; }
+        public string? LoginUser { get; set; }
     }
 
     //GitHub API class
@@ -33,6 +35,7 @@ namespace RepoAutomation.Core.Models
         public List<Label>? labels { get; set; }
         //public string? auto_merge { get; set; }
         public string? updated_at { get; set; }
+        public PRUser? user { get; set; }
     }
 
     public class Label
@@ -46,7 +49,10 @@ namespace RepoAutomation.Core.Models
         public string? state { get; set; }
         public string? submitted_at { get; set; }
         public string? commit_id { get; set; }
-
-
+    }
+    
+    public class PRUser
+    {
+        public string? login { get; set; }
     }
 }
