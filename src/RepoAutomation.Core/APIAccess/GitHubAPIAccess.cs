@@ -488,4 +488,11 @@ public static class GitHubApiAccess
         return languages;
     }
 
+    //Approve Pull Request
+    public async static Task<bool> ApprovePullRequest(string? clientId, string? clientSecret,
+        string owner, string repo, string prID)
+    {
+        return true;
+    }
+
 }
