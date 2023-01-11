@@ -29,6 +29,7 @@ public class PullRequestTests : BaseAPIAccessTests
         {
             Assert.IsTrue(string.IsNullOrEmpty(pullRequests[0].Title) == false);
             Assert.AreEqual("dependabot[bot]", pullRequests[0].LoginUser);
+            Assert.IsTrue(pullRequests[0].Approved);
         }
     }
 
