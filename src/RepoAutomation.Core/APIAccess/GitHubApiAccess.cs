@@ -421,14 +421,14 @@ public static class GitHubApiAccess
                         {
                             newPullRequest.LastUpdated = DateTime.Parse(pr.updated_at);
                         }
-                        //if (pr.auto_merge == null)
-                        //{
-                        //    newPullRequest.AutoMergeEnabled = false;
-                        //}
-                        //else
-                        //{
-                        //    newPullRequest.AutoMergeEnabled = bool.Parse(pr.auto_merge);
-                        //}
+                        if (pr.auto_merge == null)
+                        {
+                            newPullRequest.AutoMergeEnabled = false;
+                        }
+                        else
+                        {
+                            newPullRequest.AutoMergeEnabled = bool.Parse(pr.auto_merge);
+                        }
                         if (pr != null && pr.labels != null)
                         {
                             foreach (Label item in pr.labels)
