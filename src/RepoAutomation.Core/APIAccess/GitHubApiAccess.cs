@@ -509,7 +509,6 @@ public static class GitHubApiAccess
                     {
                         @event = "APPROVE" //Note that event is a reserved word and therefore needs the @prefix
                     };
-                    //string body = @"{""event"":""APPROVE""}";
                     //https://docs.github.com/en/rest/pulls/reviews?apiVersion=2022-11-28#create-a-review-for-a-pull-request
                     string url = $"https://api.github.com/repos/{owner}/{repo}/pulls/{pr.Number}/reviews";
                     StringContent content = new(JsonConvert.SerializeObject(body), Encoding.UTF8, "application/json");
@@ -533,8 +532,5 @@ public static class GitHubApiAccess
 
         return result;
     }
-
-    //Approve all Pull Requests in repo
-
 
 }
