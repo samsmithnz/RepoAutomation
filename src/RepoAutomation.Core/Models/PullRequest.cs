@@ -20,7 +20,7 @@ namespace RepoAutomation.Core.Models
         public bool? IsDependabotPR { get; set; }
         public bool? Approved { get; set; }
         public string? State { get; set; }
-        //public bool AutoMergeEnabled { get; set; }
+        public bool AutoMergeEnabled { get; set; }
         public DateTime? LastUpdated { get; set; }
         public string? LoginUser { get; set; }
     }
@@ -33,7 +33,7 @@ namespace RepoAutomation.Core.Models
         public string? state { get; set; }
         public string? url { get; set; }
         public List<Label>? labels { get; set; }
-        //public string? auto_merge { get; set; }
+        public string? auto_merge { get; set; }
         public string? updated_at { get; set; }
         public PRUser? user { get; set; }
     }

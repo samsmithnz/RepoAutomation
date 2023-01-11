@@ -28,8 +28,8 @@ public class PullRequestTests : BaseAPIAccessTests
         if (pullRequests != null && pullRequests.Count > 0)
         {
             Assert.IsTrue(string.IsNullOrEmpty(pullRequests[0].Title) == false);
-            Assert.AreEqual("dependabot[bot]", pullRequests[0].LoginUser);
-            Assert.IsTrue(pullRequests[0].Approved);
+            Assert.AreEqual("dependabot[bot]", pullRequests[0].LoginUser);    
+            Assert.IsFalse(pullRequests[0].AutoMergeEnabled);
         }
     }
 
