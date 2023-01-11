@@ -87,14 +87,6 @@ public class PullRequestTests : BaseAPIAccessTests
 
         //Assert
         Assert.IsTrue(result);
-        //Assert.AreEqual(2, pullRequestReviews.Count);
-        //if (pullRequestReviews != null)
-        //{
-        //    Assert.AreEqual("8d495f5ba3e16d70800328c081aeb6d408f4ac86", pullRequestReviews[0].commit_id);
-        //    Assert.AreEqual("996002417", pullRequestReviews[0].id);
-        //    Assert.AreEqual("APPROVED", pullRequestReviews[0].state);
-        //    Assert.AreEqual("2022-06-05T12:31:44Z", pullRequestReviews[0].submitted_at);
-        //}
     }
 
 }
