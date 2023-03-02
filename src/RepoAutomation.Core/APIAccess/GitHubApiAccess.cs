@@ -500,11 +500,12 @@ public static class GitHubApiAccess
 
     //Approve Pull Request
     public async static Task<bool> ApprovePullRequests(string? clientId, string? clientSecret,
-        string owner, string repo, string approver, string label)
+        string owner, string repo, string approver)
     {
         bool result = false;
+        bool onlyGetDependabotPRs = true;
         //Get the pull request details
-        List<PullRequest> pullRequests = await GetPullRequests(clientId, clientSecret, owner, repo, label);
+        List<PullRequest> pullRequests = await GetPullRequests(clientId, clientSecret, owner, repo, onlyGetDependabotPRs);
 
         foreach (PullRequest pr in pullRequests)
         {
