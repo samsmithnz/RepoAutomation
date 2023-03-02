@@ -394,7 +394,7 @@ public static class GitHubApiAccess
     }
 
     public async static Task<List<PullRequest>> GetPullRequests(string? clientId, string? clientSecret,
-        string owner, string repo)
+        string owner, string repo, bool onlyGetDependabotPRs = false)
     {
         List<PullRequest>? pullRequests = new();
         if (clientId != null && clientSecret != null)
@@ -443,7 +443,16 @@ public static class GitHubApiAccess
                                 }
                             }
                         }
-                        pullRequests.Add(newPullRequest);
+                        if (onlyGetDependabotPRs && 
+                            newPullRequest.IsDependabotPR != null && 
+                            (bool)newPullRequest.IsDependabotPR)
+                        {
+                            pullRequests.Add(newPullRequest);
+                        }
+                        else if (onlyGetDependabotPRs == false)
+                        {
+                            pullRequests.Add(newPullRequest);
+                        }
                     }
                 }
             }
@@ -494,8 +503,9 @@ public static class GitHubApiAccess
         string owner, string repo, string approver)
     {
         bool result = false;
+        bool onlyGetDependabotPRs = true;
         //Get the pull request details
-        List<PullRequest> pullRequests = await GetPullRequests(clientId, clientSecret, owner, repo);
+        List<PullRequest> pullRequests = await GetPullRequests(clientId, clientSecret, owner, repo, onlyGetDependabotPRs);
 
         foreach (PullRequest pr in pullRequests)
         {
