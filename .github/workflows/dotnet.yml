@@ -39,7 +39,6 @@ jobs:
       env:
         AppSettings.GitHubClientId: "${{ secrets.GitHubClientId }}"
         AppSettings.GitHubClientSecret: "${{ secrets.GitHubClientSecret }}" 
-    - run: printenv
     - name: .NET test
       run: dotnet test src/RepoAutomation.Tests/RepoAutomation.Tests.csproj -c Debug -e:CollectCoverage=true -e:CoverletOutput=TestResults/ -e:CoverletOutputFormat=lcov #-l:"trx;LogFileName=${{ github.workspace }}/TestOutput.xml" 
     #- uses: samsmithnz/DotNetTestResults@0.1.3
