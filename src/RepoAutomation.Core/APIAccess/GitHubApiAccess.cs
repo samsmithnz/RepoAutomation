@@ -443,8 +443,8 @@ public static class GitHubApiAccess
                                 }
                             }
                         }
-                        if (onlyGetDependabotPRs && 
-                            newPullRequest.IsDependabotPR != null && 
+                        if (onlyGetDependabotPRs &&
+                            newPullRequest.IsDependabotPR != null &&
                             (bool)newPullRequest.IsDependabotPR)
                         {
                             pullRequests.Add(newPullRequest);
@@ -509,31 +509,46 @@ public static class GitHubApiAccess
 
         foreach (PullRequest pr in pullRequests)
         {
-            if (pr.LoginUser != approver)
+            if (pr != null && pr.State == "open" && pr.LoginUser != approver)
             {
-                //Approve the pull request (if the approver is not the author)
-                //https://api.github.com/repos/OWNER/REPO/pulls/PULL_NUMBER/reviews
-                if (clientId != null && clientSecret != null)
+                List<PRReview> prReviews = await GetPullRequestReview(clientId, clientSecret, owner, repo, pr.Number.ToString());
+                bool needsApproval = true;
+                foreach (PRReview prReviewItem in prReviews)
                 {
-                    var body = new
+                    if (prReviewItem.state == "APPROVED")
                     {
-                        @event = "APPROVE" //Note that event is a reserved word and therefore needs the @prefix
-                    };
-                    //https://docs.github.com/en/rest/pulls/reviews?apiVersion=2022-11-28#create-a-review-for-a-pull-request
-                    string url = $"https://api.github.com/repos/{owner}/{repo}/pulls/{pr.Number}/reviews";
-                    StringContent content = new(JsonConvert.SerializeObject(body), Encoding.UTF8, "application/json");
-                    string? response = await BaseApiAccess.PostGitHubMessage(url, clientId, clientSecret, content, false);
-                    if (!string.IsNullOrEmpty(response))
+                        needsApproval = false;
+                        result = true;
+                        break;
+                    }
+                }
+
+                //Approve the pull request if it isn't approved (if the approver is not the author)
+                if (needsApproval == true)
+                {
+                    //https://api.github.com/repos/OWNER/REPO/pulls/PULL_NUMBER/reviews
+                    if (clientId != null && clientSecret != null)
                     {
-                        dynamic? jsonObj = JsonConvert.DeserializeObject(response);
-                        PRReview pullRequestReview = JsonConvert.DeserializeObject<PRReview>(jsonObj?.ToString());
-                        if (pullRequestReview.submitted_at != null)
+                        var body = new
                         {
-                            result = true;
-                        }
-                        else
+                            @event = "APPROVE" //Note that event is a reserved word and therefore needs the @prefix
+                        };
+                        //https://docs.github.com/en/rest/pulls/reviews?apiVersion=2022-11-28#create-a-review-for-a-pull-request
+                        string url = $"https://api.github.com/repos/{owner}/{repo}/pulls/{pr.Number}/reviews";
+                        StringContent content = new(JsonConvert.SerializeObject(body), Encoding.UTF8, "application/json");
+                        string? response = await BaseApiAccess.PostGitHubMessage(url, clientId, clientSecret, content, false);
+                        if (!string.IsNullOrEmpty(response))
                         {
-                            return false;
+                            dynamic? jsonObj = JsonConvert.DeserializeObject(response);
+                            PRReview pullRequestReview = JsonConvert.DeserializeObject<PRReview>(jsonObj?.ToString());
+                            if (pullRequestReview.submitted_at != null)
+                            {
+                                result = true;
+                            }
+                            else
+                            {
+                                return false;
+                            }
                         }
                     }
                 }
