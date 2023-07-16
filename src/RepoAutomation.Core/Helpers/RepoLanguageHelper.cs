@@ -9,7 +9,7 @@ namespace RepoAutomation.Core.Helpers
 {
     public static class RepoLanguageHelper
     {
-        public async static Task<List<RepoLanguage>> GetRepoLanguages(string? clientId, string? clientSecret,
+        public async static Task<List<RepoLanguage>?> GetRepoLanguages(string? clientId, string? clientSecret,
             string owner, string repo)
         {
             Dictionary<string, int>? languages = await GitHubApiAccess.GetRepoLanguages(clientId, clientSecret, owner, repo);
@@ -28,7 +28,11 @@ namespace RepoAutomation.Core.Helpers
                     .Build();
                 repoLanguageDetails = deserializer.Deserialize<Dictionary<string, LanguageDefinition>>(fileResult.content);
             }
-            List<RepoLanguage> repoLanguages = RepoLanguageHelper.TransformRepoLanguages(languages, repoLanguageDetails);
+            List<RepoLanguage>? repoLanguages = null;
+            if (repoLanguageDetails != null)
+            {
+                repoLanguages = TransformRepoLanguages(languages, repoLanguageDetails);
+            }
 
             return repoLanguages;
         }
