@@ -303,7 +303,7 @@ public class RepoTests : BaseAPIAccessTests
         Assert.AreEqual("#e34c26", repoLanguages[1].Color);
         Assert.AreEqual("PowerShell", repoLanguages[2].Name);
         Assert.IsTrue(repoLanguages[2].Percent < 3M);
-        Assert.AreEqual("#563d7c", repoLanguages[2].Color);
+        Assert.AreEqual("#012456", repoLanguages[2].Color);
         Assert.AreEqual("JavaScript", repoLanguages[3].Name);
         Assert.IsTrue(repoLanguages[3].Percent < 2M);
         Assert.AreEqual("#178600", repoLanguages[3].Color);
