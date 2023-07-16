@@ -309,7 +309,7 @@ public class RepoTests : BaseAPIAccessTests
         Assert.AreEqual("#f1e05a", repoLanguages[3].Color);
         Assert.AreEqual("CSS", repoLanguages[4].Name);
         Assert.IsTrue(repoLanguages[4].Percent < 1M);
-        Assert.AreEqual("#563d7c", repoLanguages[0].Color);
+        Assert.AreEqual("#178600", repoLanguages[0].Color);
     }
 
 }
