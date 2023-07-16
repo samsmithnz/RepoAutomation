@@ -14,10 +14,10 @@ namespace RepoAutomation.Core.Helpers
         {
             Dictionary<string, int>? languages = await GitHubApiAccess.GetRepoLanguages(clientId, clientSecret, owner, repo);
             //Get language definition from from linguist repo
-            string languageDefinitionOwner = "github";
+            string languageDefinitionOwner = "github-linguist";
             string languageDefinitionRepository = "linguist";
             string? languageDefinitionFilePath = "lib/linguist/languages.yml";
-            //Don't use the PAT token here - as it's a different organization - instead let's rely on anon rates
+            //Don't use the PAT token here - as it's going against the linguist organization - instead let's rely on anon rates
             GitHubFile? fileResult = await GitHubFiles.GetFileContents(null, null,
                 languageDefinitionOwner, languageDefinitionRepository, languageDefinitionFilePath);
             Dictionary<string, LanguageDefinition>? repoLanguageDetails = null;

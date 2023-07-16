@@ -282,4 +282,34 @@ public class RepoTests : BaseAPIAccessTests
         Assert.AreEqual("#178600", repoLanguages[0].Color);
     }
 
+    [TestMethod]
+    public async Task GetRepoLanguagesInAnotherOrgWithHelperTest()
+    {
+        //Arrange
+        string owner = "DeveloperMetrics";
+        string repo = "DevOpsMetrics";
+
+        //Act
+        List<RepoLanguage> repoLanguages = await RepoLanguageHelper.GetRepoLanguages(base.GitHubId, base.GitHubSecret, owner, repo);
+
+        //Assert
+        Assert.IsNotNull(repoLanguages);
+        Assert.AreEqual(5, repoLanguages.Count);
+        Assert.AreEqual("C#", repoLanguages[0].Name);
+        Assert.IsTrue(repoLanguages[0].Percent < 90M);
+        Assert.AreEqual("#178600", repoLanguages[0].Color);
+        Assert.AreEqual("HTML", repoLanguages[1].Name);
+        Assert.IsTrue(repoLanguages[1].Percent < 10M);
+        Assert.AreEqual("#e34c26", repoLanguages[1].Color);
+        Assert.AreEqual("PowerShell", repoLanguages[2].Name);
+        Assert.IsTrue(repoLanguages[2].Percent < 3M);
+        Assert.AreEqual("#012456", repoLanguages[2].Color);
+        Assert.AreEqual("JavaScript", repoLanguages[3].Name);
+        Assert.IsTrue(repoLanguages[3].Percent < 2M);
+        Assert.AreEqual("#f1e05a", repoLanguages[3].Color);
+        Assert.AreEqual("CSS", repoLanguages[4].Name);
+        Assert.IsTrue(repoLanguages[4].Percent < 1M);
+        Assert.AreEqual("#178600", repoLanguages[0].Color);
+    }
+
 }

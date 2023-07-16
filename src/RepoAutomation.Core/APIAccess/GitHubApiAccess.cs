@@ -417,28 +417,31 @@ public static class GitHubApiAccess
                             State = pr.state,
                             LoginUser = pr?.user?.login
                         };
-                        if (pr != null && pr.updated_at != null)
+                        if (pr != null)
                         {
-                            newPullRequest.LastUpdated = DateTime.Parse(pr.updated_at);
-                        }
-                        if (pr.auto_merge == null)
-                        {
-                            newPullRequest.AutoMergeEnabled = false;
-                        }
-                        else
-                        {
-                            newPullRequest.AutoMergeEnabled = bool.Parse(pr.auto_merge);
-                        }
-                        if (pr != null && pr.labels != null)
-                        {
-                            foreach (Label item in pr.labels)
+                            if (pr.updated_at != null)
                             {
-                                if (item != null && item.name != null)
+                                newPullRequest.LastUpdated = DateTime.Parse(pr.updated_at);
+                            }
+                            if (pr.auto_merge == null)
+                            {
+                                newPullRequest.AutoMergeEnabled = false;
+                            }
+                            else
+                            {
+                                newPullRequest.AutoMergeEnabled = bool.Parse(pr.auto_merge);
+                            }
+                            if (pr.labels != null)
+                            {
+                                foreach (Label item in pr.labels)
                                 {
-                                    newPullRequest.Labels.Add(item.name);
-                                    if (item.name == "dependencies")
+                                    if (item != null && item.name != null)
                                     {
-                                        newPullRequest.IsDependabotPR = true;
+                                        newPullRequest.Labels.Add(item.name);
+                                        if (item.name == "dependencies")
+                                        {
+                                            newPullRequest.IsDependabotPR = true;
+                                        }
                                     }
                                 }
                             }
@@ -509,7 +512,7 @@ public static class GitHubApiAccess
 
         foreach (PullRequest pr in pullRequests)
         {
-            if (pr != null && pr.State == "open" && pr.LoginUser != approver)
+            if (pr != null && pr.State == "open" && pr.LoginUser != approver && pr.Number !=null)
             {
                 List<PRReview> prReviews = await GetPullRequestReview(clientId, clientSecret, owner, repo, pr.Number.ToString());
                 bool needsApproval = true;
