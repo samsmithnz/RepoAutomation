@@ -5,7 +5,7 @@ namespace RepoAutomation.Core.APIAccess;
 public static class BaseApiAccess
 {
 
-    public async static Task<string?> GetGitHubMessage(string url, string clientId, string clientSecret, bool processErrors = true)
+    public async static Task<string?> GetGitHubMessage(string url, string? clientId, string? clientSecret, bool processErrors = true)
     {
         HttpClient client = BuildHttpClient(url, clientId, clientSecret);
         HttpResponseMessage response = await client.GetAsync(url);
@@ -60,7 +60,7 @@ public static class BaseApiAccess
         return await response.Content.ReadAsStringAsync();
     }
 
-    private static HttpClient BuildHttpClient(string url, string clientId, string clientSecret)
+    private static HttpClient BuildHttpClient(string url, string? clientId, string? clientSecret)
     {
         if (!url.Contains("api.github.com"))
         {
