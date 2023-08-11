@@ -25,7 +25,7 @@ public static class GitHubApiAccess
             string url = $"https://api.github.com/repos/{owner}/{repo}";
             string? response = await BaseApiAccess.GetGitHubMessage(url, clientId, clientSecret, false);
             if (!string.IsNullOrEmpty(response) &&
-                response != @"{""message"":""Not Found"",""documentation_url"":""https://docs.github.com/rest/reference/repos#get-a-repository""}")
+                response != @"{""message"":""Not Found"",""documentation_url"":""https://docs.github.com/rest/repos/repos#get-a-repository""}")
             {
                 dynamic? jsonObj = JsonConvert.DeserializeObject(response);
                 result = JsonConvert.DeserializeObject<Repo>(jsonObj?.ToString());
