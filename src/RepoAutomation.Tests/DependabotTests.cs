@@ -61,7 +61,10 @@ updates:
             "America/New_York",
             new() { "samsmithnz" },
             20,
-            true);
+            true,
+            "core",
+            new string[] { "*" },
+            new string[] { "minor", "patch" });
 
         //Assert
         string expected = @"version: 2
@@ -75,6 +78,13 @@ updates:
   assignees:
   - samsmithnz
   open-pull-requests-limit: 20
+  groups:
+    core:
+      patterns:
+      - '*'
+      update-types:
+      - minor
+      - patch
 - package-ecosystem: github-actions
   directory: /
   schedule:
@@ -83,7 +93,14 @@ updates:
     timezone: America/New_York
   assignees:
   - samsmithnz
-  open-pull-requests-limit: 20";
+  open-pull-requests-limit: 20
+  groups:
+    actions:
+      patterns:
+      - '*'
+      update-types:
+      - minor
+      - patch";
         Assert.AreEqual(expected, Utility.TrimNewLines(yaml));
     }
 

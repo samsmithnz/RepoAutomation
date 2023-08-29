@@ -19,7 +19,10 @@ namespace RepoAutomation.Core.Helpers
                 "America/New_York",
                 new() { owner },
                 10,
-                true);
+                true,
+                "core",
+                new string[] { "*" },
+                new string[] { "minor", "patch" });
 
             log.Append("Writing dependabot configuration to file: " + workingDirectory + "\\.github\\dependabot.yml");
             File.WriteAllText(workingDirectory + "\\.github\\dependabot.yml", yaml);
