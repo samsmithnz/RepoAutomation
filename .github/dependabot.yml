@@ -1,15 +1,6 @@
 version: 2
 updates:
 - package-ecosystem: nuget
-  directory: /dependabotSamples/dotnet/
-  schedule:
-    interval: daily
-    time: "06:00"
-    timezone: America/New_York
-  assignees:
-  - samsmithnz
-  open-pull-requests-limit: 10
-- package-ecosystem: nuget
   directory: /src/RepoAutomation.Service/
   schedule:
     interval: daily
@@ -18,42 +9,10 @@ updates:
   assignees:
   - samsmithnz
   open-pull-requests-limit: 10
-- package-ecosystem: nuget
-  directory: /src/RepoAutomation.Tests/bin/Debug/net6.0/RepoAutomation/src/RepoAutomation.Tests/
-  schedule:
-    interval: daily
-    time: "06:00"
-    timezone: America/New_York
-  assignees:
-  - samsmithnz
-  open-pull-requests-limit: 10
-- package-ecosystem: nuget
-  directory: /src/RepoAutomation.Tests/bin/Debug/net6.0/RepoAutomation/src/RepoAutomation/
-  schedule:
-    interval: daily
-    time: "06:00"
-    timezone: America/New_York
-  assignees:
-  - samsmithnz
-  open-pull-requests-limit: 10
-- package-ecosystem: nuget
-  directory: /src/RepoAutomation.Tests/bin/Debug/net6.0/RepoTestProject/src/RepoTestProject.Tests/
-  schedule:
-    interval: daily
-    time: "06:00"
-    timezone: America/New_York
-  assignees:
-  - samsmithnz
-  open-pull-requests-limit: 10
-- package-ecosystem: nuget
-  directory: /src/RepoAutomation.Tests/bin/Debug/net6.0/RepoTestProject/src/RepoTestProject.Web/
-  schedule:
-    interval: daily
-    time: "06:00"
-    timezone: America/New_York
-  assignees:
-  - samsmithnz
-  open-pull-requests-limit: 10
+  groups:
+    service:
+      patterns: ["*"]
+      update-types: ["minor", "patch"]
 - package-ecosystem: nuget
   directory: /src/RepoAutomation.Tests/
   schedule:
@@ -63,6 +22,10 @@ updates:
   assignees:
   - samsmithnz
   open-pull-requests-limit: 10
+  groups:
+    tests:
+      patterns: ["*"]
+      update-types: ["minor", "patch"]
 - package-ecosystem: nuget
   directory: /src/RepoAutomation.Web/
   schedule:
@@ -72,24 +35,10 @@ updates:
   assignees:
   - samsmithnz
   open-pull-requests-limit: 10
-- package-ecosystem: nuget
-  directory: /src/RepoAutomation/bin/Debug/net6.0/src/RepoAutomationTest.Tests/
-  schedule:
-    interval: daily
-    time: "06:00"
-    timezone: America/New_York
-  assignees:
-  - samsmithnz
-  open-pull-requests-limit: 10
-- package-ecosystem: nuget
-  directory: /src/RepoAutomation/bin/Debug/net6.0/src/RepoAutomationTest.Web/
-  schedule:
-    interval: daily
-    time: "06:00"
-    timezone: America/New_York
-  assignees:
-  - samsmithnz
-  open-pull-requests-limit: 10
+  groups:
+    web:
+      patterns: ["*"]
+      update-types: ["minor", "patch"]
 - package-ecosystem: nuget
   directory: /src/RepoAutomation/
   schedule:
@@ -99,6 +48,10 @@ updates:
   assignees:
   - samsmithnz
   open-pull-requests-limit: 10
+  groups:
+    core:
+      patterns: ["*"]
+      update-types: ["minor", "patch"]
 - package-ecosystem: github-actions
   directory: /
   schedule:
@@ -108,3 +61,7 @@ updates:
   assignees:
   - samsmithnz
   open-pull-requests-limit: 10
+  groups:
+    actions:
+      patterns: ["*"]
+      update-types: ["minor", "patch"]
