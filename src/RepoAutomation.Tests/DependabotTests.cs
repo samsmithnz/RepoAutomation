@@ -61,7 +61,10 @@ updates:
             "America/New_York",
             new() { "samsmithnz" },
             20,
-            true);
+            true,
+            "core",
+            new string[] { "*" },
+            new string[] { "minor", "patch" });
 
         //Assert
         string expected = @"version: 2
