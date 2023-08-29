@@ -80,8 +80,11 @@ updates:
   open-pull-requests-limit: 20
   groups:
     core:
-      patterns: [""*""]
-      update-types: [""minor"", ""patch""]
+      patterns:
+      - '*'
+      update-types:
+      - minor
+      - patch
 - package-ecosystem: github-actions
   directory: /
   schedule:
@@ -93,8 +96,11 @@ updates:
   open-pull-requests-limit: 20
   groups:
     actions:
-      patterns: [""*""]
-      update-types: [""minor"", ""patch""]";
+      patterns:
+      - '*'
+      update-types:
+      - minor
+      - patch";
         Assert.AreEqual(expected, Utility.TrimNewLines(yaml));
     }
 
