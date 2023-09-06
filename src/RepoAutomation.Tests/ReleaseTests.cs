@@ -33,7 +33,7 @@ public class ReleaseTests : BaseAPIAccessTests
             Assert.IsNotNull(release.published_at);
             Assert.IsNotNull(release.html_url);
             Assert.IsNotNull(release.ToTimingString());
-            Assert.AreEqual("V1.0", release.name);
+            Assert.AreEqual("v1.0.0", release.name);
         }
     }
     

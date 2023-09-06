@@ -38,7 +38,7 @@ jobs:
       Version: ${{ steps.gitversion.outputs.SemVer }}
       CommitsSinceVersionSource: ${{ steps.gitversion.outputs.CommitsSinceVersionSource }}
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
       with:
         fetch-depth: 0
     - name: Setup GitVersion
@@ -87,7 +87,7 @@ jobs:
       Version: ${{ steps.gitversion.outputs.SemVer }}
       CommitsSinceVersionSource: ${{ steps.gitversion.outputs.CommitsSinceVersionSource }}
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
       with:
         fetch-depth: 0
     - name: Setup GitVersion
