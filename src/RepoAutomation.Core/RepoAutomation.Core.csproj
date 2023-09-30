@@ -7,7 +7,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="GitHubActionsDotNet" Version="1.2.2" />
+		<PackageReference Include="GitHubActionsDotNet" Version="1.2.4" />
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
 	</ItemGroup>
 
