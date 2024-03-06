@@ -234,7 +234,7 @@ public class RepoTests : BaseAPIAccessTests
 
         //Assert
         Assert.IsNotNull(commitSHA);
-        Assert.AreEqual("62787f3ff517780b6623287e4414b7eb9d9288f6", commitSHA);
+        Assert.AreEqual("de6dd3a3812f0e4132bc2ef831e9fc13550aca0e", commitSHA);
     }
 
     [TestMethod]
@@ -304,10 +304,10 @@ public class RepoTests : BaseAPIAccessTests
         Assert.AreEqual("PowerShell", repoLanguages[2].Name);
         Assert.IsTrue(repoLanguages[2].Percent < 3M);
         Assert.AreEqual("#012456", repoLanguages[2].Color);
-        Assert.AreEqual("JavaScript", repoLanguages[3].Name);
+        Assert.AreEqual("CSS", repoLanguages[3].Name);
         Assert.IsTrue(repoLanguages[3].Percent < 2M);
-        Assert.AreEqual("#f1e05a", repoLanguages[3].Color);
-        Assert.AreEqual("CSS", repoLanguages[4].Name);
+        Assert.AreEqual("#563d7c", repoLanguages[3].Color);
+        Assert.AreEqual("JavaScript", repoLanguages[4].Name);
         Assert.IsTrue(repoLanguages[4].Percent < 1M);
         Assert.AreEqual("#178600", repoLanguages[0].Color);
     }
