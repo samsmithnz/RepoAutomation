@@ -86,7 +86,7 @@ jobs:
     #    -DestinationPath ${{ github.workspace }}\${{ matrix.ChannelName }}\RepoAutomation.${{ matrix.ChannelName }}.${{ needs.versionAndTest.outputs.Version }}.zip
     #  shell: powershell
     #- name: Publish Artifacts
-    #  uses: actions/upload-artifact@v3
+    #  uses: actions/upload-artifact@v4
     #  with:
     #    name: ${{ matrix.ChannelName }}
     #    path: ${{ github.workspace }}\${{ matrix.ChannelName }}    
@@ -95,7 +95,7 @@ jobs:
       if: runner.OS == 'Linux' #Only pack the Linux nuget package
       run: dotnet pack src/RepoAutomation.Core/RepoAutomation.Core.csproj -c Release --nologo --include-symbols -p:Version='${{ needs.versionAndTest.outputs.Version }}'
     - name: Upload nuget package back to GitHub
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       if: runner.OS == 'Linux' #Only pack the Linux nuget package
       with:
         name: nugetPackage
