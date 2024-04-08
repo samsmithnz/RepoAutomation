@@ -18,18 +18,18 @@ jobs:
       with:
         fetch-depth: 0 #fetch-depth is needed for GitVersion
     - name: Install GitVersion
-      uses: gittools/actions/gitversion/setup@v0.10.2
+      uses: gittools/actions/gitversion/setup@v1.1.1
       with:
         versionSpec: 5.x
     - name: Determine Version
-      uses: gittools/actions/gitversion/execute@v0.10.2
+      uses: gittools/actions/gitversion/execute@v1.1.1
       id: gitversion # step id used as reference for output values
     - name: Display GitVersion outputs
       run: |
         echo "Version: ${{ steps.gitversion.outputs.SemVer }}"
         echo "CommitsSinceVersionSource: ${{ steps.gitversion.outputs.CommitsSinceVersionSource }}"
     - name: Setup .NET
-      uses: actions/setup-dotnet@v3
+      uses: actions/setup-dotnet@v4
       with:
         dotnet-version: 8.0.x
     - name: Variable Substitution appsettings file for tests
@@ -72,7 +72,7 @@ jobs:
     steps:
     - uses: actions/checkout@v4   
     - name: Setup .NET
-      uses: actions/setup-dotnet@v3
+      uses: actions/setup-dotnet@v4
       with:
         dotnet-version: 8.0.x
     #- name: Create directory for channel
@@ -95,7 +95,7 @@ jobs:
       if: runner.OS == 'Linux' #Only pack the Linux nuget package
       run: dotnet pack src/RepoAutomation.Core/RepoAutomation.Core.csproj -c Release --nologo --include-symbols -p:Version='${{ needs.versionAndTest.outputs.Version }}'
     - name: Upload nuget package back to GitHub
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       if: runner.OS == 'Linux' #Only pack the Linux nuget package
       with:
         name: nugetPackage
@@ -130,7 +130,7 @@ jobs:
         echo "Version: ${{ needs.versionAndTest.outputs.Version }}" 
         echo "CommitsSinceVersionSource: ${{ needs.versionAndTest.outputs.CommitsSinceVersionSource }}" 
     - name: Download package artifacts
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4
     - name: Create Release
       uses: ncipollo/release-action@v1
       if: needs.versionAndTest.outputs.CommitsSinceVersionSource > 0 #Only create a release if there has been a commit/version change
