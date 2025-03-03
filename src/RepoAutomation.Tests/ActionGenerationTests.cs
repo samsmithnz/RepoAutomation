@@ -53,9 +53,9 @@ jobs:
         echo ""Version: ${{ steps.gitversion.outputs.SemVer }}""
         echo ""CommitsSinceVersionSource: ${{ steps.gitversion.outputs.CommitsSinceVersionSource }}""
     - name: Setup .NET
-      uses: actions/setup-dotnet@v3
+      uses: actions/setup-dotnet@v4
       with:
-        dotnet-version: 7.0.x";
+        dotnet-version: 8.0.x";
         Assert.AreEqual(expected, Utility.TrimNewLines(yaml));
     }
 
@@ -102,9 +102,9 @@ jobs:
         echo ""Version: ${{ steps.gitversion.outputs.SemVer }}""
         echo ""CommitsSinceVersionSource: ${{ steps.gitversion.outputs.CommitsSinceVersionSource }}""
     - name: Setup .NET
-      uses: actions/setup-dotnet@v3
+      uses: actions/setup-dotnet@v4
       with:
-        dotnet-version: 7.0.x
+        dotnet-version: 8.0.x
     - name: .NET test
       run: dotnet test src/TestProject.Tests/TestProject.Tests.csproj -c Release
     - name: .NET publish
