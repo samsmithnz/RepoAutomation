@@ -7,6 +7,7 @@ namespace RepoAutomation.Core.APIAccess;
 
 public static class GitHubApiAccess
 {
+    private static bool ProcessGitHubHTTPErrors = false;
 
     //https://docs.github.com/en/enterprise-cloud@latest/rest/reference/repos
     /// <summary>
@@ -23,7 +24,7 @@ public static class GitHubApiAccess
         if (clientId != null && clientSecret != null)
         {
             string url = $"https://api.github.com/repos/{owner}/{repo}";
-            string? response = await BaseApiAccess.GetGitHubMessage(url, clientId, clientSecret, false);
+            string? response = await BaseApiAccess.GetGitHubMessage(url, clientId, clientSecret, ProcessGitHubHTTPErrors);
             if (!string.IsNullOrEmpty(response) &&
                 response != @"{""message"":""Not Found"",""documentation_url"":""https://docs.github.com/rest/repos/repos#get-a-repository"",""status"":""404""}")
             {
@@ -49,7 +50,7 @@ public static class GitHubApiAccess
         if (clientId != null && clientSecret != null)
         {
             string url = $"https://api.github.com/users/{owner}/repos";
-            string? response = await BaseApiAccess.GetGitHubMessage(url, clientId, clientSecret, false);
+            string? response = await BaseApiAccess.GetGitHubMessage(url, clientId, clientSecret, ProcessGitHubHTTPErrors);
             if (!string.IsNullOrEmpty(response) &&
                 response != @"{""message"":""Not Found"",""documentation_url"":""https://docs.github.com/rest/reference/repos#get-a-repository""}")
             {
@@ -187,7 +188,7 @@ public static class GitHubApiAccess
         {
             path = HttpUtility.UrlEncode(path);
             string url = $"https://api.github.com/repos/{owner}/{repo}/contents/{path}";
-            string? response = await BaseApiAccess.GetGitHubMessage(url, clientId, clientSecret, false);
+            string? response = await BaseApiAccess.GetGitHubMessage(url, clientId, clientSecret, ProcessGitHubHTTPErrors);
             if (!string.IsNullOrEmpty(response) &&
                 !response.Contains(@"""message"":""Not Found"""))
             {
@@ -213,7 +214,7 @@ public static class GitHubApiAccess
         GitHubFile? result = null;
         path = HttpUtility.UrlEncode(path);
         string url = $"https://api.github.com/repos/{owner}/{repo}/contents/{path}";
-        string? response = await BaseApiAccess.GetGitHubMessage(url, clientId, clientSecret, false);
+        string? response = await BaseApiAccess.GetGitHubMessage(url, clientId, clientSecret, ProcessGitHubHTTPErrors);
         if (!string.IsNullOrEmpty(response) &&
             !response.Contains(@"""message"":""Not Found"""))
         {
@@ -246,7 +247,7 @@ public static class GitHubApiAccess
         if (clientId != null && clientSecret != null)
         {
             string url = $"https://api.github.com/repos/{owner}/{repo}/branches/{branch}/protection";
-            string? response = await BaseApiAccess.GetGitHubMessage(url, clientId, clientSecret, false);
+            string? response = await BaseApiAccess.GetGitHubMessage(url, clientId, clientSecret, ProcessGitHubHTTPErrors);
             if (!string.IsNullOrEmpty(response) &&
                 !response.Contains(@"""message"":""Branch not protected"""))
             {
@@ -317,7 +318,7 @@ public static class GitHubApiAccess
         if (clientId != null && clientSecret != null)
         {
             string url = $"https://api.github.com/repos/{owner}/{repo}/releases/latest";
-            string? response = await BaseApiAccess.GetGitHubMessage(url, clientId, clientSecret, false);
+            string? response = await BaseApiAccess.GetGitHubMessage(url, clientId, clientSecret, ProcessGitHubHTTPErrors);
             if (!string.IsNullOrEmpty(response))
             {
                 dynamic? jsonObj = JsonConvert.DeserializeObject(response);
@@ -353,7 +354,7 @@ public static class GitHubApiAccess
             }
             if (!string.IsNullOrEmpty(url))
             {
-                string? response = await BaseApiAccess.GetGitHubMessage(url, clientId, clientSecret, false);
+                string? response = await BaseApiAccess.GetGitHubMessage(url, clientId, clientSecret, ProcessGitHubHTTPErrors);
                 if (!string.IsNullOrEmpty(response))
                 {
                     dynamic? jsonObj = JsonConvert.DeserializeObject(response);
@@ -379,7 +380,7 @@ public static class GitHubApiAccess
         {
             //https://api.github.com/repos/torvalds/linux/commits?per_page=1
             string url = $"https://api.github.com/repos/{owner}/{repo}/commits?per_page=1";
-            string? response = await BaseApiAccess.GetGitHubMessage(url, clientId, clientSecret, false);
+            string? response = await BaseApiAccess.GetGitHubMessage(url, clientId, clientSecret, ProcessGitHubHTTPErrors);
             if (!string.IsNullOrEmpty(response))
             {
                 dynamic? jsonObj = JsonConvert.DeserializeObject(response);
@@ -401,7 +402,7 @@ public static class GitHubApiAccess
         {
             //https://docs.github.com/en/rest/pulls/pulls#list-pull-requests (only first 30)
             string url = $"https://api.github.com/repos/{owner}/{repo}/pulls?state=open";
-            string? response = await BaseApiAccess.GetGitHubMessage(url, clientId, clientSecret, false);
+            string? response = await BaseApiAccess.GetGitHubMessage(url, clientId, clientSecret, ProcessGitHubHTTPErrors);
             if (!string.IsNullOrEmpty(response))
             {
                 dynamic? jsonObj = JsonConvert.DeserializeObject(response);
@@ -471,7 +472,7 @@ public static class GitHubApiAccess
         {
             //https://docs.github.com/en/rest/pulls/reviews#submit-a-pull-request-review
             string url = $"https://api.github.com/repos/{owner}/{repo}/pulls/{pullRequestNumber}/reviews";
-            string? response = await BaseApiAccess.GetGitHubMessage(url, clientId, clientSecret, false);
+            string? response = await BaseApiAccess.GetGitHubMessage(url, clientId, clientSecret, ProcessGitHubHTTPErrors);
             if (!string.IsNullOrEmpty(response))
             {
                 dynamic? jsonObj = JsonConvert.DeserializeObject(response);
@@ -490,7 +491,7 @@ public static class GitHubApiAccess
         {
             //https://docs.github.com/en/rest/repos/repos?apiVersion=2022-11-28#list-repository-languages
             string url = $"https://api.github.com/repos/{owner}/{repo}/languages";
-            string? response = await BaseApiAccess.GetGitHubMessage(url, clientId, clientSecret, false);
+            string? response = await BaseApiAccess.GetGitHubMessage(url, clientId, clientSecret, ProcessGitHubHTTPErrors);
             if (!string.IsNullOrEmpty(response))
             {
                 dynamic? jsonObj = JsonConvert.DeserializeObject(response);
@@ -539,7 +540,7 @@ public static class GitHubApiAccess
                         //https://docs.github.com/en/rest/pulls/reviews?apiVersion=2022-11-28#create-a-review-for-a-pull-request
                         string url = $"https://api.github.com/repos/{owner}/{repo}/pulls/{pr.Number}/reviews";
                         StringContent content = new(JsonConvert.SerializeObject(body), Encoding.UTF8, "application/json");
-                        string? response = await BaseApiAccess.PostGitHubMessage(url, clientId, clientSecret, content, false);
+                        string? response = await BaseApiAccess.PostGitHubMessage(url, clientId, clientSecret, content, ProcessGitHubHTTPErrors);
                         if (!string.IsNullOrEmpty(response))
                         {
                             dynamic? jsonObj = JsonConvert.DeserializeObject(response);
