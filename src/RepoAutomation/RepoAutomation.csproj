@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
 		<OutputType>Exe</OutputType>
@@ -10,8 +10,8 @@
 
 	<ItemGroup>
 	  <PackageReference Include="CommandLineParser" Version="2.9.1" />
-	  <PackageReference Include="GitHubActionsDotNet" Version="1.3.32" />
-	  <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="9.0.4" />
+	  <PackageReference Include="GitHubActionsDotNet" Version="1.3.33" />
+	  <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="9.0.5" />
 	  <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
 	</ItemGroup>
 
