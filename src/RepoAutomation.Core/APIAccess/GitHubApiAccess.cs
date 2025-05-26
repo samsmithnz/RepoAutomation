@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using RepoAutomation.Core.Models;
+using RepoAutomation.Core.Models.Copilot;
 using System.Text;
 using System.Web;
 
@@ -560,6 +561,23 @@ public static class GitHubApiAccess
         }
 
         return result;
+    }
+    
+    public async static Task<List<ModelInfo>> GetCopilotModelCatalog(string? clientId, string? clientSecret)
+    {
+        List<ModelInfo> modelInfo = new();
+        if (clientId != null && clientSecret != null)
+        {
+            //https://docs.github.com/en/rest/models/catalog?apiVersion=2022-11-28
+            string url = $"https://models.github.ai/catalog/models";
+            string? response = await BaseApiAccess.GetGitHubMessage(url, clientId, clientSecret, ProcessGitHubHTTPErrors);
+            if (!string.IsNullOrEmpty(response))
+            {
+                dynamic? jsonObj = JsonConvert.DeserializeObject(response);
+                modelInfo = JsonConvert.DeserializeObject<List<ModelInfo>>(jsonObj?.ToString());
+            }
+        }
+        return modelInfo;
     }
 
 }

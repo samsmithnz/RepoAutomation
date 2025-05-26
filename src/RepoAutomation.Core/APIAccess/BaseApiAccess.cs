@@ -62,9 +62,9 @@ public static class BaseApiAccess
 
     private static HttpClient BuildHttpClient(string url, string? clientId, string? clientSecret)
     {
-        if (!url.Contains("api.github.com"))
+        if (!url.Contains("api.github.com") && !url.Contains("models.github.ai"))
         {
-            throw new Exception("api.github.com missing from URL");
+            throw new Exception("api.github.com or models.github.ai prefix missing from URL");
         }
         HttpClient client = new();
         client.DefaultRequestHeaders.Accept.Clear();
