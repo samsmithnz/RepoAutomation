@@ -11,12 +11,12 @@ namespace RepoAutomation.Tests
     public class GitHubApiAccessTests : BaseAPIAccessTests
     {
         [TestMethod]
-        public async Task GetCopilotModelCatalog_ReturnsList_WhenApiReturnsValidResponse()
+        public async Task GetCopilotModelCatalogTest()
         {
             // Arrange
 
             // Act
-            List<ModelInfo> results = await GitHubApiAccess.GetCopilotModelCatalog(base.GitHubId, base.GitHubSecret);
+            List<ModelInfo> results = await GitHubApiAccess.GetCopilotModelCatalogList(base.GitHubId, base.GitHubSecret);
 
             // Assert
             Assert.IsNotNull(results);
@@ -32,6 +32,28 @@ namespace RepoAutomation.Tests
             Assert.IsNotNull(model.Tags);
 
             //{ "id":,"name":"OpenAI GPT-4.1","publisher":"OpenAI","summary":"gpt-4.1 outperforms gpt-4o across the board, with major gains in coding, instruction following, and long-context understanding","rate_limit_tier":"high","supported_input_modalities":["text", "image"],"supported_output_modalities":["text"],"tags":["multipurpose", "multilingual", "multimodal"]}
+        }
+
+        [TestMethod]
+        public async Task GetCopilotChatResponseTest()
+        {
+            //Arrange
+            InferenceRequest body = new();
+            body.model = "openai/gpt-4.1";
+            body.messages = new[]
+            {
+                new InferenceMessage {
+                    Role = "user",
+                    Content = "What is the capital of France?"
+                }
+            };
+
+            //Act
+            InferenceResponse result = await GitHubApiAccess.CopilotChatCompletionRequest(base.GitHubId, base.GitHubSecret, body);
+
+            //Assert
+            Assert.IsNotNull(result);
+
         }
     }
 }

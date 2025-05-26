@@ -563,7 +563,7 @@ public static class GitHubApiAccess
         return result;
     }
     
-    public async static Task<List<ModelInfo>> GetCopilotModelCatalog(string? clientId, string? clientSecret)
+    public async static Task<List<ModelInfo>> GetCopilotModelCatalogList(string? clientId, string? clientSecret)
     {
         List<ModelInfo> modelInfo = new();
         if (clientId != null && clientSecret != null)
@@ -578,6 +578,24 @@ public static class GitHubApiAccess
             }
         }
         return modelInfo;
+    }
+
+    public async static Task<InferenceResponse> CopilotChatCompletionRequest(string? clientId, string? clientSecret, InferenceRequest body)
+    {
+        InferenceResponse model = new();
+        if (clientId != null && clientSecret != null)
+        {
+            //https://docs.github.com/en/rest/models/inference?apiVersion=2022-11-28#run-an-inference-request
+            StringContent content = new(JsonConvert.SerializeObject(body), Encoding.UTF8, "application/json");
+            string url = $"https://models.github.ai/inference/chat/completions";
+            string? response = await BaseApiAccess.PostGitHubMessage(url, clientId, clientSecret, content, ProcessGitHubHTTPErrors);
+            if (!string.IsNullOrEmpty(response))
+            {
+                dynamic? jsonObj = JsonConvert.DeserializeObject(response);
+                model = JsonConvert.DeserializeObject<InferenceResponse>(jsonObj?.ToString());
+            }
+        }
+        return model;
     }
 
 }
