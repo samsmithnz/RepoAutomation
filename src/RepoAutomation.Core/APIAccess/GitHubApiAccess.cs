@@ -609,7 +609,8 @@ public static class GitHubApiAccess
             string url = $"https://api.github.com/repos/{owner}/{repo}/secret-scanning/alerts?state={state}";
             string? response = await BaseApiAccess.GetGitHubMessage(url, clientId, clientSecret, ProcessGitHubHTTPErrors);
             if (!string.IsNullOrEmpty(response) &&
-                !response.Contains(@"""message"":""Not Found"""))
+                !response.Contains(@"""message"":""Not Found""") && 
+                !response.Contains("Secret scanning is disabled on this repository"))
             {
                 dynamic? jsonObj = JsonConvert.DeserializeObject(response);
                 alerts = JsonConvert.DeserializeObject<List<SecretScanningAlert>>(jsonObj?.ToString()) ?? new List<SecretScanningAlert>();
