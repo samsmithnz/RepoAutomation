@@ -3,9 +3,7 @@ namespace RepoAutomation.Core.Models;
 public class SecurityAlert : BaseModel
 {
     public int? number { get; set; }
-    public string? rule_id { get; set; }
-    public string? rule_description { get; set; }
-    public string? rule_severity { get; set; }
+    public SecurityRule? rule { get; set; }
     public string? state { get; set; }
     public string? created_at { get; set; }
     public string? updated_at { get; set; }
@@ -15,6 +13,13 @@ public class SecurityAlert : BaseModel
     public string? html_url { get; set; }
     public SecurityTool? tool { get; set; }
     public SecurityMostRecentInstance? most_recent_instance { get; set; }
+}
+
+public class SecurityRule
+{
+    public string? id { get; set; }
+    public string? description { get; set; }
+    public string? severity { get; set; }
 }
 
 public class SecurityTool
