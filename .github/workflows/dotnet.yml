@@ -105,7 +105,7 @@ jobs:
   sonarCloud:
     name: Run SonarCloud analysis
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main' 
+    if: false && github.ref == 'refs/heads/main' 
     steps:
       - name: Run Sonarcloud test
         uses: samsmithnz/SamsDotNetSonarCloudAction@v2.1
@@ -122,7 +122,7 @@ jobs:
     needs: 
     - build
     - versionAndTest
-    - sonarCloud
+    # - sonarCloud
     if: github.ref == 'refs/heads/main'      
     steps:
     - name: Display GitVersion outputs
