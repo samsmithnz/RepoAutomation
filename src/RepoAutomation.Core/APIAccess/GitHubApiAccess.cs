@@ -562,4 +562,85 @@ public static class GitHubApiAccess
         return result;
     }
 
+    /// <summary>
+    /// Get code scanning alerts for a repo
+    /// </summary>
+    /// <param name="clientId"></param>
+    /// <param name="clientSecret"></param>
+    /// <param name="owner"></param>
+    /// <param name="repo"></param>
+    /// <param name="state">open, closed, dismissed, or fixed. Default: open</param>
+    /// <returns></returns>
+    public async static Task<List<SecurityAlert>> GetCodeScanningAlerts(string? clientId, string? clientSecret,
+        string owner, string repo, string state = "open")
+    {
+        List<SecurityAlert> alerts = new();
+        if (clientId != null && clientSecret != null)
+        {
+            //https://docs.github.com/en/rest/code-scanning/code-scanning#list-code-scanning-alerts-for-a-repository
+            string url = $"https://api.github.com/repos/{owner}/{repo}/code-scanning/alerts?state={state}";
+            string? response = await BaseApiAccess.GetGitHubMessage(url, clientId, clientSecret, ProcessGitHubHTTPErrors);
+            if (!string.IsNullOrEmpty(response) &&
+                !response.Contains(@"""message"":""Not Found"""))
+            {
+                dynamic? jsonObj = JsonConvert.DeserializeObject(response);
+                alerts = JsonConvert.DeserializeObject<List<SecurityAlert>>(jsonObj?.ToString()) ?? new List<SecurityAlert>();
+            }
+        }
+        return alerts;
+    }
+
+    /// <summary>
+    /// Get secret scanning alerts for a repo
+    /// </summary>
+    /// <param name="clientId"></param>
+    /// <param name="clientSecret"></param>
+    /// <param name="owner"></param>
+    /// <param name="repo"></param>
+    /// <param name="state">open or resolved. Default: open</param>
+    /// <returns></returns>
+    public async static Task<List<SecretScanningAlert>> GetSecretScanningAlerts(string? clientId, string? clientSecret,
+        string owner, string repo, string state = "open")
+    {
+        List<SecretScanningAlert> alerts = new();
+        if (clientId != null && clientSecret != null)
+        {
+            //https://docs.github.com/en/rest/secret-scanning/secret-scanning#list-secret-scanning-alerts-for-a-repository
+            string url = $"https://api.github.com/repos/{owner}/{repo}/secret-scanning/alerts?state={state}";
+            string? response = await BaseApiAccess.GetGitHubMessage(url, clientId, clientSecret, ProcessGitHubHTTPErrors);
+            if (!string.IsNullOrEmpty(response) &&
+                !response.Contains(@"""message"":""Not Found""") && 
+                !response.Contains("Secret scanning is disabled on this repository"))
+            {
+                dynamic? jsonObj = JsonConvert.DeserializeObject(response);
+                alerts = JsonConvert.DeserializeObject<List<SecretScanningAlert>>(jsonObj?.ToString()) ?? new List<SecretScanningAlert>();
+            }
+        }
+        return alerts;
+    }
+
+    /// <summary>
+    /// Get all security alerts (code scanning + secret scanning) for a repo
+    /// </summary>
+    /// <param name="clientId"></param>
+    /// <param name="clientSecret"></param>
+    /// <param name="owner"></param>
+    /// <param name="repo"></param>
+    /// <param name="state">State filter for alerts. Default: open</param>
+    /// <returns>Tuple with code scanning alerts count and secret scanning alerts count</returns>
+    public async static Task<(int codeScanningCount, int secretScanningCount, int totalCount)> GetSecurityAlertsCount(string? clientId, string? clientSecret,
+        string owner, string repo, string state = "open")
+    {
+        var codeScanningTask = GetCodeScanningAlerts(clientId, clientSecret, owner, repo, state);
+        var secretScanningTask = GetSecretScanningAlerts(clientId, clientSecret, owner, repo, state);
+
+        await Task.WhenAll(codeScanningTask, secretScanningTask);
+
+        int codeScanningCount = codeScanningTask.Result.Count;
+        int secretScanningCount = secretScanningTask.Result.Count;
+        int totalCount = codeScanningCount + secretScanningCount;
+
+        return (codeScanningCount, secretScanningCount, totalCount);
+    }
+
 }
