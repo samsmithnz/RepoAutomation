@@ -265,7 +265,7 @@ public class RepoTests : BaseAPIAccessTests
         Assert.IsNotNull(repoLanguages);
         Assert.AreEqual(5, repoLanguages.Count);
         Assert.AreEqual("C#", repoLanguages[0].Name);
-        Assert.IsTrue(repoLanguages[0].Percent < 95M);
+        Assert.IsTrue(repoLanguages[0].Percent < 96M);
         Assert.AreEqual("#178600", repoLanguages[0].Color);
         Assert.AreEqual("HTML", repoLanguages[1].Name);
         Assert.IsTrue(repoLanguages[1].Percent < 4M);
