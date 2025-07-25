@@ -34,7 +34,7 @@ RepoAutomation [-o|--owner <GITHUB-OWNER/ACCOUNT>]
 ```
 <!-- TODO: RepoAutomation [-l|--license <repo license>] [-p|--patToken <GitHub Pat Token>]  [-bp|--branchpolicy <default branch policy>] -->
 
-Requires a [Finely-Grained PAT token](https://github.com/settings/tokens) to be setup, with: 
+Requires a [Fine-Grained PAT token](https://github.com/settings/tokens) to be setup, with: 
 - Actions: Read-only (can view workflows and actions, but cannot modify or trigger them)
 - Administration: Read and write (can view and perform admin tasks on repositories)
 - Code scanning alerts: Read-only (can view code scanning alerts, but cannot resolve or dismiss them)
