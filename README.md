@@ -34,7 +34,17 @@ RepoAutomation [-o|--owner <GITHUB-OWNER/ACCOUNT>]
 ```
 <!-- TODO: RepoAutomation [-l|--license <repo license>] [-p|--patToken <GitHub Pat Token>]  [-bp|--branchpolicy <default branch policy>] -->
 
-Requires a [PAT token](https://github.com/settings/tokens) to be setup, with `repo`, `workflow`, and `delete_repo` (DANGER! DANGER, WILL ROBINSON!!) permissions
+Requires a [Finely-Grained PAT token](https://github.com/settings/tokens) to be setup, with: 
+- Actions: Read-only (can view workflows and actions, but cannot modify or trigger them)
+- Administration: Read and write (can view and perform admin tasks on repositories)
+- Code scanning alerts: Read-only (can view code scanning alerts, but cannot resolve or dismiss them)
+- Contents: Read (can view repository contents, but cannot modify them)
+- Dependabot alerts: Read (can view Dependabot alerts)
+- Deployments: Read (can view deployment statuses)
+- Metadata: Read (can view repository metadata)
+- Pull Requests: Read and write (can view, create, update, and merge pull requests)
+- Repository security advisories: Read (can view security advisories for repos)
+- Secret Scanning alerts: Read (can view secret scanning alerts)
 
 ## Example
 
