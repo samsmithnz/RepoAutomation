@@ -52,7 +52,7 @@ public class SecurityAlertTests : BaseAPIAccessTests
         string repo = "RepoAutomation";
 
         //Act
-        var (codeScanningCount, secretScanningCount, totalCount) = await GitHubApiAccess.GetSecurityAlertsCount(base.GitHubId, base.GitHubSecret, owner, repo);
+        (int codeScanningCount, int secretScanningCount, int totalCount) = await GitHubApiAccess.GetSecurityAlertsCount(base.GitHubId, base.GitHubSecret, owner, repo);
 
         //Assert
         Assert.IsTrue(codeScanningCount >= 0);
