@@ -19,6 +19,15 @@ public static class BaseApiAccess
     public async static Task<string?> PostGitHubMessage(string url, string clientId, string clientSecret, StringContent content, bool processErrors = true)
     {
         HttpClient client = BuildHttpClient(url, clientId, clientSecret);
+        // Log headers
+        foreach (var header in client.DefaultRequestHeaders)
+        {
+            Console.WriteLine($"Header: {header.Key} = {string.Join(", ", header.Value)}");
+        }
+        // Log body
+        string requestBody = await content.ReadAsStringAsync();
+        Console.WriteLine($"Request Body: {requestBody}");
+
         HttpResponseMessage response = await client.PostAsync(url, content);
         if (processErrors)
         {
@@ -70,6 +79,7 @@ public static class BaseApiAccess
         client.DefaultRequestHeaders.Accept.Clear();
         client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
         client.DefaultRequestHeaders.UserAgent.Add(new ProductInfoHeaderValue("SamsRepoAutomation", "0.1"));
+        //client.DefaultRequestHeaders.Add("X-GitHub-Api-Version", "2022-11-28");
         //If we use a id/secret, we significantly increase the rate from 60 requests an hour to 5000. https://developer.github.com/v3/#rate-limiting
         if (!string.IsNullOrEmpty(clientId) && !string.IsNullOrEmpty(clientSecret))
         {

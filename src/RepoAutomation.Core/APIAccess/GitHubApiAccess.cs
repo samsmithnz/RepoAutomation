@@ -589,6 +589,10 @@ public static class GitHubApiAccess
             StringContent content = new(JsonConvert.SerializeObject(body), Encoding.UTF8, "application/json");
             string url = $"https://models.github.ai/inference/chat/completions";
             string? response = await BaseApiAccess.PostGitHubMessage(url, clientId, clientSecret, content, ProcessGitHubHTTPErrors);
+            if (response == $"Unauthorized\n")
+            {
+                throw new Exception("Unauthorized: check the token has permission to access Copilot");
+            }
             if (!string.IsNullOrEmpty(response))
             {
                 dynamic? jsonObj = JsonConvert.DeserializeObject(response);
