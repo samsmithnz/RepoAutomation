@@ -52,12 +52,13 @@ public class SecurityAlertTests : BaseAPIAccessTests
         string repo = "RepoAutomation";
 
         //Act
-        (int codeScanningCount, int secretScanningCount, int totalCount) = await GitHubApiAccess.GetSecurityAlertsCount(base.GitHubId, base.GitHubSecret, owner, repo);
+        (int codeScanningCount, int secretScanningCount, int dependabotCount, int totalCount) = await GitHubApiAccess.GetSecurityAlertsCount(base.GitHubId, base.GitHubSecret, owner, repo);
 
         //Assert
         Assert.IsTrue(codeScanningCount >= 0);
         Assert.IsTrue(secretScanningCount >= 0);
-        Assert.AreEqual(codeScanningCount + secretScanningCount, totalCount);
+        Assert.IsTrue(dependabotCount >= 0);
+        Assert.AreEqual(codeScanningCount + secretScanningCount + dependabotCount, totalCount);
     }
 
     [TestMethod]
@@ -122,5 +123,59 @@ public class SecurityAlertTests : BaseAPIAccessTests
         Assert.IsNotNull(secretScanningAlerts);
         Assert.AreEqual(0, codeScanningAlerts.Count);
         Assert.AreEqual(0, secretScanningAlerts.Count);
+    }
+
+    [TestMethod]
+    public async Task GetDependabotAlertsTest()
+    {
+        //Arrange
+        string owner = "samsmithnz";
+        string repo = "RepoAutomation";
+
+        //Act
+        List<DependabotAlert> alerts = await GitHubApiAccess.GetDependabotAlerts(base.GitHubId, base.GitHubSecret, owner, repo);
+
+        //Assert
+        Assert.IsNotNull(alerts);
+        // We don't assert on specific count as dependabot alerts may vary over time
+        // Just ensure the method doesn't crash and returns a list
+    }
+
+    [TestMethod]
+    public async Task GetDependabotAlertsFixedStateTest()
+    {
+        //Arrange
+        string owner = "samsmithnz";
+        string repo = "RepoAutomation";
+        string state = "fixed";
+
+        //Act
+        List<DependabotAlert> alerts = await GitHubApiAccess.GetDependabotAlerts(base.GitHubId, base.GitHubSecret, owner, repo, state);
+
+        //Assert
+        Assert.IsNotNull(alerts);
+        // Verify all returned alerts have the correct state
+        foreach (var alert in alerts)
+        {
+            if (alert.state != null)
+            {
+                Assert.AreEqual(state, alert.state);
+            }
+        }
+    }
+
+    [TestMethod]
+    public async Task GetDependabotAlertsForNonExistentRepoTest()
+    {
+        //Arrange
+        string owner = "samsmithnz";
+        string repo = "NonExistentRepo12345";
+
+        //Act
+        List<DependabotAlert> dependabotAlerts = await GitHubApiAccess.GetDependabotAlerts(base.GitHubId, base.GitHubSecret, owner, repo);
+
+        //Assert
+        Assert.IsNotNull(dependabotAlerts);
+        Assert.AreEqual(0, dependabotAlerts.Count);
     }
 }
