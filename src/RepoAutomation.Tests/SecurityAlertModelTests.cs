@@ -132,4 +132,102 @@ public class SecurityAlertModelTests
         Assert.AreEqual(2, alerts[1].number);
         Assert.AreEqual("dismissed", alerts[1].state);
     }
+
+    [TestMethod]
+    public void DependabotAlertModelSerializationTest()
+    {
+        //Arrange
+        string jsonDependabotAlert = @"{
+            ""number"": 1,
+            ""state"": ""open"",
+            ""dependency"": {
+                ""package"": ""lodash"",
+                ""manifest_path"": ""package.json"",
+                ""scope"": ""runtime""
+            },
+            ""security_advisory"": {
+                ""ghsa_id"": ""GHSA-jf85-cpcp-j695"",
+                ""cve_id"": ""CVE-2021-23337"",
+                ""summary"": ""Command injection in lodash"",
+                ""description"": ""lodash versions prior to 4.17.21 are vulnerable to Command Injection via the template function."",
+                ""severity"": ""high"",
+                ""identifiers"": [""GHSA-jf85-cpcp-j695"", ""CVE-2021-23337""],
+                ""references"": [""https://nvd.nist.gov/vuln/detail/CVE-2021-23337""],
+                ""published_at"": ""2021-02-15T00:00:00Z"",
+                ""updated_at"": ""2021-02-15T00:00:00Z""
+            },
+            ""security_vulnerability"": {
+                ""package"": ""lodash"",
+                ""severity"": ""high"",
+                ""vulnerable_version_range"": ""< 4.17.21"",
+                ""first_patched_version"": ""4.17.21""
+            },
+            ""url"": ""https://api.github.com/repos/example/example/dependabot/alerts/1"",
+            ""html_url"": ""https://github.com/example/example/security/dependabot/1"",
+            ""created_at"": ""2022-01-01T00:00:00Z"",
+            ""updated_at"": ""2022-01-01T00:00:00Z""
+        }";
+
+        //Act
+        DependabotAlert? alert = JsonConvert.DeserializeObject<DependabotAlert>(jsonDependabotAlert);
+
+        //Assert
+        Assert.IsNotNull(alert);
+        Assert.AreEqual(1, alert.number);
+        Assert.AreEqual("open", alert.state);
+        Assert.AreEqual("2022-01-01T00:00:00Z", alert.created_at);
+        Assert.IsNotNull(alert.dependency);
+        Assert.AreEqual("lodash", alert.dependency.package);
+        Assert.AreEqual("package.json", alert.dependency.manifest_path);
+        Assert.AreEqual("runtime", alert.dependency.scope);
+        Assert.IsNotNull(alert.security_advisory);
+        Assert.AreEqual("GHSA-jf85-cpcp-j695", alert.security_advisory.ghsa_id);
+        Assert.AreEqual("CVE-2021-23337", alert.security_advisory.cve_id);
+        Assert.AreEqual("Command injection in lodash", alert.security_advisory.summary);
+        Assert.AreEqual("high", alert.security_advisory.severity);
+        Assert.IsNotNull(alert.security_vulnerability);
+        Assert.AreEqual("lodash", alert.security_vulnerability.package);
+        Assert.AreEqual("high", alert.security_vulnerability.severity);
+        Assert.AreEqual("< 4.17.21", alert.security_vulnerability.vulnerable_version_range);
+        Assert.AreEqual("4.17.21", alert.security_vulnerability.first_patched_version);
+    }
+
+    [TestMethod]
+    public void DependabotAlertListDeserializationTest()
+    {
+        //Arrange
+        string jsonAlertsList = @"[
+            {
+                ""number"": 1,
+                ""state"": ""open"",
+                ""created_at"": ""2022-01-01T00:00:00Z"",
+                ""dependency"": {
+                    ""package"": ""lodash""
+                }
+            },
+            {
+                ""number"": 2,
+                ""state"": ""fixed"",
+                ""created_at"": ""2022-01-02T00:00:00Z"",
+                ""dependency"": {
+                    ""package"": ""moment""
+                }
+            }
+        ]";
+
+        //Act
+        List<DependabotAlert>? alerts = JsonConvert.DeserializeObject<List<DependabotAlert>>(jsonAlertsList);
+
+        //Assert
+        Assert.IsNotNull(alerts);
+        Assert.AreEqual(2, alerts.Count);
+        Assert.AreEqual(1, alerts[0].number);
+        Assert.AreEqual("open", alerts[0].state);
+        Assert.AreEqual(2, alerts[1].number);
+        Assert.AreEqual("fixed", alerts[1].state);
+        Assert.IsNotNull(alerts[0].dependency);
+        Assert.AreEqual("lodash", alerts[0].dependency.package);
+        Assert.IsNotNull(alerts[1].dependency);
+        Assert.AreEqual("moment", alerts[1].dependency.package);
+    }
 }

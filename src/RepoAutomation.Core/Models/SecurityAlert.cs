@@ -79,3 +79,50 @@ public class SecretLocationDetails
     public string? commit_sha { get; set; }
     public string? commit_url { get; set; }
 }
+
+// Dependabot alert specific model
+public class DependabotAlert : BaseModel
+{
+    public int? number { get; set; }
+    public string? state { get; set; }
+    public DependabotDependency? dependency { get; set; }
+    public DependabotSecurityAdvisory? security_advisory { get; set; }
+    public DependabotSecurityVulnerability? security_vulnerability { get; set; }
+    public string? url { get; set; }
+    public string? html_url { get; set; }
+    public string? created_at { get; set; }
+    public string? updated_at { get; set; }
+    public string? dismissed_at { get; set; }
+    public string? dismissed_by { get; set; }
+    public string? dismissed_reason { get; set; }
+    public string? fixed_at { get; set; }
+}
+
+public class DependabotDependency
+{
+    public string? package { get; set; }
+    public string? manifest_path { get; set; }
+    public string? scope { get; set; }
+}
+
+public class DependabotSecurityAdvisory
+{
+    public string? ghsa_id { get; set; }
+    public string? cve_id { get; set; }
+    public string? summary { get; set; }
+    public string? description { get; set; }
+    public string? severity { get; set; }
+    public string[]? identifiers { get; set; }
+    public string[]? references { get; set; }
+    public string? published_at { get; set; }
+    public string? updated_at { get; set; }
+    public string? withdrawn_at { get; set; }
+}
+
+public class DependabotSecurityVulnerability
+{
+    public string? package { get; set; }
+    public string? severity { get; set; }
+    public string? vulnerable_version_range { get; set; }
+    public string? first_patched_version { get; set; }
+}

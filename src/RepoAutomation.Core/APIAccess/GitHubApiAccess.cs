@@ -620,27 +620,58 @@ public static class GitHubApiAccess
     }
 
     /// <summary>
-    /// Get all security alerts (code scanning + secret scanning) for a repo
+    /// Get Dependabot alerts for a repo
+    /// </summary>
+    /// <param name="clientId"></param>
+    /// <param name="clientSecret"></param>
+    /// <param name="owner"></param>
+    /// <param name="repo"></param>
+    /// <param name="state">auto_dismissed, dismissed, fixed, or open. Default: open</param>
+    /// <returns></returns>
+    public async static Task<List<DependabotAlert>> GetDependabotAlerts(string? clientId, string? clientSecret,
+        string owner, string repo, string state = "open")
+    {
+        List<DependabotAlert> alerts = new();
+        if (clientId != null && clientSecret != null)
+        {
+            //https://docs.github.com/en/rest/dependabot/alerts#list-dependabot-alerts-for-a-repository
+            string url = $"https://api.github.com/repos/{owner}/{repo}/dependabot/alerts?state={state}";
+            string? response = await BaseApiAccess.GetGitHubMessage(url, clientId, clientSecret, ProcessGitHubHTTPErrors);
+            if (!string.IsNullOrEmpty(response) &&
+                !response.Contains(@"""message"":""Not Found""") && 
+                !response.Contains("Dependabot alerts are disabled for this repository"))
+            {
+                dynamic? jsonObj = JsonConvert.DeserializeObject(response);
+                alerts = JsonConvert.DeserializeObject<List<DependabotAlert>>(jsonObj?.ToString()) ?? new List<DependabotAlert>();
+            }
+        }
+        return alerts;
+    }
+
+    /// <summary>
+    /// Get all security alerts (code scanning + secret scanning + dependabot) for a repo
     /// </summary>
     /// <param name="clientId"></param>
     /// <param name="clientSecret"></param>
     /// <param name="owner"></param>
     /// <param name="repo"></param>
     /// <param name="state">State filter for alerts. Default: open</param>
-    /// <returns>Tuple with code scanning alerts count and secret scanning alerts count</returns>
-    public async static Task<(int codeScanningCount, int secretScanningCount, int totalCount)> GetSecurityAlertsCount(string? clientId, string? clientSecret,
+    /// <returns>Tuple with code scanning alerts count, secret scanning alerts count, dependabot alerts count, and total count</returns>
+    public async static Task<(int codeScanningCount, int secretScanningCount, int dependabotCount, int totalCount)> GetSecurityAlertsCount(string? clientId, string? clientSecret,
         string owner, string repo, string state = "open")
     {
         var codeScanningTask = GetCodeScanningAlerts(clientId, clientSecret, owner, repo, state);
         var secretScanningTask = GetSecretScanningAlerts(clientId, clientSecret, owner, repo, state);
+        var dependabotTask = GetDependabotAlerts(clientId, clientSecret, owner, repo, state);
 
-        await Task.WhenAll(codeScanningTask, secretScanningTask);
+        await Task.WhenAll(codeScanningTask, secretScanningTask, dependabotTask);
 
         int codeScanningCount = codeScanningTask.Result.Count;
         int secretScanningCount = secretScanningTask.Result.Count;
-        int totalCount = codeScanningCount + secretScanningCount;
+        int dependabotCount = dependabotTask.Result.Count;
+        int totalCount = codeScanningCount + secretScanningCount + dependabotCount;
 
-        return (codeScanningCount, secretScanningCount, totalCount);
+        return (codeScanningCount, secretScanningCount, dependabotCount, totalCount);
     }
 
 }
