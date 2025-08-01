@@ -10,7 +10,7 @@
 
 	<ItemGroup>
 	  <PackageReference Include="CommandLineParser" Version="2.9.1" />
-	  <PackageReference Include="GitHubActionsDotNet" Version="1.3.38" />
+	  <PackageReference Include="GitHubActionsDotNet" Version="1.3.39" />
 	  <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="9.0.7" />
 	  <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
 	</ItemGroup>
