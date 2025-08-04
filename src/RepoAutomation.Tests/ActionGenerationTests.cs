@@ -35,22 +35,22 @@ jobs:
     name: Build job
     runs-on: windows-latest
     outputs:
-      Version: ${{ steps.gitversion.outputs.SemVer }}
+      Version: ${{ steps.gitversion.outputs.MajorMinorPatch }}
       CommitsSinceVersionSource: ${{ steps.gitversion.outputs.CommitsSinceVersionSource }}
     steps:
     - uses: actions/checkout@v4
       with:
         fetch-depth: 0
     - name: Setup GitVersion
-      uses: gittools/actions/gitversion/setup@v3.1.11
+      uses: gittools/actions/gitversion/setup@v4.0.1
       with:
-        versionSpec: 5.x
+        versionSpec: 6.x
     - name: Determine Version
       id: gitversion
-      uses: gittools/actions/gitversion/execute@v3.1.11
+      uses: gittools/actions/gitversion/execute@v4.0.1
     - name: Display GitVersion outputs
       run: |
-        echo ""Version: ${{ steps.gitversion.outputs.SemVer }}""
+        echo ""Version: ${{ steps.gitversion.outputs.MajorMinorPatch }}""
         echo ""CommitsSinceVersionSource: ${{ steps.gitversion.outputs.CommitsSinceVersionSource }}""
     - name: Setup .NET
       uses: actions/setup-dotnet@v4
@@ -84,22 +84,22 @@ jobs:
     name: Build job
     runs-on: windows-latest
     outputs:
-      Version: ${{ steps.gitversion.outputs.SemVer }}
+      Version: ${{ steps.gitversion.outputs.MajorMinorPatch }}
       CommitsSinceVersionSource: ${{ steps.gitversion.outputs.CommitsSinceVersionSource }}
     steps:
     - uses: actions/checkout@v4
       with:
         fetch-depth: 0
     - name: Setup GitVersion
-      uses: gittools/actions/gitversion/setup@v3.1.11
+      uses: gittools/actions/gitversion/setup@v4.0.1
       with:
-        versionSpec: 5.x
+        versionSpec: 6.x
     - name: Determine Version
       id: gitversion
-      uses: gittools/actions/gitversion/execute@v3.1.11
+      uses: gittools/actions/gitversion/execute@v4.0.1
     - name: Display GitVersion outputs
       run: |
-        echo ""Version: ${{ steps.gitversion.outputs.SemVer }}""
+        echo ""Version: ${{ steps.gitversion.outputs.MajorMinorPatch }}""
         echo ""CommitsSinceVersionSource: ${{ steps.gitversion.outputs.CommitsSinceVersionSource }}""
     - name: Setup .NET
       uses: actions/setup-dotnet@v4
@@ -108,14 +108,14 @@ jobs:
     - name: .NET test
       run: dotnet test src/TestProject.Tests/TestProject.Tests.csproj -c Release
     - name: .NET publish
-      run: dotnet publish src/TestProject/TestProject.csproj -c Release -p:Version='${{ steps.gitversion.outputs.SemVer }}'
+      run: dotnet publish src/TestProject/TestProject.csproj -c Release -p:Version='${{ steps.gitversion.outputs.MajorMinorPatch }}'
     - name: Upload package back to GitHub
       uses: actions/upload-artifact@v4
       with:
         name: drop
         path: src/TestProject/bin/Release
     - name: .NET publish
-      run: dotnet publish src/TestProject.Web/TestProject.Web.csproj -c Release -p:Version='${{ steps.gitversion.outputs.SemVer }}'
+      run: dotnet publish src/TestProject.Web/TestProject.Web.csproj -c Release -p:Version='${{ steps.gitversion.outputs.MajorMinorPatch }}'
     - name: Upload package back to GitHub
       uses: actions/upload-artifact@v4
       with:
