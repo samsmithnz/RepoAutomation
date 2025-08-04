@@ -48,7 +48,7 @@ namespace RepoAutomation.Core.Helpers
             root.on = TriggerHelper.AddStandardPushAndPullTrigger("main");
 
             string displayBuildGitVersionScript = @"
-echo ""Version: ${{ steps.gitversion.outputs.SemVer }}""
+echo ""Version: ${{ steps.gitversion.outputs.MajorMinorPatch }}""
 echo ""CommitsSinceVersionSource: ${{ steps.gitversion.outputs.CommitsSinceVersionSource }}""";
 
             List<Step> steps = new()
@@ -68,27 +68,27 @@ echo ""CommitsSinceVersionSource: ${{ steps.gitversion.outputs.CommitsSinceVersi
                 }
                 else if (item.Value == "") //Console or library
                 {
-                    steps.Add(DotNetStepHelper.AddDotNetPublishStep(".NET publish", "src/" + projectName + "/" + projectName + item.Value + ".csproj", "Release", null, "-p:Version='${{ steps.gitversion.outputs.SemVer }}'", true));
+                    steps.Add(DotNetStepHelper.AddDotNetPublishStep(".NET publish", "src/" + projectName + "/" + projectName + item.Value + ".csproj", "Release", null, "-p:Version='${{ steps.gitversion.outputs.MajorMinorPatch }}'", true));
                     steps.Add(CommonStepHelper.AddUploadArtifactStep("Upload package back to GitHub", "drop", "src/" + projectName + item.Value + "/bin/Release"));
                 }
                 else if (item.Value == ".Web") //Website
                 {
-                    steps.Add(DotNetStepHelper.AddDotNetPublishStep(".NET publish", "src/" + projectName + item.Value + "/" + projectName + item.Value + ".csproj", "Release", null, "-p:Version='${{ steps.gitversion.outputs.SemVer }}'", true));
+                    steps.Add(DotNetStepHelper.AddDotNetPublishStep(".NET publish", "src/" + projectName + item.Value + "/" + projectName + item.Value + ".csproj", "Release", null, "-p:Version='${{ steps.gitversion.outputs.MajorMinorPatch }}'", true));
                     steps.Add(CommonStepHelper.AddUploadArtifactStep("Upload package back to GitHub", "web", "src/" + projectName + item.Value + "/bin/Release"));
                 }
                 else if (item.Value == ".Service") //Service
                 {
-                    steps.Add(DotNetStepHelper.AddDotNetPublishStep(".NET publish", "src/" + projectName + item.Value + "/" + projectName + item.Value + ".csproj", "Release", null, "-p:Version='${{ steps.gitversion.outputs.SemVer }}'", true));
+                    steps.Add(DotNetStepHelper.AddDotNetPublishStep(".NET publish", "src/" + projectName + item.Value + "/" + projectName + item.Value + ".csproj", "Release", null, "-p:Version='${{ steps.gitversion.outputs.MajorMinorPatch }}'", true));
                     steps.Add(CommonStepHelper.AddUploadArtifactStep("Upload package back to GitHub", "service", "src/" + projectName + item.Value + "/bin/Release"));
                 }
                 else if (item.Value == ".WPF") //WPF
                 {
-                    steps.Add(DotNetStepHelper.AddDotNetPublishStep(".NET publish", "src/" + projectName + "/" + projectName + item.Value + ".csproj", "Release", null, "-p:Version='${{ steps.gitversion.outputs.SemVer }}'", true));
+                    steps.Add(DotNetStepHelper.AddDotNetPublishStep(".NET publish", "src/" + projectName + "/" + projectName + item.Value + ".csproj", "Release", null, "-p:Version='${{ steps.gitversion.outputs.MajorMinorPatch }}'", true));
                     steps.Add(CommonStepHelper.AddUploadArtifactStep("Upload package back to GitHub", "wpf", "src/" + projectName + item.Value + "/bin/Release"));
                 }
                 else if (item.Value == ".Winforms") //Winforms
                 {
-                    steps.Add(DotNetStepHelper.AddDotNetPublishStep(".NET publish", "src/" + projectName + "/" + projectName + item.Value + ".csproj", "Release", null, "-p:Version='${{ steps.gitversion.outputs.SemVer }}'", true));
+                    steps.Add(DotNetStepHelper.AddDotNetPublishStep(".NET publish", "src/" + projectName + "/" + projectName + item.Value + ".csproj", "Release", null, "-p:Version='${{ steps.gitversion.outputs.MajorMinorPatch }}'", true));
                     steps.Add(CommonStepHelper.AddUploadArtifactStep("Upload package back to GitHub", "winforms", "src/" + projectName + item.Value + "/bin/Release"));
                 }
             }
@@ -101,7 +101,7 @@ echo ""CommitsSinceVersionSource: ${{ steps.gitversion.outputs.CommitsSinceVersi
                 buildSteps);
             buildJob.outputs = new()
             {
-                { "Version", "${{ steps.gitversion.outputs.SemVer }}" },
+                { "Version", "${{ steps.gitversion.outputs.MajorMinorPatch }}" },
                 { "CommitsSinceVersionSource", "${{ steps.gitversion.outputs.CommitsSinceVersionSource }}" }
             };
             root.jobs.Add("build", buildJob);
