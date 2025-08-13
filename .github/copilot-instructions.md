@@ -32,6 +32,7 @@ RepoAutomation is a .NET 8 CLI application that automates the creation and confi
 - `dotnet format --verify-no-changes` - Check code formatting (fails if formatting issues exist)
 - `dotnet format` - Auto-fix code formatting issues
 - **ALWAYS run `dotnet format` before committing** - CI will fail if code is not properly formatted
+- **Avoid `var` keyword**: Use explicit types instead of `var` for better code clarity and maintainability
 
 ### Running the Application
 - `dotnet run --help` - Show CLI help and available options
