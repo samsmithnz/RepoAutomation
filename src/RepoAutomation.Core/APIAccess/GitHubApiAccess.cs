@@ -304,6 +304,68 @@ public static class GitHubApiAccess
     }
 
     /// <summary>
+    /// Get repository rules for a repo
+    /// </summary>
+    /// <param name="clientId"></param>
+    /// <param name="clientSecret"></param>
+    /// <param name="owner"></param>
+    /// <param name="repo"></param>
+    /// <returns></returns>
+    public async static Task<List<RepositoryRuleset>?> GetRepositoryRules(string? clientId, string? clientSecret,
+        string owner, string repo)
+    {
+        List<RepositoryRuleset>? result = null;
+        if (clientId != null && clientSecret != null)
+        {
+            string url = $"https://api.github.com/repos/{owner}/{repo}/rulesets";
+            string? response = await BaseApiAccess.GetGitHubMessage(url, clientId, clientSecret, ProcessGitHubHTTPErrors);
+            if (!string.IsNullOrEmpty(response))
+            {
+                dynamic? jsonObj = JsonConvert.DeserializeObject(response);
+                result = JsonConvert.DeserializeObject<List<RepositoryRuleset>>(jsonObj?.ToString());
+                if (result != null)
+                {
+                    foreach (RepositoryRuleset ruleset in result)
+                    {
+                        ruleset.RawJSON = JsonConvert.SerializeObject(ruleset);
+                    }
+                }
+            }
+        }
+        return result;
+    }
+
+    /// <summary>
+    /// Get a specific repository ruleset by ID
+    /// </summary>
+    /// <param name="clientId"></param>
+    /// <param name="clientSecret"></param>
+    /// <param name="owner"></param>
+    /// <param name="repo"></param>
+    /// <param name="rulesetId"></param>
+    /// <returns></returns>
+    public async static Task<RepositoryRuleset?> GetRepositoryRuleset(string? clientId, string? clientSecret,
+        string owner, string repo, int rulesetId)
+    {
+        RepositoryRuleset? result = null;
+        if (clientId != null && clientSecret != null)
+        {
+            string url = $"https://api.github.com/repos/{owner}/{repo}/rulesets/{rulesetId}";
+            string? response = await BaseApiAccess.GetGitHubMessage(url, clientId, clientSecret, ProcessGitHubHTTPErrors);
+            if (!string.IsNullOrEmpty(response))
+            {
+                dynamic? jsonObj = JsonConvert.DeserializeObject(response);
+                result = JsonConvert.DeserializeObject<RepositoryRuleset>(jsonObj?.ToString());
+                if (result != null)
+                {
+                    result.RawJSON = jsonObj?.ToString();
+                }
+            }
+        }
+        return result;
+    }
+
+    /// <summary>
     /// Get the latest release for a repo
     /// </summary>
     /// <param name="clientId"></param>
