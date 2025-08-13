@@ -366,6 +366,59 @@ public static class GitHubApiAccess
     }
 
     /// <summary>
+    /// Create a new repository ruleset
+    /// </summary>
+    /// <param name="clientId"></param>
+    /// <param name="clientSecret"></param>
+    /// <param name="owner"></param>
+    /// <param name="repo"></param>
+    /// <param name="repositoryRuleset"></param>
+    /// <returns></returns>
+    public async static Task<bool> CreateRepositoryRuleset(string? clientId, string? clientSecret,
+        string owner, string repo, RepositoryRulesetPut repositoryRuleset)
+    {
+        if (clientId != null && clientSecret != null)
+        {
+            string json = JsonConvert.SerializeObject(repositoryRuleset);
+            StringContent content = new(json, Encoding.UTF8, "application/json");
+            string url = $"https://api.github.com/repos/{owner}/{repo}/rulesets";
+            string? response = await BaseApiAccess.PostGitHubMessage(url, clientId, clientSecret, content);
+            if (string.IsNullOrEmpty(response))
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /// <summary>
+    /// Update an existing repository ruleset
+    /// </summary>
+    /// <param name="clientId"></param>
+    /// <param name="clientSecret"></param>
+    /// <param name="owner"></param>
+    /// <param name="repo"></param>
+    /// <param name="rulesetId"></param>
+    /// <param name="repositoryRuleset"></param>
+    /// <returns></returns>
+    public async static Task<bool> UpdateRepositoryRuleset(string? clientId, string? clientSecret,
+        string owner, string repo, int rulesetId, RepositoryRulesetPut repositoryRuleset)
+    {
+        if (clientId != null && clientSecret != null)
+        {
+            string json = JsonConvert.SerializeObject(repositoryRuleset);
+            StringContent content = new(json, Encoding.UTF8, "application/json");
+            string url = $"https://api.github.com/repos/{owner}/{repo}/rulesets/{rulesetId}";
+            string? response = await BaseApiAccess.PutGitHubMessage(url, clientId, clientSecret, content);
+            if (string.IsNullOrEmpty(response))
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /// <summary>
     /// Get the latest release for a repo
     /// </summary>
     /// <param name="clientId"></param>

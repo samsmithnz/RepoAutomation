@@ -80,4 +80,108 @@ public class RepoRulesTests : BaseAPIAccessTests
         Assert.IsNotNull(repositoryRules);
         // The call should succeed even if no rules exist (empty list)
     }
+
+    [TestMethod]
+    public async Task CreateRepositoryRulesetTest()
+    {
+        //Arrange
+        string owner = "samsmithnz";
+        string repoName = "RepoAutomationUnitTests";
+        
+        RepositoryRulesetPut newRuleset = new()
+        {
+            name = "Test Ruleset",
+            target = "branch",
+            enforcement = "active",
+            conditions = new Conditions
+            {
+                ref_name = new RefName
+                {
+                    include = new string[] { "main", "develop" },
+                    exclude = new string[] { }
+                }
+            },
+            rules = new Rule[]
+            {
+                new Rule
+                {
+                    type = "required_status_checks",
+                    parameters = new RuleParameters
+                    {
+                        strict_required_status_checks_policy = true,
+                        required_status_checks = new RepositoryRuleStatusCheck[]
+                        {
+                            new RepositoryRuleStatusCheck { context = "Build job" }
+                        }
+                    }
+                }
+            }
+        };
+
+        //Act
+        bool result = await GitHubApiAccess.CreateRepositoryRuleset(base.GitHubId, base.GitHubSecret, 
+            owner, repoName, newRuleset);
+
+        //Assert
+        Assert.IsTrue(result);
+    }
+
+    [TestMethod]
+    public async Task UpdateRepositoryRulesetTest()
+    {
+        //Arrange
+        string owner = "samsmithnz";
+        string repoName = "RepoAutomationUnitTests";
+        
+        // First get existing rulesets to find one to update
+        List<RepositoryRuleset>? repositoryRules = await GitHubApiAccess.GetRepositoryRules(base.GitHubId, base.GitHubSecret,
+            owner, repoName);
+
+        Assert.IsNotNull(repositoryRules);
+        if (repositoryRules != null && repositoryRules.Count > 0)
+        {
+            int rulesetId = repositoryRules[0].id;
+            
+            RepositoryRulesetPut updatedRuleset = new()
+            {
+                name = "Updated Test Ruleset",
+                target = "branch",
+                enforcement = "active",
+                conditions = new Conditions
+                {
+                    ref_name = new RefName
+                    {
+                        include = new string[] { "main" },
+                        exclude = new string[] { }
+                    }
+                },
+                rules = new Rule[]
+                {
+                    new Rule
+                    {
+                        type = "required_status_checks",
+                        parameters = new RuleParameters
+                        {
+                            strict_required_status_checks_policy = true,
+                            required_status_checks = new RepositoryRuleStatusCheck[]
+                            {
+                                new RepositoryRuleStatusCheck { context = "Updated Build job" }
+                            }
+                        }
+                    }
+                }
+            };
+
+            //Act
+            bool result = await GitHubApiAccess.UpdateRepositoryRuleset(base.GitHubId, base.GitHubSecret, 
+                owner, repoName, rulesetId, updatedRuleset);
+
+            //Assert
+            Assert.IsTrue(result);
+        }
+        else
+        {
+            Assert.Inconclusive("No existing rulesets found to update");
+        }
+    }
 }

@@ -52,3 +52,13 @@ public class RepositoryRuleStatusCheck
     public string? context { get; set; }
     public int? integration_id { get; set; }
 }
+
+// Model for creating/updating repository rulesets (PUT/POST operations)
+public class RepositoryRulesetPut : BaseModel
+{
+    public string? name { get; set; }
+    public string? target { get; set; }
+    public string? enforcement { get; set; }
+    public Conditions? conditions { get; set; }
+    public Rule[]? rules { get; set; }
+}
