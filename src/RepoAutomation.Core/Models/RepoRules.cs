@@ -36,12 +36,12 @@ public class RuleParameters
     public bool? allow_force_pushes { get; set; }
     public bool? allow_deletions { get; set; }
     public bool? required_conversation_resolution { get; set; }
-    
+
     // Pull request parameters
     public bool? dismiss_stale_reviews_on_push { get; set; }
     public bool? require_code_owner_review { get; set; }
     public int? required_approving_review_count { get; set; }
-    
+
     // Status check parameters
     public bool? strict_required_status_checks_policy { get; set; }
     public RepositoryRuleStatusCheck[]? required_status_checks { get; set; }
