@@ -39,7 +39,7 @@ public class RepoRulesTests : BaseAPIAccessTests
         //Arrange
         string owner = "samsmithnz";
         string repoName = "RepoAutomationUnitTests";
-        
+
         //Act - First get the list of rules to find a valid ID
         List<RepositoryRuleset>? repositoryRules = await GitHubApiAccess.GetRepositoryRules(base.GitHubId, base.GitHubSecret,
             owner, repoName);
@@ -49,11 +49,11 @@ public class RepoRulesTests : BaseAPIAccessTests
         if (repositoryRules != null && repositoryRules.Count > 0)
         {
             int rulesetId = repositoryRules[0].id;
-            
+
             //Act - Get specific ruleset
             RepositoryRuleset? ruleset = await GitHubApiAccess.GetRepositoryRuleset(base.GitHubId, base.GitHubSecret,
                 owner, repoName, rulesetId);
-            
+
             //Assert
             Assert.IsNotNull(ruleset);
             if (ruleset != null)
@@ -87,7 +87,7 @@ public class RepoRulesTests : BaseAPIAccessTests
         //Arrange
         string owner = "samsmithnz";
         string repoName = "RepoAutomationUnitTests";
-        
+
         RepositoryRulesetPut newRuleset = new()
         {
             name = "Test Ruleset",
@@ -119,7 +119,7 @@ public class RepoRulesTests : BaseAPIAccessTests
         };
 
         //Act
-        bool result = await GitHubApiAccess.CreateRepositoryRuleset(base.GitHubId, base.GitHubSecret, 
+        bool result = await GitHubApiAccess.CreateRepositoryRuleset(base.GitHubId, base.GitHubSecret,
             owner, repoName, newRuleset);
 
         //Assert
@@ -132,7 +132,7 @@ public class RepoRulesTests : BaseAPIAccessTests
         //Arrange
         string owner = "samsmithnz";
         string repoName = "RepoAutomationUnitTests";
-        
+
         // First get existing rulesets to find one to update
         List<RepositoryRuleset>? repositoryRules = await GitHubApiAccess.GetRepositoryRules(base.GitHubId, base.GitHubSecret,
             owner, repoName);
@@ -141,7 +141,7 @@ public class RepoRulesTests : BaseAPIAccessTests
         if (repositoryRules != null && repositoryRules.Count > 0)
         {
             int rulesetId = repositoryRules[0].id;
-            
+
             RepositoryRulesetPut updatedRuleset = new()
             {
                 name = "Updated Test Ruleset",
@@ -173,7 +173,7 @@ public class RepoRulesTests : BaseAPIAccessTests
             };
 
             //Act
-            bool result = await GitHubApiAccess.UpdateRepositoryRuleset(base.GitHubId, base.GitHubSecret, 
+            bool result = await GitHubApiAccess.UpdateRepositoryRuleset(base.GitHubId, base.GitHubSecret,
                 owner, repoName, rulesetId, updatedRuleset);
 
             //Assert
