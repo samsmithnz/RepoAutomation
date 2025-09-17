@@ -50,7 +50,7 @@ namespace RepoAutomation.Core.Models
         public string? submitted_at { get; set; }
         public string? commit_id { get; set; }
     }
-    
+
     public class PRUser
     {
         public string? login { get; set; }
