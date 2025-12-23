@@ -36,7 +36,7 @@ public class ReleaseTests : BaseAPIAccessTests
             Assert.AreEqual("v1.0.0", release.name);
         }
     }
-    
+
     [TestMethod]
     public async Task GetReleaseFromRepoWithNoReleasesTest()
     {

@@ -304,6 +304,178 @@ public static class GitHubApiAccess
     }
 
     /// <summary>
+    /// Get repository rules for a repo
+    /// </summary>
+    /// <param name="clientId"></param>
+    /// <param name="clientSecret"></param>
+    /// <param name="owner"></param>
+    /// <param name="repo"></param>
+    /// <returns></returns>
+    public async static Task<List<RepositoryRuleset>?> GetRepositoryRules(string? clientId, string? clientSecret,
+        string owner, string repo)
+    {
+        List<RepositoryRuleset>? result = null;
+        if (clientId != null && clientSecret != null)
+        {
+            string url = $"https://api.github.com/repos/{owner}/{repo}/rulesets";
+            string? response = await BaseApiAccess.GetGitHubMessage(url, clientId, clientSecret, ProcessGitHubHTTPErrors);
+            if (!string.IsNullOrEmpty(response) &&
+                !response.Contains(@"""message"":""Not Found""") &&
+                !response.Contains("Repository rules are disabled for this repository") &&
+                !response.Contains("Bad credentials") &&
+                !response.Contains("Forbidden"))
+            {
+                try
+                {
+                    dynamic? jsonObj = JsonConvert.DeserializeObject(response);
+                    result = JsonConvert.DeserializeObject<List<RepositoryRuleset>>(jsonObj?.ToString());
+                    if (result != null)
+                    {
+                        foreach (RepositoryRuleset ruleset in result)
+                        {
+                            ruleset.RawJSON = JsonConvert.SerializeObject(ruleset);
+                        }
+                    }
+                }
+                catch (JsonReaderException)
+                {
+                    // Handle case where API returns HTML error page instead of JSON
+                    result = new List<RepositoryRuleset>();
+                }
+            }
+            else
+            {
+                // Return empty list for cases where repository rules are not available
+                result = new List<RepositoryRuleset>();
+            }
+        }
+        return result;
+    }
+
+    /// <summary>
+    /// Get a specific repository ruleset by ID
+    /// </summary>
+    /// <param name="clientId"></param>
+    /// <param name="clientSecret"></param>
+    /// <param name="owner"></param>
+    /// <param name="repo"></param>
+    /// <param name="rulesetId"></param>
+    /// <returns></returns>
+    public async static Task<RepositoryRuleset?> GetRepositoryRuleset(string? clientId, string? clientSecret,
+        string owner, string repo, int rulesetId)
+    {
+        RepositoryRuleset? result = null;
+        if (clientId != null && clientSecret != null)
+        {
+            string url = $"https://api.github.com/repos/{owner}/{repo}/rulesets/{rulesetId}";
+            string? response = await BaseApiAccess.GetGitHubMessage(url, clientId, clientSecret, ProcessGitHubHTTPErrors);
+            if (!string.IsNullOrEmpty(response) &&
+                !response.Contains(@"""message"":""Not Found""") &&
+                !response.Contains("Repository rules are disabled for this repository") &&
+                !response.Contains("Bad credentials") &&
+                !response.Contains("Forbidden"))
+            {
+                try
+                {
+                    dynamic? jsonObj = JsonConvert.DeserializeObject(response);
+                    result = JsonConvert.DeserializeObject<RepositoryRuleset>(jsonObj?.ToString());
+                    if (result != null)
+                    {
+                        result.RawJSON = jsonObj?.ToString();
+                    }
+                }
+                catch (JsonReaderException)
+                {
+                    // Handle case where API returns HTML error page instead of JSON
+                    result = null;
+                }
+            }
+        }
+        return result;
+    }
+
+    /// <summary>
+    /// Create a new repository ruleset
+    /// </summary>
+    /// <param name="clientId"></param>
+    /// <param name="clientSecret"></param>
+    /// <param name="owner"></param>
+    /// <param name="repo"></param>
+    /// <param name="repositoryRuleset"></param>
+    /// <returns></returns>
+    public async static Task<bool> CreateRepositoryRuleset(string? clientId, string? clientSecret,
+        string owner, string repo, RepositoryRulesetPut repositoryRuleset)
+    {
+        if (clientId != null && clientSecret != null)
+        {
+            string json = JsonConvert.SerializeObject(repositoryRuleset);
+            StringContent content = new(json, Encoding.UTF8, "application/json");
+            string url = $"https://api.github.com/repos/{owner}/{repo}/rulesets";
+            string? response = await BaseApiAccess.PostGitHubMessage(url, clientId, clientSecret, content, false);
+            if (!string.IsNullOrEmpty(response) &&
+                !response.Contains("Bad credentials") &&
+                !response.Contains("Forbidden") &&
+                !response.Contains("Not Found") &&
+                !response.Contains("Repository rules are disabled"))
+            {
+                try
+                {
+                    // Try to parse as JSON to verify it's a valid success response
+                    dynamic? jsonObj = JsonConvert.DeserializeObject(response);
+                    return jsonObj != null;
+                }
+                catch (JsonReaderException)
+                {
+                    // HTML error page returned
+                    return false;
+                }
+            }
+        }
+        return false;
+    }
+
+    /// <summary>
+    /// Update an existing repository ruleset
+    /// </summary>
+    /// <param name="clientId"></param>
+    /// <param name="clientSecret"></param>
+    /// <param name="owner"></param>
+    /// <param name="repo"></param>
+    /// <param name="rulesetId"></param>
+    /// <param name="repositoryRuleset"></param>
+    /// <returns></returns>
+    public async static Task<bool> UpdateRepositoryRuleset(string? clientId, string? clientSecret,
+        string owner, string repo, int rulesetId, RepositoryRulesetPut repositoryRuleset)
+    {
+        if (clientId != null && clientSecret != null)
+        {
+            string json = JsonConvert.SerializeObject(repositoryRuleset);
+            StringContent content = new(json, Encoding.UTF8, "application/json");
+            string url = $"https://api.github.com/repos/{owner}/{repo}/rulesets/{rulesetId}";
+            string? response = await BaseApiAccess.PutGitHubMessage(url, clientId, clientSecret, content, false);
+            if (!string.IsNullOrEmpty(response) &&
+                !response.Contains("Bad credentials") &&
+                !response.Contains("Forbidden") &&
+                !response.Contains("Not Found") &&
+                !response.Contains("Repository rules are disabled"))
+            {
+                try
+                {
+                    // Try to parse as JSON to verify it's a valid success response
+                    dynamic? jsonObj = JsonConvert.DeserializeObject(response);
+                    return jsonObj != null;
+                }
+                catch (JsonReaderException)
+                {
+                    // HTML error page returned
+                    return false;
+                }
+            }
+        }
+        return false;
+    }
+
+    /// <summary>
     /// Get the latest release for a repo
     /// </summary>
     /// <param name="clientId"></param>
@@ -513,7 +685,7 @@ public static class GitHubApiAccess
 
         foreach (PullRequest pr in pullRequests)
         {
-            if (pr != null && pr.State == "open" && pr.LoginUser != approver && pr.Number !=null)
+            if (pr != null && pr.State == "open" && pr.LoginUser != approver && pr.Number != null)
             {
                 List<PRReview> prReviews = await GetPullRequestReview(clientId, clientSecret, owner, repo, pr.Number.ToString());
                 bool needsApproval = true;
@@ -609,7 +781,7 @@ public static class GitHubApiAccess
             string url = $"https://api.github.com/repos/{owner}/{repo}/secret-scanning/alerts?state={state}";
             string? response = await BaseApiAccess.GetGitHubMessage(url, clientId, clientSecret, ProcessGitHubHTTPErrors);
             if (!string.IsNullOrEmpty(response) &&
-                !response.Contains(@"""message"":""Not Found""") && 
+                !response.Contains(@"""message"":""Not Found""") &&
                 !response.Contains("Secret scanning is disabled on this repository"))
             {
                 dynamic? jsonObj = JsonConvert.DeserializeObject(response);
@@ -638,7 +810,7 @@ public static class GitHubApiAccess
             string url = $"https://api.github.com/repos/{owner}/{repo}/dependabot/alerts?state={state}";
             string? response = await BaseApiAccess.GetGitHubMessage(url, clientId, clientSecret, ProcessGitHubHTTPErrors);
             if (!string.IsNullOrEmpty(response) &&
-                !response.Contains(@"""message"":""Not Found""") && 
+                !response.Contains(@"""message"":""Not Found""") &&
                 !response.Contains("Dependabot alerts are disabled for this repository"))
             {
                 dynamic? jsonObj = JsonConvert.DeserializeObject(response);
