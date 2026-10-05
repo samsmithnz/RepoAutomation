@@ -2,7 +2,6 @@
 
 [![CI/ CD](https://github.com/samsmithnz/RepoAutomation/actions/workflows/dotnet.yml/badge.svg)](https://github.com/samsmithnz/RepoAutomation/actions/workflows/dotnet.yml)
 [![Coverage Status](https://coveralls.io/repos/github/samsmithnz/RepoAutomation/badge.svg?branch=main)](https://coveralls.io/github/samsmithnz/RepoAutomation?branch=main)
-[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=samsmithnz_RepoAutomation&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=samsmithnz_RepoAutomation)
 [![Latest NuGet package](https://img.shields.io/nuget/v/RepoAutomation.Core)](https://www.nuget.org/packages/RepoAutomation.Core/)
 [![Current Release](https://img.shields.io/github/release/samsmithnz/RepoAutomation/all.svg)](https://github.com/samsmithnz/RepoAutomation/releases)
 

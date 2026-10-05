@@ -266,7 +266,7 @@ public class RepoTests : BaseAPIAccessTests
         Assert.AreEqual(5, repoLanguages.Count);
         Assert.AreEqual("C#", repoLanguages[0].Name);
         Assert.IsTrue(repoLanguages[0].Percent < 96M);
-        Assert.AreEqual("#178600", repoLanguages[0].Color);
+        Assert.AreEqual("#7355dd", repoLanguages[0].Color);
         Assert.AreEqual("HTML", repoLanguages[1].Name);
         Assert.IsTrue(repoLanguages[1].Percent < 4M);
         Assert.AreEqual("#e34c26", repoLanguages[1].Color);
@@ -278,7 +278,7 @@ public class RepoTests : BaseAPIAccessTests
         Assert.AreEqual("#384d54", repoLanguages[3].Color);
         Assert.AreEqual("JavaScript", repoLanguages[4].Name);
         Assert.IsTrue(repoLanguages[4].Percent < 1M);
-        Assert.AreEqual("#178600", repoLanguages[0].Color);
+        Assert.AreEqual("#7355dd", repoLanguages[0].Color);
     }
 
     [TestMethod]
@@ -296,7 +296,7 @@ public class RepoTests : BaseAPIAccessTests
         Assert.AreEqual(5, repoLanguages.Count);
         Assert.AreEqual("C#", repoLanguages[0].Name);
         Assert.IsTrue(repoLanguages[0].Percent < 90M);
-        Assert.AreEqual("#178600", repoLanguages[0].Color);
+        Assert.AreEqual("#7355dd", repoLanguages[0].Color);
         Assert.AreEqual("HTML", repoLanguages[1].Name);
         Assert.IsTrue(repoLanguages[1].Percent < 10M);
         Assert.AreEqual("#e34c26", repoLanguages[1].Color);
@@ -308,7 +308,7 @@ public class RepoTests : BaseAPIAccessTests
         Assert.AreEqual("#663399", repoLanguages[3].Color);
         Assert.AreEqual("JavaScript", repoLanguages[4].Name);
         Assert.IsTrue(repoLanguages[4].Percent < 1M);
-        Assert.AreEqual("#178600", repoLanguages[0].Color);
+        Assert.AreEqual("#7355dd", repoLanguages[0].Color);
     }
 
 }
