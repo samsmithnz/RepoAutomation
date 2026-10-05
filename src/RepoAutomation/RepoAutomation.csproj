@@ -2,7 +2,7 @@
 
 	<PropertyGroup>
 		<OutputType>Exe</OutputType>
-		<TargetFramework>net8.0</TargetFramework>
+		<TargetFramework>net10.0</TargetFramework>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
 		<UserSecretsId>de8f3b8a-7df9-48ee-ae7c-c37f61f11ddf</UserSecretsId>
@@ -10,8 +10,8 @@
 
 	<ItemGroup>
 	  <PackageReference Include="CommandLineParser" Version="2.9.1" />
-	  <PackageReference Include="GitHubActionsDotNet" Version="1.5.3" />
-	  <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="9.0.12" />
+	  <PackageReference Include="GitHubActionsDotNet" Version="1.5.9" />
+	  <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="10.0.12" />
 	  <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
 	</ItemGroup>
 
