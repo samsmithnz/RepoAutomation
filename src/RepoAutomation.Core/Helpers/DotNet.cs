@@ -67,7 +67,7 @@ namespace RepoAutomation.Core.Helpers
                     workingSrcDirectory));
             }
 
-            string solutionText = File.ReadAllText(workingSrcDirectory + "/" + solutionName + ".sln");
+            string solutionText = File.ReadAllText(workingSrcDirectory + "/" + solutionName + ".slnx");
             log.Append(solutionText);
 
             return log.ToString();
